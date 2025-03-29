@@ -1,0 +1,6 @@
+[submodule "third_party/webview"]
+	path = third_party/webview
+	url = https://github.com/webview/webview.git
+[submodule "third_party/mongoose"]
+	path = third_party/mongoose
+	url = https://github.com/cesanta/mongoose.git

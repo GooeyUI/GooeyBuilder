@@ -1,3 +1,5 @@
+
+
 // Shared state object
 const state = {
     previewContent: null,
@@ -16,10 +18,10 @@ const state = {
     currentEditingWidget: null
 };
 
+
 // Initialize CodeMirror editors
 const editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
     mode: "text/x-csrc",
-    lineNumbers: true,
     theme: "default",
     extraKeys: {
         "Ctrl-Space": "autocomplete"
@@ -28,7 +30,6 @@ const editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
 
 const callbackEditor = CodeMirror.fromTextArea(document.getElementById("callback-editor"), {
     mode: "text/x-csrc",
-    lineNumbers: true,
     theme: "default",
     extraKeys: {
         "Ctrl-Space": "autocomplete"
@@ -612,6 +613,9 @@ function updateCallbackSelector(widgetId) {
         case 'Input':
             selector.innerHTML += `<option value="input" ${callbacks.input ? 'selected' : ''}>Input Changed</option>`;
             break;
+        case 'Image':
+            selector.innerHTML += `<option value="image" ${callbacks.image ? 'selected' : ''}>Image Click</option>`;
+            break;
         default:
             selector.innerHTML += '<option value="">No callbacks available for this widget type</option>';
     }
@@ -645,6 +649,10 @@ function updateCallbackSelector(widgetId) {
                     case 'input':
                         callbackSignature = `void ${callbackName}(const char* text) {\n    // Your code here\n    // text contains the current input text\n}`;
                         break;
+                    case 'image':
+                        callbackSignature = `void ${callbackName}() {\n    // Your code here\n}`;
+                        break;
+
                 }
                 callbackBody = callbackSignature;
             }
@@ -703,6 +711,9 @@ function generateC() {
         }
         if (callbacks.input && callbacks.input_code) {
             cCode += `${callbacks.input_code}\n\n`;
+        }
+        if (callbacks.image && callbacks.image_code) {
+            cCode += `${callbacks.image_code}\n\n`;
         }
     });
 
@@ -768,7 +779,10 @@ function generateC() {
                 break;
             case "Image":
                 let imagePath = widget.dataset.relativePath || "./assets/example.png";
-                widgetCode = `${indent}GooeyImage *${widgetVar} = GooeyImage_Create("${imagePath}", ${x}, ${y}, ${width}, ${height}, NULL);\n`;
+                widgetCode = `${indent}GooeyImage *${widgetVar} = GooeyImage_Create("${imagePath}", ${x}, ${y}, ${width}, ${height}, ${callbackName || 'NULL'});\n`;
+                if (callbackName) {
+                    state.widgetCallbacks[widgetId].image = callbackName;
+                }
                 break;
             case "DropSurface":
                 let message = widget.dataset.dropsurfaceMessage || "Drop files here..";
@@ -832,7 +846,7 @@ document.getElementById('export-button').addEventListener('click', generateC);
 document.getElementById('run-button').addEventListener('click', function () {
     document.getElementById('code-editor').style.display = 'flex';
 });
-document.getElementById('close-code-editor').addEventListener('click', function() {
+document.getElementById('close-code-editor').addEventListener('click', function () {
     document.getElementById('code-editor').style.display = 'none';
 });
 document.getElementById('apply-window-settings').addEventListener('click', applyWindowSettings);
