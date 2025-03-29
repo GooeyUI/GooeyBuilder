@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gooey Builder</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/dracula.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="toolbar">
+            <button class="toolbar-button" id="export-button">
+                Export C Code
+            </button>
+            <button class="toolbar-button" id="run-button">
+                Run Preview
+            </button>
+        </div>
+
+        <div class="main-content">
+            <div class="toolbox">
+                <div class="toolbox-section">
+                    <h4>Window</h4>
+                    <div class="toolbox-item" data-type="Menu">Menu</div>
+                </div>
+
+                <div class="toolbox-section">
+                    <h4>Widgets</h4>
+                    <div class="toolbox-item" data-type="Button">Button</div>
+                    <div class="toolbox-item" data-type="Input">Input</div>
+                    <div class="toolbox-item" data-type="Slider">Slider</div>
+                    <div class="toolbox-item" data-type="Checkbox">Checkbox</div>
+                    <div class="toolbox-item" data-type="Label">Label</div>
+                    <div class="toolbox-item" data-type="Dropdown">Dropdown</div>
+                    <div class="toolbox-item" data-type="Image">Image</div>
+                    <div class="toolbox-item" data-type="Tabs">Tabview</div>
+                    <div class="toolbox-item" data-type="List">List</div>
+                    <div class="toolbox-item" data-type="Plot">Plot</div>
+                    <div class="toolbox-item" data-type="RadioButtonGroup">RadioButtonGroup</div>
+                    <div class="toolbox-item" data-type="DropSurface">File Drop Surface</div>
+                </div>
+
+                <div class="toolbox-section">
+                    <h4>Debug & Dev</h4>
+                    <div class="toolbox-item" data-type="Overlay">Overlay</div>
+                </div>
+
+                <div class="toolbox-section">
+                    <h4>Primitive Drawing</h4>
+                    <div class="toolbox-item" data-type="Canvas">Canvas</div>
+                </div>
+
+                <div class="toolbox-section">
+                    <h4>Layouts</h4>
+                    <div class="toolbox-item" data-type="VerticalLayout">Vertical Layout</div>
+                    <div class="toolbox-item" data-type="HorizontalLayout">Horizontal Layout</div>
+                </div>
+            </div>
+
+            <div class="workspace-container">
+                <div class="document-tabs">
+                    <div class="document-tab active" data-tab="designer">Designer</div>
+                    <div class="document-tab" data-tab="code">Code</div>
+                </div>
+                <div class="workspace" id="workspace">
+                    <div class="tab-content active" id="designer-tab">
+                    </div>
+
+                    <div class="tab-content" id="code-tab">
+                        <div class="code-tab-container">
+                            <div class="widget-list" id="widget-list">
+                            </div>
+
+                            <div class="code-editor-container">
+                                <div class="callback-selector">
+                                    <select id="callback-selector">
+                                        <option value="">Select a callback to edit</option>
+                                    </select>
+                                </div>
+                                <div class="code-editor-content">
+                                    <textarea id="callback-editor"></textarea>
+                                </div>
+                                <div class="callback-actions">
+                                    <button class="button" id="cancel-callback">Cancel</button>
+                                    <button class="button primary" id="save-callback">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="properties-panel">
+                <div class="properties-section">
+                    <h4>Window Properties</h4>
+                    <div class="property-item">
+                        <label>Title:</label>
+                        <input id="win-title" value="My Window">
+                    </div>
+                    <div class="property-item">
+                        <label>Width:</label>
+                        <input type="number" id="win-width" value="800">
+                    </div>
+                    <div class="property-item">
+                        <label>Height:</label>
+                        <input type="number" id="win-height" value="600">
+                    </div>
+                    <button class="button primary" id="apply-window-settings">Apply</button>
+                </div>
+
+                <div class="properties-section" id="widget-properties" style="display: none;">
+                    <h4>Widget Properties</h4>
+                    <div class="property-item">
+                        <label>Type:</label>
+                        <input type="text" id="prop-type" disabled>
+                    </div>
+                    <div class="property-item">
+                        <label>X:</label>
+                        <input type="number" id="prop-x">
+                    </div>
+                    <div class="property-item">
+                        <label>Y:</label>
+                        <input type="number" id="prop-y">
+                    </div>
+                    <div class="property-item">
+                        <label>Width:</label>
+                        <input type="number" id="prop-width">
+                    </div>
+                    <div class="property-item">
+                        <label>Height:</label>
+                        <input type="number" id="prop-height">
+                    </div>
+                    <div class="property-item">
+                        <label>Text:</label>
+                        <input type="text" id="prop-text">
+                    </div>
+                    <div class="property-item">
+                        <label>Callback Name:</label>
+                        <input type="text" id="prop-callback" placeholder="my_callback">
+                    </div>
+
+                    <div id="slider-properties" style="display: none;">
+                        <h4>Slider Properties</h4>
+                        <div class="property-item">
+                            <label>Min Value:</label>
+                            <input type="number" id="slider-min-value" value="0">
+                        </div>
+                        <div class="property-item">
+                            <label>Max Value:</label>
+                            <input type="number" id="slider-max-value" value="100">
+                        </div>
+                        <div class="property-item">
+                            <label>Show Hints:</label>
+                            <select id="slider-show-hints">
+                                <option value="true">Enabled</option>
+                                <option value="false">Disabled</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div id="image-properties" style="display: none;">
+                        <h4>Image Properties</h4>
+                        <div class="property-item">
+                            <label>Image Path:</label>
+                            <input type="text" id="image-relative-path" placeholder="./assets/example.png">
+                        </div>
+                    </div>
+
+                    <div id="dropsurface-properties" style="display: none;">
+                        <h4>DropSurface Properties</h4>
+                        <div class="property-item">
+                            <label>Message:</label>
+                            <input type="text" id="dropsurface-message" placeholder="Drop files here..">
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 16px;">
+                        <button class="button primary" id="apply-widget-properties">Apply</button>
+                        <button class="button danger" id="delete-widget">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-bar">
+            <span id="status-text">Ready</span>
+        </div>
+    </div>
+
+    <div class="code-editor" id="code-editor" style="display: none; left: 100px; top: 100px;">
+        <div class="code-editor-header">
+            <div>Code Editor</div>
+            <div style="cursor: pointer;" id="close-code-editor">×</div>
+        </div>
+        <div class="code-editor-content">
+            <textarea id="editor">#include &lt;Gooey/gooey.h&gt;
+
+int main() {
+    Gooey_Init();
+    GooeyWindow *win = GooeyWindow_Create("My Window", 800, 600, true);
+    
+    GooeyWindow_Run(1, win);
+    GooeyWindow_Cleanup(1, win);
+    return 0;
+}</textarea>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/mode/clike/clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/addon/hint/show-hint.min.css">
+    <script src="app.js"></script>
+</body>
+</html>
