@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="codemirror.min.css">
     <link rel="stylesheet" href="dracula.min.css">
 </head>
+
 <body>
     <div class="container">
         <div class="toolbar">
@@ -176,6 +178,28 @@
                         </div>
                     </div>
 
+                    <div id="dropdown-properties" style="display: none;">
+                        <h4>Dropdown Properties</h4>
+                            <div id="dropdown-options">
+                                <ul>
+                                    
+                                </ul>
+                            </div>
+
+
+                        <div class="property-item">
+                            <label>Add more options:</label>
+                            <div style="display: flex; flex-direction: row; gap: 10px; width: 90%;">
+                                <input type="text" id="dropdown-option-input" placeholder="Ex: apple..">
+                                <div id="dropdown-option-add-button" class="button">Add</div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
                     <div style="margin-top: 16px;">
                         <button class="button primary" id="apply-widget-properties">Apply</button>
                         <button class="button danger" id="delete-widget">Delete</button>
@@ -214,4 +238,5 @@ int main() {
     <link rel="stylesheet" href="show-hint.min.css">
     <script src="app.js"></script>
 </body>
+
 </html>

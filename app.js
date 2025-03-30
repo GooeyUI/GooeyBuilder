@@ -15,7 +15,8 @@ const state = {
     resizeStartX: 0,
     resizeStartY: 0,
     widgetCallbacks: {},
-    currentEditingWidget: null
+    currentEditingWidget: null,
+    isDropdownInit: false
 };
 
 
@@ -122,6 +123,8 @@ state.previewTitleBar.addEventListener('mousedown', (e) => {
     document.addEventListener('mouseup', onPreviewDragEnd);
 });
 
+
+
 function onPreviewDragMove(e) {
     if (!isDraggingPreview) return;
 
@@ -210,6 +213,13 @@ function createWidget(type, x, y, parent = null) {
             newWidget.style.width = '200px';
             newWidget.style.height = '150px';
             break;
+
+        case 'Dropdown':
+            newWidget.className += ' widget-dropdown';
+            newWidget.style.width = '100px';
+            newWidget.style.height = '30px';
+            newWidget.textContent = 'Dropdown'
+            break;
         case 'VerticalLayout':
             newWidget.className += ' layout vertical';
             newWidget.style.width = '200px';
@@ -250,6 +260,36 @@ function createWidget(type, x, y, parent = null) {
         setupResizeHandle(resizeHandle, newWidget);
     }
 
+
+    if (type === 'Dropdown' && !state.isDropdownInit) {
+
+        const dropdownOptionAddButton = document.getElementById('dropdown-option-add-button');
+        dropdownOptionAddButton.addEventListener('click', function dropdownListener(e) {
+            console.log("click");
+            if (e) {
+
+                let newItem = document.getElementById('dropdown-option-input').value;
+
+                // Update dropdown dataset
+                let list = state.selectedWidget.dataset.dropdownOptions ? state.selectedWidget.dataset.dropdownOptions.split(',') : [];
+                list[list.length] = newItem.trim();
+
+
+                state.selectedWidget.dataset.dropdownOptions = list.join(',');
+
+
+                // Update list items
+                if (newItem !== null || newItem.length !== 0)
+                    document.getElementById('dropdown-options').innerHTML += generateListItemForDropdownOptions(list.length, newItem);
+
+                console.log(state.selectedWidget.dataset.dropdownOptions);
+
+            }
+        });
+
+        state.isDropdownInit = true;
+    }
+
     setupWidgetDrag(newWidget);
     setupWidgetSelection(newWidget);
     selectWidget(newWidget);
@@ -259,7 +299,8 @@ function createWidget(type, x, y, parent = null) {
         button: '',
         slider: '',
         checkbox: '',
-        input: ''
+        input: '',
+        dropdown: ''
     };
 
     updateWidgetList();
@@ -267,6 +308,20 @@ function createWidget(type, x, y, parent = null) {
     return newWidget;
 }
 
+function generateListItemForDropdownOptions(id, item) {
+    return `<li style="width: 90%; display: flex; flex-direction:row; gap:10px; align-items: center; margin-bottom: 10px;" id="dropdown-option-${id}"><span style="margin-right: auto;">${item} </span> <button style="margin-left: auto;" class="button" onclick="deleteDropdownOption(${id}, '${item}')">delete</button></li>`;
+}
+
+function deleteDropdownOption(optionIndex, itemValue) {
+    const element = document.getElementById(`dropdown-option-${optionIndex}`);
+    if (element)
+        element.remove();
+    let list = state.selectedWidget.dataset.dropdownOptions.split(',');
+
+    let indexOfItem = list.indexOf(itemValue);
+    list.splice(indexOfItem, 1);
+    state.selectedWidget.dataset.dropdownOptions = list;
+}
 function setupResizeHandle(handle, widget) {
     handle.addEventListener('mousedown', function (e) {
         e.stopPropagation();
@@ -409,6 +464,8 @@ function selectWidget(widget) {
     document.getElementById('widget-properties').style.display = 'block';
     document.getElementById('slider-properties').style.display = 'none';
     document.getElementById('image-properties').style.display = 'none';
+    document.getElementById('dropdown-properties').style.display = 'none';
+
     document.getElementById('dropsurface-properties').style.display = 'none';
 
     if (widget.dataset.type === 'Slider') {
@@ -417,6 +474,9 @@ function selectWidget(widget) {
         document.getElementById('image-properties').style.display = 'block';
     } else if (widget.dataset.type === 'DropSurface') {
         document.getElementById('dropsurface-properties').style.display = 'block';
+    } else if (widget.dataset.type === 'Dropdown') {
+        document.getElementById('dropdown-properties').style.display = 'block';
+        document.getElementById('dropdown-option-input').value = '';
     }
 
     updatePropertiesPanel();
@@ -462,6 +522,20 @@ function updatePropertiesPanel() {
     if (state.selectedWidget.dataset.type === 'DropSurface') {
         document.getElementById('dropsurface-message').value = state.selectedWidget.dataset.dropsurfaceMessage || 'Drop files here..';
     }
+
+    if (state.selectedWidget.dataset.type === 'Dropdown') {
+        let optionsList = state.selectedWidget.dataset.dropdownOptions ? state.selectedWidget.dataset.dropdownOptions.split(',') : [];
+        let dropdownOptionsUL = document.getElementById('dropdown-options');
+
+        dropdownOptionsUL.innerHTML = '';
+        optionsList.forEach((item, indx) => {
+            dropdownOptionsUL.innerHTML += generateListItemForDropdownOptions(indx, item);
+        });
+
+    }
+
+
+
 }
 
 function applyWidgetProperties() {
@@ -496,6 +570,7 @@ function applyWidgetProperties() {
         state.selectedWidget.dataset.dropsurfaceMessage = document.getElementById('dropsurface-message').value;
         state.selectedWidget.textContent = state.selectedWidget.dataset.dropsurfaceMessage;
     }
+
 
     document.getElementById('status-text').textContent = 'Properties updated';
     setTimeout(() => {
@@ -616,6 +691,9 @@ function updateCallbackSelector(widgetId) {
         case 'Image':
             selector.innerHTML += `<option value="image" ${callbacks.image ? 'selected' : ''}>Image Click</option>`;
             break;
+        case 'Dropdown':
+            selector.innerHTML += `<option value="dropdown" ${callbacks.dropdown ? 'selected' : ''}>Dropdown Selected index</option>`;
+            break;
         default:
             selector.innerHTML += '<option value="">No callbacks available for this widget type</option>';
     }
@@ -652,7 +730,9 @@ function updateCallbackSelector(widgetId) {
                     case 'image':
                         callbackSignature = `void ${callbackName}() {\n    // Your code here\n}`;
                         break;
-
+                    case 'dropdown':
+                        callbackSignature = `void ${callbackName}(int selected_index) {\n    // Your code here\n    // selected_index contains the index of the currently selected option.\n}`;
+                        break;
                 }
                 callbackBody = callbackSignature;
             }
@@ -714,6 +794,9 @@ function generateC() {
         }
         if (callbacks.image && callbacks.image_code) {
             cCode += `${callbacks.image_code}\n\n`;
+        }
+        if (callbacks.dropdown && callbacks.dropdown_code) {
+            cCode += `${callbacks.dropdown_code}\n\n`;
         }
     });
 
@@ -787,6 +870,19 @@ function generateC() {
             case "DropSurface":
                 let message = widget.dataset.dropsurfaceMessage || "Drop files here..";
                 widgetCode = `${indent}GooeyDropSurface *${widgetVar} = GooeyDropSurface_Create(${x}, ${y}, ${width}, ${height}, "${message}", NULL);\n`;
+                break;
+
+            case "Dropdown":
+                let dropdownOptionsList = widget.dataset.dropdownOptions.split(',') || "";
+                let dropdownOptionsListLength = dropdownOptionsList.length;
+                // add double quotes
+                dropdownOptionsList = dropdownOptionsList.map((option) => `"${option}"`);
+
+                widgetCode = `${indent}const char* options_${widgetVar}[${dropdownOptionsListLength}] = {${dropdownOptionsList}};\n`;
+                widgetCode += `${indent}GooeyDropdown *${widgetVar} = GooeyDropdown_Create(${x}, ${y}, ${width}, ${height}, options_${widgetVar}, ${dropdownOptionsListLength}, ${callbackName || 'NULL'});\n`;
+                if (callbackName) {
+                    state.widgetCallbacks[widgetId].image = callbackName;
+                }
                 break;
             case "VerticalLayout":
             case "HorizontalLayout":
