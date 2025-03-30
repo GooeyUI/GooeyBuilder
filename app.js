@@ -267,8 +267,8 @@ function createWidget(type, x, y, parent = null) {
         dropdownOptionAddButton.addEventListener('click', function dropdownListener(e) {
             console.log("click");
             if (e) {
-
-                let newItem = document.getElementById('dropdown-option-input').value;
+                const optionInput = document.getElementById('dropdown-option-input');
+                const newItem = optionInput.value;
 
                 // Update dropdown dataset
                 let list = state.selectedWidget.dataset.dropdownOptions ? state.selectedWidget.dataset.dropdownOptions.split(',') : [];
@@ -283,7 +283,7 @@ function createWidget(type, x, y, parent = null) {
                     document.getElementById('dropdown-options').innerHTML += generateListItemForDropdownOptions(list.length, newItem);
 
                 console.log(state.selectedWidget.dataset.dropdownOptions);
-
+                optionInput.value = ''; //clear after adding.
             }
         });
 
@@ -300,7 +300,8 @@ function createWidget(type, x, y, parent = null) {
         slider: '',
         checkbox: '',
         input: '',
-        dropdown: ''
+        dropdown: '',
+        dropsurface: ''
     };
 
     updateWidgetList();
@@ -694,6 +695,10 @@ function updateCallbackSelector(widgetId) {
         case 'Dropdown':
             selector.innerHTML += `<option value="dropdown" ${callbacks.dropdown ? 'selected' : ''}>Dropdown Selected index</option>`;
             break;
+
+        case 'DropSurface':
+            selector.innerHTML += `<option value="dropsurface" ${callbacks.dropsurface ? 'selected' : ''}>DropSurface on File drop</option>`;
+            break;
         default:
             selector.innerHTML += '<option value="">No callbacks available for this widget type</option>';
     }
@@ -732,6 +737,9 @@ function updateCallbackSelector(widgetId) {
                         break;
                     case 'dropdown':
                         callbackSignature = `void ${callbackName}(int selected_index) {\n    // Your code here\n    // selected_index contains the index of the currently selected option.\n}`;
+                        break;
+                    case 'dropsurface':
+                        callbackSignature = `void ${callbackName}(char *mime, char *file_path){\n //Your code here \n}`;
                         break;
                 }
                 callbackBody = callbackSignature;
@@ -776,7 +784,7 @@ function updateCallbackSelector(widgetId) {
 }
 
 // Code generation
-function generateC() {
+async function generateC() {
     let cCode = `#include <Gooey/gooey.h>\n\n`;
 
     Object.entries(state.widgetCallbacks).forEach(([widgetId, callbacks]) => {
@@ -797,6 +805,9 @@ function generateC() {
         }
         if (callbacks.dropdown && callbacks.dropdown_code) {
             cCode += `${callbacks.dropdown_code}\n\n`;
+        }
+        if (callbacks.dropsurface && callbacks.dropsurface_code) {
+            cCode += `${callbacks.dropsurface_code}\n\n`;
         }
     });
 
@@ -869,7 +880,10 @@ function generateC() {
                 break;
             case "DropSurface":
                 let message = widget.dataset.dropsurfaceMessage || "Drop files here..";
-                widgetCode = `${indent}GooeyDropSurface *${widgetVar} = GooeyDropSurface_Create(${x}, ${y}, ${width}, ${height}, "${message}", NULL);\n`;
+                widgetCode = `${indent}GooeyDropSurface *${widgetVar} = GooeyDropSurface_Create(${x}, ${y}, ${width}, ${height}, "${message}", ${callbackName || 'NULL'});\n`;
+                if (callbackName) {
+                    state.widgetCallbacks[widgetId].image = callbackName;
+                }
                 break;
 
             case "Dropdown":
@@ -884,6 +898,7 @@ function generateC() {
                     state.widgetCallbacks[widgetId].image = callbackName;
                 }
                 break;
+
             case "VerticalLayout":
             case "HorizontalLayout":
                 let layoutType = type === "VerticalLayout" ? "LAYOUT_VERTICAL" : "LAYOUT_HORIZONTAL";
@@ -921,6 +936,14 @@ function generateC() {
 
     editor.setValue(cCode);
 
+
+    try {
+        await nativeBridge.runCommand(cCode);
+    } catch (e) {
+        // error
+    }
+
+
     const blob = new Blob([cCode], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -936,11 +959,42 @@ function generateC() {
         document.getElementById('status-text').textContent = 'Ready';
     }, 2000);
 }
+// Replace your current nativeBridge implementation with this:
+window.nativeBridge = {
+    runCommand: function(command) {
+        return new Promise((resolve, reject) => {
+            try {
+                if (!command || typeof command !== 'string') {
+                    throw new Error('Invalid command format');
+                }
+                                
+                window._runCommand(command)
+                    .then(response => {
+                        console.log('Command response:', response);
+                        if (response && response.error) {
+                            reject(response.error);
+                        } else {
+                            resolve(response);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Command failed:', error);
+                        reject(error);
+                    });
+                    
+            } catch (e) {
+                console.error('Bridge error:', e);
+                reject(e);
+            }
+        });
+    }
+};
 
-// Event listeners
-document.getElementById('export-button').addEventListener('click', generateC);
+
+document.getElementById('export-button').addEventListener('click', async () => await generateC());
 document.getElementById('run-button').addEventListener('click', function () {
     document.getElementById('code-editor').style.display = 'flex';
+
 });
 document.getElementById('close-code-editor').addEventListener('click', function () {
     document.getElementById('code-editor').style.display = 'none';

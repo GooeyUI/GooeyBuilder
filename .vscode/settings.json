@@ -1,3 +1,6 @@
 {
-    "idf.pythonInstallPath": "/home/yassine-ahmed-ali/.platformio/penv/bin//python"
+    "idf.pythonInstallPath": "/home/yassine-ahmed-ali/.platformio/penv/bin//python",
+    "files.associations": {
+        "thread": "cpp"
+    }
 }

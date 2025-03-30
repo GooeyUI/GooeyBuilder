@@ -35,6 +35,8 @@ body {
     height: 100vh;
     overflow: hidden;
     color: var(--vs-text);
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .container {
