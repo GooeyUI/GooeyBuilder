@@ -309,8 +309,6 @@ body {
 .widget-button {
     background: var(--vs-button-bg);
     color: var(--vs-text);
-    border: 1px solid var(--vs-border);
-    border-radius: 2px;
     padding: 6px 12px;
     text-align: center;
     font-size: 12px;
@@ -340,10 +338,9 @@ body {
 
 .widget-slider {
     width: 100px;
-    max-height: 2px;
+    max-height: 4px;
     background: var(--vs-border);
     position: relative;
-    border-radius: 2px;
     margin: 13px 0;
 }
 
@@ -352,10 +349,9 @@ body {
     position: absolute;
     top: -5px;
     left: 50%;
-    width: 15px;
+    width: 10px;
     height: 15px;
     background: var(--vs-accent);
-    border-radius: 50%;
     transform: translateX(-50%);
 }
 

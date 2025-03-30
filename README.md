@@ -1,6 +1,6 @@
 # Gooey Builder
 
-A visual GUI builder for the Gooey library that generates C code.
+An complete IDE for the Gooey GUI Toolkit.
 
 <img src="./designer.png">
 
@@ -12,7 +12,7 @@ A visual GUI builder for the Gooey library that generates C code.
 - Drag-and-drop interface design
 - Widget property editing
 - Callback function editor
-- C code generation
+- C code generation & compilation
 - Multiple widget types supported
 - Layout management
 

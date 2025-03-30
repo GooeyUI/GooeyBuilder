@@ -2,5 +2,6 @@
     "idf.pythonInstallPath": "/home/yassine-ahmed-ali/.platformio/penv/bin//python",
     "files.associations": {
         "thread": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview"
 }
