@@ -19,14 +19,22 @@ const state = {
     isDropdownInit: false
 };
 
-const txt = "<address> <street>Roble Ave</street> <mtfcc>S1400</mtfcc> </address>"
 
 function parse_savefile(filename)
 {
     parser = new DOMParser();
-    xmlDoc = parser.parseFromString(txt, "text/xml")
 
-    console.log(xmlDoc.getElementsByTagName('street')[0].textContent);
+   // xmlDoc = parser.parseFromString(txt, "text/xml")
+    let input = document.createElement("input");
+    input.type = "file";
+    input.setAttribute("multiple", true);
+    input.setAttribute("accept", "image/*");
+    input.onchange = function (event) {
+        //
+        console.log(this.files);
+    };
+    input.click();
+ //   console.log(xmlDoc.getElementsByTagName('street')[0].textContent);
 }
 function showEditor() {
     document.getElementById('start-screen').style.display = 'none';
