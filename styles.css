@@ -27,6 +27,11 @@
     --vs-scrollbar-hover: #aaaaaa;
 }
 
+#save-xml-button {
+    background-color: var(--vs-button-primary);
+    color: white;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: var(--vs-bg);
@@ -201,9 +206,8 @@ body {
     background: white;
     border-radius: 4px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 12px 28px rgba(0, 0, 0, 0.1);
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    top: 20px;
+    left: 20px;
     display: flex;
     flex-direction: column;
     overflow: hidden;
