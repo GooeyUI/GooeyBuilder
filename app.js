@@ -19,7 +19,24 @@ const state = {
     isDropdownInit: false
 };
 
+const txt = "<address> <street>Roble Ave</street> <mtfcc>S1400</mtfcc> </address>"
 
+function parse_savefile(filename)
+{
+    parser = new DOMParser();
+    xmlDoc = parser.parseFromString(txt, "text/xml")
+
+    console.log(xmlDoc.getElementsByTagName('street')[0].textContent);
+}
+function showEditor() {
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('editor-screen').style.display = 'block';
+}
+
+function showStartScreen() {
+    document.getElementById('editor-screen').style.display = 'none';
+    document.getElementById('start-screen').style.display = 'flex';
+}
 // Initialize CodeMirror editors
 const editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
     mode: "text/x-csrc",
@@ -989,7 +1006,6 @@ window.nativeBridge = {
         });
     }
 };
-
 
 document.getElementById('export-button').addEventListener('click', async () => await generateC());
 document.getElementById('run-button').addEventListener('click', function () {

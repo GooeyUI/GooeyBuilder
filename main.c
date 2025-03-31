@@ -17,20 +17,20 @@ char *read_file(const char *filename, size_t *out_len)
 {
     if (!filename)
     {
-        LOG_ERROR( "Null filename provided\n");
+        LOG_ERROR("Null filename provided\n");
         return NULL;
     }
 
     FILE *f = fopen(filename, "rb");
     if (!f)
     {
-        LOG_ERROR( "Failed to open file '%s': %s\n", filename, strerror(errno));
+        LOG_ERROR("Failed to open file '%s': %s\n", filename, strerror(errno));
         return NULL;
     }
 
     if (fseek(f, 0, SEEK_END) != 0)
     {
-        LOG_ERROR( "Failed to seek file '%s': %s\n", filename, strerror(errno));
+        LOG_ERROR("Failed to seek file '%s': %s\n", filename, strerror(errno));
         fclose(f);
         return NULL;
     }
@@ -38,14 +38,14 @@ char *read_file(const char *filename, size_t *out_len)
     long len = ftell(f);
     if (len < 0)
     {
-        LOG_ERROR( "Failed to get file size '%s': %s\n", filename, strerror(errno));
+        LOG_ERROR("Failed to get file size '%s': %s\n", filename, strerror(errno));
         fclose(f);
         return NULL;
     }
 
     if (len > MAX_FILE_SIZE)
     {
-        LOG_ERROR( "File '%s' too large (%ld bytes)\n", filename, len);
+        LOG_ERROR("File '%s' too large (%ld bytes)\n", filename, len);
         fclose(f);
         return NULL;
     }
@@ -55,7 +55,7 @@ char *read_file(const char *filename, size_t *out_len)
     char *data = malloc(len + 1);
     if (!data)
     {
-        LOG_ERROR( "Failed to allocate memory for file '%s'\n", filename);
+        LOG_ERROR("Failed to allocate memory for file '%s'\n", filename);
         fclose(f);
         return NULL;
     }
@@ -63,8 +63,8 @@ char *read_file(const char *filename, size_t *out_len)
     size_t read_len = fread(data, 1, len, f);
     if (read_len != (size_t)len)
     {
-        LOG_ERROR( "Read error in file '%s': expected %ld, got %zu\n",
-                filename, len, read_len);
+        LOG_ERROR("Read error in file '%s': expected %ld, got %zu\n",
+                  filename, len, read_len);
         free(data);
         fclose(f);
         return NULL;
@@ -122,7 +122,7 @@ int ensure_safe_dir()
     {
         if (mkdir(SAFE_DIR, 0777) != 0)
         {
-            LOG_ERROR( "Failed to create directory '%s': %s\n", SAFE_DIR, strerror(errno));
+            LOG_ERROR("Failed to create directory '%s': %s\n", SAFE_DIR, strerror(errno));
             return 0;
         }
     }
@@ -161,7 +161,7 @@ void write_formatted_code(FILE *file, const char *code)
         }
         else if (*code == '\\' && *(code + 1) == '"')
         {
-            // TODO: find a better solution to escape characters
+            
             fputc('"', file);
             code++;
         }
@@ -173,8 +173,9 @@ void write_formatted_code(FILE *file, const char *code)
     }
 }
 
-static void compile_gooey_code(const char* path, const char* exec_name)
-{   char command[1024];
+static void compile_gooey_code(const char *path, const char *exec_name)
+{
+    char command[1024];
     system("cp ./robotto.ttf ./tmp");
     snprintf(command, sizeof(command), "gcc -v %s -o %s -L/usr/local/lib -lfreetype -lGooeyGUI -I/usr/local/include/Gooey/  -lm -fsanitize=address,undefined && ./%s", path, exec_name, exec_name);
     printf("%s \n", command);
@@ -185,13 +186,13 @@ static void run_command(const char *id, const char *req, void *arg)
 {
     if (!req || strlen(req) < 3)
     {
-        LOG_ERROR( "Invalid request\n");
+        LOG_ERROR("Invalid request\n");
         return;
     }
     char *code = strdup(req + 2);
     if (!code)
     {
-        LOG_ERROR( "Memory allocation failed\n");
+        LOG_ERROR("Memory allocation failed\n");
         return;
     }
 
@@ -221,7 +222,7 @@ static void run_command(const char *id, const char *req, void *arg)
     FILE *f = fopen(full_path, "w");
     if (!f)
     {
-        LOG_ERROR( "Failed to open file '%s': %s\n", full_path, strerror(errno));
+        LOG_ERROR("Failed to open file '%s': %s\n", full_path, strerror(errno));
         free(code);
         return;
     }
@@ -231,69 +232,65 @@ static void run_command(const char *id, const char *req, void *arg)
     free(code);
 
     compile_gooey_code(full_path, "executable");
-
 }
-
-char *combine_resources()
-{
+char *combine_resources() {
+    
     const char *resources[] = {
+        "styles.css",
         "codemirror.min.css",
         "show-hint.min.css",
-        "styles.css",
+        "index.html",  
         "codemirror.min.js",
-        "show-hint.min.js",
+        "show-hint.min.js", 
         "clike.min.js",
         "app.js",
-        "index.html",
-        NULL};
+        NULL
+    };
 
-    char *contents[8] = {0};
-    size_t total_size = 1024;
+    
+    char *contents[8] = {NULL};
+    size_t total_size = 1024; 
 
-    for (int i = 0; resources[i]; i++)
-    {
+    
+    for (int i = 0; resources[i]; i++) {
         contents[i] = read_file(resources[i], NULL);
-        if (!contents[i])
-        {
-            LOG_ERROR( "Failed to load resource: %s\n", resources[i]);
+        if (!contents[i]) {
+            LOG_ERROR("Failed to load resource: %s\n", resources[i]);
             goto cleanup;
         }
         total_size += strlen(contents[i]);
     }
 
+    
     char *full_html = malloc(total_size);
-    if (!full_html)
-    {
-        LOG_ERROR( "Failed to allocate memory for HTML\n");
+    if (!full_html) {
+        LOG_ERROR("Failed to allocate memory for HTML\n");
         goto cleanup;
     }
 
+    
     snprintf(full_html, total_size,
-             "<!DOCTYPE html><html><head><meta charset='UTF-8'>"
-             "<style>%s%s%s</style>"
-             "</head><body>%s"
-             "<script>%s%s%s%s</script>"
-             "</body></html>",
-             contents[0] ? contents[0] : "",
-             contents[1] ? contents[1] : "",
-             contents[2] ? contents[2] : "",
-             contents[7] ? contents[7] : "",
-             contents[3] ? contents[3] : "",
-             contents[4] ? contents[4] : "",
-             contents[5] ? contents[5] : "",
-             contents[6] ? contents[6] : "");
+        "<!DOCTYPE html><html><head><meta charset='UTF-8'>"
+        "<title>Gooey Builder</title>"
+        "<style>%s%s%s</style>"  
+        "</head><body>%s"        
+        "<script>%s%s%s%s</script>"  
+        "</body></html>",
+        contents[0], contents[1], contents[2],  
+        contents[3],                            
+        contents[4], contents[5], contents[6], contents[7]  
+    );
 
 cleanup:
-
-    for (int i = 0; resources[i]; i++)
-    {
-        if (contents[i])
+    
+    for (int i = 0; resources[i]; i++) {
+        if (contents[i]) {
             free(contents[i]);
+        }
     }
 
     return full_html;
 }
-
 int main()
 {
     if (!ensure_safe_dir())
@@ -304,7 +301,7 @@ int main()
     char *full_html = combine_resources();
     if (!full_html)
     {
-        LOG_ERROR( "Failed to build HTML document\n");
+        LOG_ERROR("Failed to build HTML document\n");
         return 1;
     }
 
@@ -312,7 +309,7 @@ int main()
     free(full_html);
     if (!encoded)
     {
-        LOG_ERROR( "Failed to encode HTML\n");
+        LOG_ERROR("Failed to encode HTML\n");
         return 1;
     }
 
@@ -329,7 +326,7 @@ int main()
     if (!w)
     {
         free(data_uri);
-        LOG_ERROR( "Failed to create webview\n");
+        LOG_ERROR("Failed to create webview\n");
         return 1;
     }
 
