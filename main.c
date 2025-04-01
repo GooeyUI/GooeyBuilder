@@ -165,6 +165,12 @@ void write_formatted_code(FILE *file, const char *code)
             fputc('"', file);
             code++;
         }
+        else if (*code == '\\' && *(code + 1) == 't')
+        {
+            
+            fputc(' ', file);
+            code++;
+        }
         else
         {
             fputc(*code, file);
