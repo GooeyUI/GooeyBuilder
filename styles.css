@@ -38,7 +38,9 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
     color: var(--vs-text);
     user-select: none;
     -webkit-user-select: none;
@@ -169,7 +171,9 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
+
 }
 
 .document-tabs {
@@ -198,7 +202,7 @@ body {
     flex: 1;
     background: var(--vs-workspace);
     position: relative;
-    overflow: auto;
+    overflow-x: auto;
 }
 
 .preview-window {
@@ -243,7 +247,7 @@ body {
     width: 300px;
     background: var(--vs-toolbox-bg);
     border-left: 1px solid var(--vs-border);
-    overflow: auto;
+    overflow-x: hidden;
     padding: 8px;
 }
 
@@ -550,10 +554,16 @@ body {
 }
 
 .callback-actions {
+    position: absolute;
+    width: 100%;
     bottom: 0px;
-    padding: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
     border-top: 1px solid var(--vs-border);
     background: var(--vs-toolbar);
+    overflow-x: hidden;
+    overflow-y: hidden;
+
 }
 
 .callback-actions button {

@@ -1,6 +1,5 @@
 
 
-// Shared state object
 const state = {
     previewContent: null,
     previewWindow: null,
@@ -20,22 +19,7 @@ const state = {
 };
 
 
-function parse_savefile(filename)
-{
-    parser = new DOMParser();
 
-   // xmlDoc = parser.parseFromString(txt, "text/xml")
-    let input = document.createElement("input");
-    input.type = "file";
-    input.setAttribute("multiple", true);
-    input.setAttribute("accept", "image/*");
-    input.onchange = function (event) {
-        //
-        console.log(this.files);
-    };
-    input.click();
- //   console.log(xmlDoc.getElementsByTagName('street')[0].textContent);
-}
 function showEditor() {
     document.getElementById('start-screen').style.display = 'none';
     document.getElementById('editor-screen').style.display = 'block';
