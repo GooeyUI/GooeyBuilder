@@ -183,7 +183,7 @@ static void compile_gooey_code(const char *path, const char *exec_name)
 {
     char command[1024];
     system("cp ./robotto.ttf ./tmp");
-    snprintf(command, sizeof(command), "gcc -v %s -o %s -L/usr/local/lib -lfreetype -lGooeyGUI -I/usr/local/include/Gooey/  -lm -fsanitize=address,undefined && ./%s", path, exec_name, exec_name);
+    snprintf(command, sizeof(command), "gcc -v %s -o %s -L/usr/local/lib -lfreetype -lGooeyGUI -I/usr/local/include/Gooey/ -I/usr/local/include/GLPS/  -lGLPS  -lm -fsanitize=address,undefined && ./%s", path, exec_name, exec_name);
     printf("%s \n", command);
     system(command);
 }
@@ -239,6 +239,14 @@ static void run_command(const char *id, const char *req, void *arg)
 
     compile_gooey_code(full_path, "executable");
 }
+
+void docs_command()
+{
+
+    // Make this run in a seperate thread.
+    system("x-www-browser https://gooeyui.github.io/GooeyGUI/website/docs");
+}
+
 char *combine_resources() {
     
     const char *resources[] = {
@@ -339,6 +347,7 @@ int main()
     webview_set_title(w, "Gooey Builder");
     webview_set_size(w, 1024, 768, WEBVIEW_HINT_NONE);
     webview_bind(w, "_runCommand", run_command, NULL);
+    webview_bind(w, "_docsCommand", docs_command, NULL);
 
     printf("Loading application...\n");
     webview_navigate(w, data_uri);

@@ -1,269 +1,497 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gooey Builder</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="codemirror.min.css">
-    <link rel="stylesheet" href="dracula.min.css">
-   
-</head>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gooey Builder</title>
+        <link rel="stylesheet" href="styles.css" />
+        <link rel="stylesheet" href="codemirror.min.css" />
+        <link rel="stylesheet" href="dracula.min.css" />
+    </head>
 
-<body>
-    <div class="start-screen" id="start-screen">
+    <body>
+        <div class="start-screen" id="start-screen">
+            <h1 class="welcome-title">Welcome to GooeyBuilder IDE</h1>
+            <div>
+                <h3 class="section-title">Quick Start</h3>
+                <div class="project-grid">
+                    <div class="project-card" onclick="showEditor()">
+                        <div class="project-name">New Project</div>
+                        <div class="project-path">
+                            Create a new project from scratch
+                        </div>
+                    </div>
 
-        <h1 class="welcome-title">Welcome to GooeyBuilder IDE</h1>
-        <div>
-            <h3 class="section-title">Quick Start</h3>
-            <div class="project-grid">
-                <div class="project-card" onclick="showEditor()">
-                    <div class="project-name">New Project</div>
-                    <div class="project-path">Create a new project from scratch</div>
+                    <button class="project-card" id="load-xml-button">
+                        <div class="project-name">Open</div>
+                        <div class="project-path">Open existing project</div>
+                    </button>
                 </div>
-            
-                <button class="project-card" id="load-xml-button">
-                    <div class="project-name">Open</div>
-                    <div class="project-path">Open existing project</div>
-                </button>
             </div>
         </div>
 
-      
-    </div>
-
-    <!-- Editor Screen -->
-    <div class="editor-screen" id="editor-screen">
-        <div class="container">
-            <div class="toolbar">
-                <button class="toolbar-button" id="save-xml-button">
-                    Save Project
-                </button>
-
-                <button class="toolbar-button" id="export-button">
-                    Export C Code
-                </button>
+        <!-- Editor Screen -->
+        <div class="editor-screen" id="editor-screen">
+            <div class="container">
+                <div class="toolbar">
+                    <button class="toolbar-button" id="save-xml-button" title="Save Project">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                        </svg>
+                    </button>
                 
-                <button class="toolbar-button" id="run-button">
-                    Run Preview
-                </button>
-                <button class="toolbar-button" onclick="showStartScreen()">
-                    Back to Start
-                </button>
-            </div>
-
-            <div class="main-content">
-                <div class="toolbox">
-                    <div class="toolbox-section">
-                        <h4>Window</h4>
-                        <div class="toolbox-item" data-type="Menu">Menu</div>
-                    </div>
-
-                    <div class="toolbox-section">
-                        <h4>Widgets</h4>
-                        <div class="toolbox-item" data-type="Button">Button</div>
-                        <div class="toolbox-item" data-type="Input">Input</div>
-                        <div class="toolbox-item" data-type="Slider">Slider</div>
-                        <div class="toolbox-item" data-type="Checkbox">Checkbox</div>
-                        <div class="toolbox-item" data-type="Label">Label</div>
-                        <div class="toolbox-item" data-type="Dropdown">Dropdown</div>
-                        <div class="toolbox-item" data-type="Image">Image</div>
-                        <div class="toolbox-item" data-type="Tabs">Tabview</div>
-                        <div class="toolbox-item" data-type="List">List</div>
-                        <div class="toolbox-item" data-type="Plot">Plot</div>
-                        <div class="toolbox-item" data-type="RadioButtonGroup">RadioButtonGroup</div>
-                        <div class="toolbox-item" data-type="DropSurface">File Drop Surface</div>
-                    </div>
-
-                    <div class="toolbox-section">
-                        <h4>Debug & Dev</h4>
-                        <div class="toolbox-item" data-type="Overlay">Overlay</div>
-                    </div>
-
-                    <div class="toolbox-section">
-                        <h4>Primitive Drawing</h4>
-                        <div class="toolbox-item" data-type="Canvas">Canvas</div>
-                    </div>
-
-                    <div class="toolbox-section">
-                        <h4>Layouts</h4>
-                        <div class="toolbox-item" data-type="VerticalLayout">Vertical Layout</div>
-                        <div class="toolbox-item" data-type="HorizontalLayout">Horizontal Layout</div>
-                    </div>
+                    <button class="toolbar-button" id="export-button" title="Compile & Run">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M8 5v14l11-7z"/>
+                        </svg>
+                    </button>
+                
+                    <button class="toolbar-button" id="run-button" title="Preview Code">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                        </svg>
+                    </button>
+                    
+                    <button class="toolbar-button" onclick="showStartScreen()" title="Back to Start">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                    </button>
+                
+                    <button class="toolbar-button" onclick="openDocs()" title="Help">
+                        <svg width="20" height="20" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+                        </svg>
+                    </button>
                 </div>
 
-                <div class="workspace-container">
-                    <div class="document-tabs">
-                        <div class="document-tab active" data-tab="designer">Designer</div>
-                        <div class="document-tab" data-tab="code">Code</div>
-                    </div>
-                    <div class="workspace" id="workspace">
-                        <div class="tab-content active" id="designer-tab">
+                <div class="main-content">
+                    <div class="toolbox">
+                        <div class="toolbox-section">
+                            <h4>Window</h4>
+                            <div class="toolbox-item" data-type="Menu">
+                                Menu
+                            </div>
                         </div>
 
-                        <div class="tab-content" id="code-tab">
-                            <div class="code-tab-container">
-                                <div class="widget-list" id="widget-list">
+                        <div class="toolbox-section">
+                            <h4>Widgets</h4>
+                            <div class="toolbox-item" data-type="Button">
+                                Button
+                            </div>
+                            <div class="toolbox-item" data-type="Input">
+                                Input
+                            </div>
+                            <div class="toolbox-item" data-type="Slider">
+                                Slider
+                            </div>
+                            <div class="toolbox-item" data-type="Checkbox">
+                                Checkbox
+                            </div>
+                            <div class="toolbox-item" data-type="Label">
+                                Label
+                            </div>
+                            <div class="toolbox-item" data-type="Dropdown">
+                                Dropdown
+                            </div>
+                            <div class="toolbox-item" data-type="Image">
+                                Image
+                            </div>
+                            <div class="toolbox-item" data-type="Tabs">
+                                Tabview
+                            </div>
+                            <div class="toolbox-item" data-type="List">
+                                List
+                            </div>
+                            <div class="toolbox-item" data-type="Plot">
+                                Plot
+                            </div>
+                            <div
+                                class="toolbox-item"
+                                data-type="RadioButtonGroup"
+                            >
+                                RadioButtonGroup
+                            </div>
+                            <div class="toolbox-item" data-type="DropSurface">
+                                File Drop Surface
+                            </div>
+                        </div>
+
+                        <div class="toolbox-section">
+                            <h4>Debug & Dev</h4>
+                            <div class="toolbox-item" data-type="Overlay">
+                                Overlay
+                            </div>
+                        </div>
+
+                        <div class="toolbox-section">
+                            <h4>Primitive Drawing</h4>
+                            <div class="toolbox-item" data-type="Canvas">
+                                Canvas
+                            </div>
+                        </div>
+
+                        <div class="toolbox-section">
+                            <h4>Layouts</h4>
+                            <div
+                                class="toolbox-item"
+                                data-type="VerticalLayout"
+                            >
+                                Vertical Layout
+                            </div>
+                            <div
+                                class="toolbox-item"
+                                data-type="HorizontalLayout"
+                            >
+                                Horizontal Layout
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="workspace-container">
+                        <div class="document-tabs">
+                            <div
+                                class="document-tab active"
+                                data-tab="designer"
+                            >
+                                Designer
+                            </div>
+                            <div class="document-tab" data-tab="code">Code</div>
+                        </div>
+                        <div class="workspace" id="workspace">
+                            <div
+                                class="tab-content active"
+                                id="designer-tab"
+                            ></div>
+
+                            <div class="tab-content" id="code-tab">
+                                <div class="code-tab-container">
+                                    <div
+                                        class="widget-list"
+                                        id="widget-list"
+                                    ></div>
+
+                                    <div class="code-editor-container">
+                                        <div class="callback-selector">
+                                            <select id="callback-selector">
+                                                <option value="">
+                                                    Select a callback to edit
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="code-editor-content">
+                                            <textarea
+                                                id="callback-editor"
+                                            ></textarea>
+                                        </div>
+                                        <div class="callback-actions">
+                                            <button
+                                                class="button"
+                                                id="cancel-callback"
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                                class="button primary"
+                                                id="save-callback"
+                                            >
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
 
-                                <div class="code-editor-container">
-                                    <div class="callback-selector">
-                                        <select id="callback-selector">
-                                            <option value="">Select a callback to edit</option>
-                                        </select>
-                                    </div>
-                                    <div class="code-editor-content">
-                                        <textarea id="callback-editor"></textarea>
-                                    </div>
-                                    <div class="callback-actions">
-                                        <button class="button" id="cancel-callback">Cancel</button>
-                                        <button class="button primary" id="save-callback">Save</button>
-                                    </div>
+                    <div class="properties-panel" id="right-panel">
+                        <div class="properties-section" id="window-properties">
+                            <h4>Window Properties</h4>
+                            <div class="property-item">
+                                <label>Title:</label>
+                                <input id="win-title" value="My Window" />
+                            </div>
+                            <div class="property-item">
+                                <label>Width:</label>
+                                <input
+                                    type="number"
+                                    id="win-width"
+                                    value="800"
+                                />
+                            </div>
+                            <div class="property-item">
+                                <label>Height:</label>
+                                <input
+                                    type="number"
+                                    id="win-height"
+                                    value="600"
+                                />
+                            </div>
+                            <h4>Window Hints</h4>
+
+                            <!-- WINDOW DEBUG -->
+                            <div class="property-item">
+                                <label>enableOverlay
+                                <input class="debug-item"
+                                id="window-debug-enable-overlay"
+                                type="checkbox"
+                                
+                                /></label>
+                            </div>
+
+                            <div class="property-item">
+                                <label>enableContRedraw (inefficient)
+                                <input class="debug-item"
+                                id="window-debug-enable-cont-redraw"
+                                type="checkbox"
+                                
+                                /></label>
+                            </div>
+
+                            <div class="property-item">
+                                <label>isVisible
+                                <input class="debug-item"
+                                id="window-debug-is-visible"
+                                type="checkbox"
+                                checked
+                                /></label>
+                            </div>
+
+                            <div class="property-item">
+                                <label>isResizable
+                                <input class="debug-item"
+                                id="window-debug-is-resizable"
+                                type="checkbox"
+                                checked
+                                /></label>
+                            </div>
+                            <button
+                                class="button primary"
+                                id="apply-window-settings"
+                            >
+                                Apply
+                            </button>
+                        </div>
+
+                        <div
+                            class="properties-section"
+                            id="widget-properties"
+                            style="display: none"
+                        >
+                            <h4>Widget Properties</h4>
+                            <div class="property-item">
+                                <label>Type:</label>
+                                <input type="text" id="prop-type" disabled />
+                            </div>
+                            <div class="property-item">
+                                <label>X:</label>
+                                <input type="number" id="prop-x" />
+                            </div>
+                            <div class="property-item">
+                                <label>Y:</label>
+                                <input type="number" id="prop-y" />
+                            </div>
+                            <div class="property-item">
+                                <label>Width:</label>
+                                <input type="number" id="prop-width" />
+                            </div>
+                            <div class="property-item">
+                                <label>Height:</label>
+                                <input type="number" id="prop-height" />
+                            </div>
+                            <div class="property-item">
+                                <label>Text:</label>
+                                <input type="text" id="prop-text" />
+                            </div>
+                            <div class="property-item">
+                                <label>Callback Name:</label>
+                                <input
+                                    type="text"
+                                    id="prop-callback"
+                                    placeholder="my_callback"
+                                />
+                            </div>
+
+
+                            <div id="menu-properties" style="display: none;">
+                                <h4>Menu Properties</h4>
+                                
+                            </div>
+
+                            <div id="slider-properties" style="display: none">
+                                <h4>Slider Properties</h4>
+                                <div class="property-item">
+                                    <label>Min Value:</label>
+                                    <input
+                                        type="number"
+                                        id="slider-min-value"
+                                        value="0"
+                                    />
+                                </div>
+                                <div class="property-item">
+                                    <label>Max Value:</label>
+                                    <input
+                                        type="number"
+                                        id="slider-max-value"
+                                        value="100"
+                                    />
+                                </div>
+                                <div class="property-item">
+                                    <label>Show Hints:</label>
+                                    <select id="slider-show-hints">
+                                        <option value="true">Enabled</option>
+                                        <option value="false">Disabled</option>
+                                    </select>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="properties-panel">
-                    <div class="properties-section">
-                        <h4>Window Properties</h4>
-                        <div class="property-item">
-                            <label>Title:</label>
-                            <input id="win-title" value="My Window">
-                        </div>
-                        <div class="property-item">
-                            <label>Width:</label>
-                            <input type="number" id="win-width" value="800">
-                        </div>
-                        <div class="property-item">
-                            <label>Height:</label>
-                            <input type="number" id="win-height" value="600">
-                        </div>
-                        <button class="button primary" id="apply-window-settings">Apply</button>
-                    </div>
-
-                    <div class="properties-section" id="widget-properties" style="display: none;">
-                        <h4>Widget Properties</h4>
-                        <div class="property-item">
-                            <label>Type:</label>
-                            <input type="text" id="prop-type" disabled>
-                        </div>
-                        <div class="property-item">
-                            <label>X:</label>
-                            <input type="number" id="prop-x">
-                        </div>
-                        <div class="property-item">
-                            <label>Y:</label>
-                            <input type="number" id="prop-y">
-                        </div>
-                        <div class="property-item">
-                            <label>Width:</label>
-                            <input type="number" id="prop-width">
-                        </div>
-                        <div class="property-item">
-                            <label>Height:</label>
-                            <input type="number" id="prop-height">
-                        </div>
-                        <div class="property-item">
-                            <label>Text:</label>
-                            <input type="text" id="prop-text">
-                        </div>
-                        <div class="property-item">
-                            <label>Callback Name:</label>
-                            <input type="text" id="prop-callback" placeholder="my_callback">
-                        </div>
-
-                        <div id="slider-properties" style="display: none;">
-                            <h4>Slider Properties</h4>
-                            <div class="property-item">
-                                <label>Min Value:</label>
-                                <input type="number" id="slider-min-value" value="0">
+                            <div id="image-properties" style="display: none">
+                                <h4>Image Properties</h4>
+                                <div class="property-item">
+                                    <label>Image Path:</label>
+                                    <input
+                                        type="text"
+                                        id="image-relative-path"
+                                        placeholder="./assets/example.png"
+                                    />
+                                </div>
                             </div>
-                            <div class="property-item">
-                                <label>Max Value:</label>
-                                <input type="number" id="slider-max-value" value="100">
-                            </div>
-                            <div class="property-item">
-                                <label>Show Hints:</label>
-                                <select id="slider-show-hints">
-                                    <option value="true">Enabled</option>
-                                    <option value="false">Disabled</option>
-                                </select>
-                            </div>
-                        </div>
 
-                        <div id="image-properties" style="display: none;">
-                            <h4>Image Properties</h4>
-                            <div class="property-item">
-                                <label>Image Path:</label>
-                                <input type="text" id="image-relative-path" placeholder="./assets/example.png">
+                            <div
+                                id="dropsurface-properties"
+                                style="display: none"
+                            >
+                                <h4>DropSurface Properties</h4>
+                                <div class="property-item">
+                                    <label>Message:</label>
+                                    <input
+                                        type="text"
+                                        id="dropsurface-message"
+                                        placeholder="Drop files here.."
+                                    />
+                                </div>
                             </div>
-                        </div>
 
-                        <div id="dropsurface-properties" style="display: none;">
-                            <h4>DropSurface Properties</h4>
-                            <div class="property-item">
-                                <label>Message:</label>
-                                <input type="text" id="dropsurface-message" placeholder="Drop files here..">
-                            </div>
-                        </div>
-
-                        <div id="dropdown-properties" style="display: none;">
-                            <h4>Dropdown Properties</h4>
+                            <div id="dropdown-properties" style="display: none">
+                                <h4>Dropdown Properties</h4>
                                 <div id="dropdown-options">
-                                    <ul>
-                                        
-                                    </ul>
+                                    <ul></ul>
                                 </div>
 
-
-                            <div class="property-item">
-                                <label>Add more options:</label>
-                                <div style="display: flex; flex-direction: row; gap: 10px; width: 90%;">
-                                    <input type="text" id="dropdown-option-input" placeholder="Ex: apple..">
-                                    <div id="dropdown-option-add-button" class="button">Add</div>
+                                <div class="property-item">
+                                    <label>Add more options:</label>
+                                    <div
+                                        style="
+                                            display: flex;
+                                            flex-direction: row;
+                                            gap: 10px;
+                                            width: 90%;
+                                        "
+                                    >
+                                        <input
+                                            type="text"
+                                            id="dropdown-option-input"
+                                            placeholder="Ex: apple.."
+                                        />
+                                        <div
+                                            id="dropdown-option-add-button"
+                                            class="button"
+                                        >
+                                            Add
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div style="margin-top: 16px;">
-                            <button class="button primary" id="apply-widget-properties">Apply</button>
-                            <button class="button danger" id="delete-widget">Delete</button>
+
+                            <div id="list-properties" style="display: none">
+                                <h4>List Properties</h4>
+                                <div id="list-options">
+                                    <ul></ul>
+                                </div>
+
+                                <div class="property-item">
+                                    <label>Add more options:</label>
+                                    <div
+                                        style="
+                                            display: flex;
+                                            flex-direction: row;
+                                            gap: 10px;
+                                            width: 90%;
+                                        "
+                                    >
+                                        <input
+                                            type="text"
+                                            id="list-option-input"
+                                            placeholder="Ex: apple.."
+                                        />
+                                        <input
+                                            type="text"
+                                            id="list-option-input-desc"
+                                            placeholder="Ex: apples are fruit..."
+                                        />
+                                        <div
+                                            id="list-option-add-button"
+                                            class="button"
+                                        >
+                                            Add
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 16px">
+                                <button
+                                    class="button primary"
+                                    id="apply-widget-properties"
+                                >
+                                    Apply
+                                </button>
+                                <button
+                                    class="button danger"
+                                    id="delete-widget"
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-  
-            <div class="status-bar">
-                <span id="status-text">Ready</span>
-            </div>
-        </div>
 
-        <div class="code-editor" id="code-editor" style="display: none; left: 100px; top: 100px;">
-            <div class="code-editor-header">
-                <div>Code Editor</div>
-                <div style="cursor: pointer;" id="close-code-editor">×</div>
+                <div class="status-bar">
+                    <span id="status-text">Ready</span>
+                </div>
             </div>
-            <div class="code-editor-content">
-                <textarea id="editor">#include &lt;Gooey/gooey.h&gt;
+
+            <div
+                class="code-editor"
+                id="code-editor"
+                style="display: none; left: 100px; top: 100px"
+            >
+                <div class="code-editor-header">
+                    <div>Code Editor</div>
+                    <div style="cursor: pointer" id="close-code-editor">×</div>
+                </div>
+                <div class="code-editor-content">
+                    <textarea id="editor">
+#include &lt;Gooey/gooey.h&gt;
 
 int main() {
     Gooey_Init();
     GooeyWindow *win = GooeyWindow_Create("My Window", 800, 600, true);
-    
+
     GooeyWindow_Run(1, win);
     GooeyWindow_Cleanup(1, win);
     return 0;
-}</textarea>
+}</textarea
+                    >
+                </div>
             </div>
         </div>
-    </div>
 
-    <script src="codemirror.min.js"></script>
-    <script src="clike.min.js"></script>
-    <script src="show-hint.min.js"></script>
-    <link rel="stylesheet" href="show-hint.min.css">
- 
-    <script src="app.js"></script>
-</body>
+        <script src="codemirror.min.js"></script>
+        <script src="clike.min.js"></script>
+        <script src="show-hint.min.js"></script>
+        <link rel="stylesheet" href="show-hint.min.css" />
+
+        <script src="app.js"></script>
+    </body>
 </html>
