@@ -18,6 +18,7 @@ const state = {
 };
 
 
+document.addEventListener('contextmenu', event => event.preventDefault());
 
 window.nativeBridge = {
   runCommand: function (command) {
@@ -481,40 +482,64 @@ function createWidget(type, x, y, parent = null) {
   return newWidget;
 }
 
+
 function generateListItemForListOptions(id, item) {
   return `<li style="width: 90%; display: flex; flex-direction:row; gap:10px; align-items: center; margin-bottom: 10px;" id="list-option-${id}">
     <div style="display: flex; flex-direction: column;">
       <span style="font-weight: bold;">${item.name}</span>
       <span style="font-size: 0.8em; color: #666;">${item.description}</span>
     </div>
-    <button style="margin-left: auto;" class="button" onclick="deleteListOption(${id}, '${item.name}')">delete</button>
+    <button style="margin-left: auto;" class="button" onclick="deleteListOption(${id})">delete</button>
   </li>`;
 }
 
 function generateListItemForDropdownOptions(id, item) {
-  return `<li style="width: 90%; display: flex; flex-direction:row; gap:10px; align-items: center; margin-bottom: 10px;" id="dropdown-option-${id}"><span style="margin-right: auto;">${item} </span> <button style="margin-left: auto;" class="button" onclick="deleteDropdownOption(${id}, '${item}')">delete</button></li>`;
+  return `<li style="width: 90%; display: flex; flex-direction:row; gap:10px; align-items: center; margin-bottom: 10px;" id="dropdown-option-${id}">
+    <span style="margin-right: auto;">${item}</span>
+    <button style="margin-left: auto;" class="button" onclick="deleteDropdownOption(${id})">delete</button>
+  </li>`;
 }
 
-function deleteListOption(optionIndex, itemValue) {
-  const element = document.getElementById(`list-option-${optionIndex}`);
-  if (element) element.remove();
-
+function deleteListOption(id) {
   let list = state.selectedWidget.dataset.listOptions
     ? JSON.parse(state.selectedWidget.dataset.listOptions)
     : [];
-
-  list = list.filter((item) => item.name !== itemValue);
-  state.selectedWidget.dataset.listOptions = JSON.stringify(list);
+  
+  // Find the actual index by matching the id
+  const index = list.findIndex((item, idx) => idx.toString() === id.toString());
+  
+  if (index !== -1) {
+    list.splice(index, 1);
+    state.selectedWidget.dataset.listOptions = JSON.stringify(list);
+    
+    // Update list items
+    let listOptionsUL = document.getElementById("list-options");
+    listOptionsUL.innerHTML = "";
+    list.forEach((item, idx) => {
+      listOptionsUL.innerHTML += generateListItemForListOptions(idx, item);
+    });
+  }
 }
 
-function deleteDropdownOption(optionIndex, itemValue) {
-  const element = document.getElementById(`dropdown-option-${optionIndex}`);
-  if (element) element.remove();
-  let list = state.selectedWidget.dataset.dropdownOptions.split(",");
-
-  let indexOfItem = list.indexOf(itemValue);
-  list.splice(indexOfItem, 1);
-  state.selectedWidget.dataset.dropdownOptions = list;
+function deleteDropdownOption(id) {
+  let list = state.selectedWidget.dataset.dropdownOptions
+    ? state.selectedWidget.dataset.dropdownOptions.split(",")
+    : [];
+  
+  // Find the actual index by matching the id
+  const index = list.findIndex((item, idx) => idx.toString() === id.toString());
+  
+  if (index !== -1) {
+    list.splice(index, 1);
+    state.selectedWidget.dataset.dropdownOptions = list.join(",");
+    
+    // Update dropdown items
+    let dropdownOptionsUL = document.getElementById("dropdown-options");
+    dropdownOptionsUL.innerHTML = "";
+    list.forEach((item, idx) => {
+      dropdownOptionsUL.innerHTML += generateListItemForDropdownOptions(idx, item);
+    });
+  }
 }
 
 function setupResizeHandle(handle, widget) {
