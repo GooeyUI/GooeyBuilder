@@ -1690,3 +1690,31 @@ document
 document
   .getElementById("load-xml-button")
   .addEventListener("click", loadProjectFromXML);
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const settingsToggle = document.getElementById('advanced-settings-toggle');
+    const settingsPanel = document.getElementById('advanced-settings-panel');
+    const closeSettings = document.getElementById('close-settings-button');
+    const showSettingsLink = document.getElementById('show-settings-link');
+    
+    function toggleSettings() {
+        settingsPanel.classList.toggle('visible');
+    }
+    
+    settingsToggle.addEventListener('click', toggleSettings);
+    closeSettings.addEventListener('click', toggleSettings);
+    showSettingsLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        toggleSettings();
+    });
+    
+    const recentProjects = [
+    ];
+    
+    const recentList = document.getElementById('recent-projects-list');
+    
+    if (recentProjects.length === 0) {
+        recentList.innerHTML = '<div class="recent-empty">No recent projects</div>';
+    } else {
+    }
+});

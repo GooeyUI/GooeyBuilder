@@ -22,7 +22,6 @@
 #define MAX_CMD_LENGTH 2048
 #define SAFE_DIR "tmp"
 
-
 char *read_file(const char *filename, size_t *out_len)
 {
   if (!filename)
@@ -327,7 +326,7 @@ int main()
     Well since i'm using Gooey for Splash and GTK for webview (hopefully we'll implement our own in Gooey)
     I have to fork so when cleanup for gooey happens it doesn't interfere with GTK.
   */
-  
+
   pid_t n = fork();
 
   if (n == 0)
@@ -342,8 +341,9 @@ int main()
         GooeyImage_Create("splashscreen.png", 0, 0, 736 / 2, 1104 / 2, NULL);
 
     GooeyTimer *timer = GooeyTimer_Create();
-    GooeyTimer_SetCallback(3000, timer, destroy_splash, splash_win);
+    GooeyTimer_SetCallback(1500, timer, destroy_splash, splash_win);
     GooeyWindow_RegisterWidget(splash_win, splash_bg);
+    GooeyWindow_EnableDebugOverlay(splash_win, false);
     GooeyWindow_Run(1, splash_win);
     exit(EXIT_SUCCESS);
   }
@@ -397,6 +397,7 @@ int main()
 
     webview_run(w);
     webview_destroy(w);
+    exit(EXIT_SUCCESS);
   }
   return 0;
 }

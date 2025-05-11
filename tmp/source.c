@@ -7,7 +7,9 @@ int main()
 
     GooeyWindow_MakeVisible(win, false);
     GooeyWindow_MakeResizable(win, false);
+    GooeyButton *button_0 = GooeyButton_Create("Button", 276, 103, 100, 30, NULL);
 
+    GooeyWindow_RegisterWidget(win, button_0);
 
     GooeyWindow_Run(1, win);
     GooeyWindow_Cleanup(1, win);
