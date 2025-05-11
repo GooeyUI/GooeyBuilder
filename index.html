@@ -10,57 +10,126 @@
     </head>
 
     <body>
-        <div class="start-screen" id="start-screen">
-            <h1 class="welcome-title">Welcome to GooeyBuilder IDE</h1>
-            <div>
-                <h3 class="section-title">Quick Start</h3>
-                <div class="project-grid">
-                    <div class="project-card" onclick="showEditor()">
-                        <div class="project-name">New Project</div>
-                        <div class="project-path">
-                            Create a new project from scratch
+        <div class="start-screen light-mode" id="start-screen">
+            <div class="ide-splash-container">
+                <div class="splash-header">
+                    <h1 class="welcome-title">GooeyDesigner</h1>
+                    <div class="version-info">Version 2025.5</div>
+                </div>
+                
+                <div class="splash-content">
+                    <div class="quick-actions-section">
+                        <h3 class="section-title">Quick Start</h3>
+                        <div class="project-grid">
+                            <button class="project-card" onclick="showEditor()">
+                                <div class="project-icon">
+                                    <svg viewBox="0 0 24 24" width="24" height="24">
+                                        <path fill="#2C3E50" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                    </svg>
+                                </div>
+                                <div class="project-info">
+                                    <div class="project-name">New Project</div>
+                                    <div class="project-description">Create a new project from scratch</div>
+                                </div>
+                            </button>
+        
+                            <button class="project-card" id="load-xml-button">
+                                <div class="project-icon">
+                                    <svg viewBox="0 0 24 24" width="24" height="24">
+                                        <path fill="#2C3E50" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                                    </svg>
+                                </div>
+                                <div class="project-info">
+                                    <div class="project-name">Open</div>
+                                    <div class="project-description">Open existing project</div>
+                                </div>
+                            </button>
                         </div>
                     </div>
-
-                    <button class="project-card" id="load-xml-button">
-                        <div class="project-name">Open</div>
-                        <div class="project-path">Open existing project</div>
-                    </button>
+                    
+                    <div class="recent-projects-section">
+                        <h3 class="section-title">Recent Projects</h3>
+                        <div class="recent-projects-list">
+                            <!-- Recent projects would be dynamically added here -->
+                            <div class="no-recent">No recent projects</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="splash-footer">
+                    <div class="footer-links">
+                        <a href="#" class="footer-link">Documentation</a>
+                        <a href="#" class="footer-link">Plugins</a>
+                        <a href="#" class="footer-link">Settings</a>
+                    </div>
+                    <div class="copyright-info">© 2025 GooeyDesigner Team</div>
                 </div>
             </div>
         </div>
-
+        
         <!-- Editor Screen -->
         <div class="editor-screen" id="editor-screen">
             <div class="container">
                 <div class="toolbar">
-                    <button class="toolbar-button" id="save-xml-button" title="Save Project">
+                    <button
+                        class="toolbar-button"
+                        id="save-xml-button"
+                        title="Save Project"
+                    >
                         <svg width="20" height="20" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/>
+                            <path
+                                fill="#4285F4"
+                                d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"
+                            />
                         </svg>
                     </button>
-                
-                    <button class="toolbar-button" id="export-button" title="Compile & Run">
+
+                    <button
+                        class="toolbar-button"
+                        id="export-button"
+                        title="Compile & Run"
+                    >
                         <svg width="20" height="20" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M8 5v14l11-7z"/>
+                            <path fill="#4285F4" d="M8 5v14l11-7z" />
                         </svg>
                     </button>
-                
-                    <button class="toolbar-button" id="run-button" title="Preview Code">
+
+                    <button
+                        class="toolbar-button"
+                        id="run-button"
+                        title="Preview Code"
+                    >
                         <svg width="20" height="20" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                            <path
+                                fill="#4285F4"
+                                d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                            />
                         </svg>
                     </button>
-                    
-                    <button class="toolbar-button" onclick="showStartScreen()" title="Back to Start">
+
+                    <button
+                        class="toolbar-button"
+                        onclick="showStartScreen()"
+                        title="Back to Start"
+                    >
                         <svg width="20" height="20" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                            <path
+                                fill="#4285F4"
+                                d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"
+                            />
                         </svg>
                     </button>
-                
-                    <button class="toolbar-button" onclick="openDocs()" title="Help">
+
+                    <button
+                        class="toolbar-button"
+                        onclick="openDocs()"
+                        title="Help"
+                    >
                         <svg width="20" height="20" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+                            <path
+                                fill="#4285F4"
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"
+                            />
                         </svg>
                     </button>
                 </div>
@@ -231,38 +300,44 @@
 
                             <!-- WINDOW DEBUG -->
                             <div class="property-item">
-                                <label>enableOverlay
-                                <input class="debug-item"
-                                id="window-debug-enable-overlay"
-                                type="checkbox"
-                                
+                                <label
+                                    >enableOverlay
+                                    <input
+                                        class="debug-item"
+                                        id="window-debug-enable-overlay"
+                                        type="checkbox"
                                 /></label>
                             </div>
 
                             <div class="property-item">
-                                <label>enableContRedraw (inefficient)
-                                <input class="debug-item"
-                                id="window-debug-enable-cont-redraw"
-                                type="checkbox"
-                                
+                                <label
+                                    >enableContRedraw (inefficient)
+                                    <input
+                                        class="debug-item"
+                                        id="window-debug-enable-cont-redraw"
+                                        type="checkbox"
                                 /></label>
                             </div>
 
                             <div class="property-item">
-                                <label>isVisible
-                                <input class="debug-item"
-                                id="window-debug-is-visible"
-                                type="checkbox"
-                                checked
+                                <label
+                                    >isVisible
+                                    <input
+                                        class="debug-item"
+                                        id="window-debug-is-visible"
+                                        type="checkbox"
+                                        checked
                                 /></label>
                             </div>
 
                             <div class="property-item">
-                                <label>isResizable
-                                <input class="debug-item"
-                                id="window-debug-is-resizable"
-                                type="checkbox"
-                                checked
+                                <label
+                                    >isResizable
+                                    <input
+                                        class="debug-item"
+                                        id="window-debug-is-resizable"
+                                        type="checkbox"
+                                        checked
                                 /></label>
                             </div>
                             <button
@@ -312,10 +387,8 @@
                                 />
                             </div>
 
-
-                            <div id="menu-properties" style="display: none;">
+                            <div id="menu-properties" style="display: none">
                                 <h4>Menu Properties</h4>
-                                
                             </div>
 
                             <div id="slider-properties" style="display: none">

@@ -17,8 +17,7 @@ const state = {
   isListInit: false,
 };
 
-
-document.addEventListener('contextmenu', event => event.preventDefault());
+document.addEventListener("contextmenu", (event) => event.preventDefault());
 
 window.nativeBridge = {
   runCommand: function (command) {
@@ -51,7 +50,6 @@ window.nativeBridge = {
   docsCommand: function () {
     return new Promise((resolve, reject) => {
       try {
-
         window
           ._docsCommand()
           .then((response) => {
@@ -73,7 +71,6 @@ window.nativeBridge = {
   },
 };
 
-
 function showEditor() {
   document.getElementById("start-screen").style.display = "none";
   document.getElementById("editor-screen").style.display = "block";
@@ -85,7 +82,6 @@ function showStartScreen() {
 }
 
 async function openDocs() {
-
   await nativeBridge.docsCommand();
 }
 
@@ -211,28 +207,38 @@ state.previewTitleBar.addEventListener("mousedown", (e) => {
 
 state.previewContent.addEventListener("mousedown", (e) => {
   const window_properties = document.getElementById("window-properties");
-  if (window_properties) window_properties.style.display = 'block';
+  if (window_properties) window_properties.style.display = "block";
 
-  const window_hint_debug_overlay = document.getElementById("window-debug-enable-overlay");
-  const window_hint_cont_redraw = document.getElementById("window-debug-enable-cont-redraw");
-  const window_hint_is_visible = document.getElementById("window-debug-is-visible");
-  const window_hint_is_resizable = document.getElementById("window-debug-is-resizable");
+  const window_hint_debug_overlay = document.getElementById(
+    "window-debug-enable-overlay",
+  );
+  const window_hint_cont_redraw = document.getElementById(
+    "window-debug-enable-cont-redraw",
+  );
+  const window_hint_is_visible = document.getElementById(
+    "window-debug-is-visible",
+  );
+  const window_hint_is_resizable = document.getElementById(
+    "window-debug-is-resizable",
+  );
 
   if (window_hint_debug_overlay) {
-    window_hint_debug_overlay.checked = state.previewWindow.dataset.debug_overlay === 'true';
+    window_hint_debug_overlay.checked =
+      state.previewWindow.dataset.debug_overlay === "true";
   }
   if (window_hint_cont_redraw) {
-    window_hint_cont_redraw.checked = state.previewWindow.dataset.cont_redraw === 'true';
+    window_hint_cont_redraw.checked =
+      state.previewWindow.dataset.cont_redraw === "true";
   }
   if (window_hint_is_visible) {
-    window_hint_is_visible.checked = state.previewWindow.dataset.is_visible === 'true';
+    window_hint_is_visible.checked =
+      state.previewWindow.dataset.is_visible === "true";
   }
   if (window_hint_is_resizable) {
-    window_hint_is_resizable.checked = state.previewWindow.dataset.is_resizable === 'true';
+    window_hint_is_resizable.checked =
+      state.previewWindow.dataset.is_resizable === "true";
   }
-
 });
-
 
 function onPreviewDragMove(e) {
   if (!isDraggingPreview) return;
@@ -278,7 +284,6 @@ function createWidget(type, x, y, parent = null) {
   newWidget.dataset.id = "widget_" + Date.now();
 
   switch (type) {
-
     case "Menu":
       newWidget.className += " widget-menu";
       newWidget.textContent = "Menu";
@@ -482,7 +487,6 @@ function createWidget(type, x, y, parent = null) {
   return newWidget;
 }
 
-
 function generateListItemForListOptions(id, item) {
   return `<li style="width: 90%; display: flex; flex-direction:row; gap:10px; align-items: center; margin-bottom: 10px;" id="list-option-${id}">
     <div style="display: flex; flex-direction: column;">
@@ -504,14 +508,14 @@ function deleteListOption(id) {
   let list = state.selectedWidget.dataset.listOptions
     ? JSON.parse(state.selectedWidget.dataset.listOptions)
     : [];
-  
+
   // Find the actual index by matching the id
   const index = list.findIndex((item, idx) => idx.toString() === id.toString());
-  
+
   if (index !== -1) {
     list.splice(index, 1);
     state.selectedWidget.dataset.listOptions = JSON.stringify(list);
-    
+
     // Update list items
     let listOptionsUL = document.getElementById("list-options");
     listOptionsUL.innerHTML = "";
@@ -525,19 +529,22 @@ function deleteDropdownOption(id) {
   let list = state.selectedWidget.dataset.dropdownOptions
     ? state.selectedWidget.dataset.dropdownOptions.split(",")
     : [];
-  
+
   // Find the actual index by matching the id
   const index = list.findIndex((item, idx) => idx.toString() === id.toString());
-  
+
   if (index !== -1) {
     list.splice(index, 1);
     state.selectedWidget.dataset.dropdownOptions = list.join(",");
-    
+
     // Update dropdown items
     let dropdownOptionsUL = document.getElementById("dropdown-options");
     dropdownOptionsUL.innerHTML = "";
     list.forEach((item, idx) => {
-      dropdownOptionsUL.innerHTML += generateListItemForDropdownOptions(idx, item);
+      dropdownOptionsUL.innerHTML += generateListItemForDropdownOptions(
+        idx,
+        item,
+      );
     });
   }
 }
@@ -603,8 +610,11 @@ function setupWidgetDrag(element) {
 }
 
 function onWidgetDragMove(e) {
-  if (!state.draggedWidget || state.draggedWidget.classList.contains("widget-menu")) return;
-
+  if (
+    !state.draggedWidget ||
+    state.draggedWidget.classList.contains("widget-menu")
+  )
+    return;
 
   e.preventDefault();
 
@@ -699,7 +709,6 @@ function selectWidget(widget) {
   widget.classList.add("selected");
   // hide window properties
 
-
   document.getElementById("window-properties").style.display = "none";
   document.getElementById("widget-properties").style.display = "block";
   document.getElementById("menu-properties").style.display = "none";
@@ -724,7 +733,6 @@ function selectWidget(widget) {
     document.getElementById("list-option-input-desc").value = "";
   } else if (widget.dataset.type === "Menu") {
     document.getElementById("menu-properties").style.display = "block";
-
   }
 
   updatePropertiesPanel();
@@ -917,21 +925,33 @@ function applyWindowSettings() {
   const width = document.getElementById("win-width").value;
   const height = document.getElementById("win-height").value;
 
-  state.previewTitleBar.querySelector(".preview-title-text").textContent = title;
+  state.previewTitleBar.querySelector(".preview-title-text").textContent =
+    title;
   state.previewWindow.style.width = width + "px";
   state.previewWindow.style.height = height + "px";
 
   // WINDOW HINTS
-  const window_hint_debug_overlay = document.getElementById("window-debug-enable-overlay").checked;
-  const window_hint_cont_redraw = document.getElementById("window-debug-enable-cont-redraw").checked;
-  const window_hint_is_visible = document.getElementById("window-debug-is-visible").checked;
-  const window_hint_is_resizable = document.getElementById("window-debug-is-resizable").checked;
+  const window_hint_debug_overlay = document.getElementById(
+    "window-debug-enable-overlay",
+  ).checked;
+  const window_hint_cont_redraw = document.getElementById(
+    "window-debug-enable-cont-redraw",
+  ).checked;
+  const window_hint_is_visible = document.getElementById(
+    "window-debug-is-visible",
+  ).checked;
+  const window_hint_is_resizable = document.getElementById(
+    "window-debug-is-resizable",
+  ).checked;
 
-  state.previewWindow.dataset.debug_overlay = window_hint_debug_overlay.toString();
+  state.previewWindow.dataset.debug_overlay =
+    window_hint_debug_overlay.toString();
   state.previewWindow.dataset.cont_redraw = window_hint_cont_redraw.toString();
   state.previewWindow.dataset.is_visible = window_hint_is_visible.toString();
-  state.previewWindow.dataset.is_resizable = window_hint_is_resizable.toString();
-  document.getElementById("status-text").textContent = "Window settings updated";
+  state.previewWindow.dataset.is_resizable =
+    window_hint_is_resizable.toString();
+  document.getElementById("status-text").textContent =
+    "Window settings updated";
   setTimeout(() => {
     document.getElementById("status-text").textContent = "Ready";
   }, 2000);
@@ -1139,21 +1159,18 @@ async function generateC() {
 
   // Window hints
   if (state.previewWindow.dataset.debug_overlay === "true")
-    cCode += `    //TODO: ADD CODE FOR DEBUG OVERLAY\n`;
+    cCode += `    GooeyWindow_EnableDebugOverlay(win, true);\n`;
 
   if (state.previewWindow.dataset.cont_redraw === "true")
     cCode += `    GooeyWindow_SetContinuousRedraw(win);\n`;
 
   if (state.previewWindow.dataset.is_visible === "true")
     cCode += `    GooeyWindow_MakeVisible(win, true);\n`;
-  else
-    cCode += `    GooeyWindow_MakeVisible(win, false);\n`;
+  else cCode += `    GooeyWindow_MakeVisible(win, false);\n`;
 
   if (state.previewWindow.dataset.is_resizable === "true")
     cCode += `    GooeyWindow_MakeResizable(win, true);\n`;
-  else
-    cCode += `    GooeyWindow_MakeResizable(win, false);\n`;
-
+  else cCode += `    GooeyWindow_MakeResizable(win, false);\n`;
 
   let widgetCount = 0;
   let widgetVars = [];
@@ -1257,7 +1274,6 @@ async function generateC() {
 
       case "Menu":
         widgetCode = `${indent}GooeyMenu *${widgetVar} = GooeyMenu_Set(win);\n`;
-
 
         break;
       case "VerticalLayout":
