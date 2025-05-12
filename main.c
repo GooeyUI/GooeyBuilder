@@ -341,10 +341,14 @@ int main()
         GooeyImage_Create("splashscreen.png", 0, 0, 736 / 2, 1104 / 2, NULL);
 
     GooeyTimer *timer = GooeyTimer_Create();
-    GooeyTimer_SetCallback(1500, timer, destroy_splash, splash_win);
+    GooeyTimer_SetCallback(3000, timer, destroy_splash, splash_win);
+    
+    
     GooeyWindow_RegisterWidget(splash_win, splash_bg);
     GooeyWindow_EnableDebugOverlay(splash_win, false);
+    
     GooeyWindow_Run(1, splash_win);
+    GooeyTimer_Destroy(timer);
     exit(EXIT_SUCCESS);
   }
   else

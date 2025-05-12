@@ -1703,11 +1703,7 @@ document
     
     settingsToggle.addEventListener('click', toggleSettings);
     closeSettings.addEventListener('click', toggleSettings);
-    showSettingsLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        toggleSettings();
-    });
-    
+
     const recentProjects = [
     ];
     

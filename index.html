@@ -12,76 +12,138 @@
     <body>
         <div class="start-screen light-mode" id="start-screen">
             <div class="ide-splash-container">
-                <div class="splash-header">
-                    <h1 class="welcome-title">GooeyDesigner</h1>
-                    <div class="version-info">
-                        Version 2025.5 
-                        <span class="version-badge">Alpha</span>
-                        <button class="settings-toggle" id="advanced-settings-toggle">
-                            <svg viewBox="0 0 24 24" width="16" height="16">
-                                <path fill="#2C3E50" d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="splash-content">
-                    <div class="quick-actions-section">
-                        <h3 class="section-title">Quick Start</h3>
-                        <div class="project-grid">
-                            <button class="project-card" onclick="showEditor('c')">
-                                <div class="project-icon">
-                                    <svg viewBox="0 0 24 24" width="24" height="24">
-                                        <path fill="#2C3E50" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                <div class="app-layout">
+                    <!-- New Sidebar -->
+                    <div class="app-sidebar">
+                        <div class="sidebar-header">
+                            <h1 class="app-logo">GooeyDesigner</h1>
+                            <div class="version-info">
+                                Version 2025.5 
+                                <span class="version-badge">Alpha</span>
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar-sections">
+                            <div class="sidebar-section">
+                                <h3 class="sidebar-title">Navigation</h3>
+                                <button class="sidebar-item active">
+                                    <svg viewBox="0 0 24 24" width="18" height="18">
+                                        <path fill="currentColor" d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
                                     </svg>
-                                </div>
-                                <div class="project-info">
-                                    <div class="project-name">C Project</div>
-                                    <div class="project-description">Create a new C project from scratch</div>
-                                </div>
-                                <div class="project-badge">GCC 12.2</div>
-                            </button>
-                            <button class="project-card" onclick="showEditor('python')">
-                                <div class="project-icon">
-                                    <svg viewBox="0 0 24 24" width="24" height="24">
-                                        <path fill="#2C3E50" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                    <span>Home</span>
+                                </button>
+                                <button class="sidebar-item">
+                                    <svg viewBox="0 0 24 24" width="18" height="18">
+                                        <path fill="currentColor" d="M15.5,12C18,12 20,14 20,16.5C20,17.38 19.75,18.21 19.31,18.9L22.39,22L21,23.39L17.88,20.32C17.19,20.75 16.37,21 15.5,21C13,21 11,19 11,16.5C11,14 13,12 15.5,12M15.5,14A2.5,2.5 0 0,0 13,16.5A2.5,2.5 0 0,0 15.5,19A2.5,2.5 0 0,0 18,16.5A2.5,2.5 0 0,0 15.5,14M10,4A4,4 0 0,1 14,8C14,8.91 13.69,9.75 13.18,10.43C12.32,10.75 11.55,11.26 10.91,11.9L10,12A4,4 0 0,1 6,8A4,4 0 0,1 10,4M2,20V18C2,15.88 5.31,14.14 9.5,14C9.18,14.78 9,15.62 9,16.5C9,17.79 9.38,19 10,20H2Z" />
                                     </svg>
-                                </div>
-                                <div class="project-info">
-                                    <div class="project-name">Python Project</div>
-                                    <div class="project-description">Create a new Python project</div>
-                                </div>
-                                <div class="project-badge">Python 3.11</div>
-                            </button>
-                            <button class="project-card" id="load-xml-button">
-                                <div class="project-icon">
-                                    <svg viewBox="0 0 24 24" width="24" height="24">
-                                        <path fill="#2C3E50" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                                    <span>Projects</span>
+                                </button>
+                                <button class="sidebar-item">
+                                    <svg viewBox="0 0 24 24" width="18" height="18">
+                                        <path fill="currentColor" d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
                                     </svg>
-                                </div>
-                                <div class="project-info">
-                                    <div class="project-name">Open Project</div>
-                                    <div class="project-description">Open existing project file</div>
-                                </div>
-                            </button>
-                            <button class="project-card" id="import-project-button">
-                                <div class="project-icon">
-                                    <svg viewBox="0 0 24 24" width="24" height="24">
-                                        <path fill="#2C3E50" d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M7,7V9H9V7H7M11,7V9H13V7H11M15,7V9H17V7H15M7,11V13H9V11H7M11,11V13H13V11H11M15,11V13H17V11H15M7,15V17H9V15H7M11,15V17H13V15H11M15,15V17H17V15H15Z" />
+                                    <span>Settings</span>
+                                </button>
+                            </div>
+                            
+                            <div class="sidebar-section">
+                                <h3 class="sidebar-title">Resources</h3>
+                                <button class="sidebar-item">
+                                    <svg viewBox="0 0 24 24" width="18" height="18">
+                                        <path fill="currentColor" d="M12,3L1,9L12,15L21,10.09V17H23V9M5,13.18V17.18L12,21L19,17.18V13.18L12,17L5,13.18Z" />
                                     </svg>
-                                </div>
-                                <div class="project-info">
-                                    <div class="project-name">Import</div>
-                                    <div class="project-description">Import from Git or ZIP</div>
-                                </div>
+                                    <span>Documentation</span>
+                                </button>
+                                <button class="sidebar-item">
+                                    <svg viewBox="0 0 24 24" width="18" height="18">
+                                        <path fill="currentColor" d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z" />
+                                    </svg>
+                                    <span>Plugins</span>
+                                </button>
+                                <button class="sidebar-item">
+                                    <svg viewBox="0 0 24 24" width="18" height="18">
+                                        <path fill="currentColor" d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M7,9.5C7,8.7 7.7,8 8.5,8C9.3,8 10,8.7 10,9.5C10,10.3 9.3,11 8.5,11C7.7,11 7,10.3 7,9.5M12,17.23C10.25,17.23 8.71,16.5 7.81,15.42L9.23,14C9.68,14.72 10.75,15.23 12,15.23C13.25,15.23 14.32,14.72 14.77,14L16.19,15.42C15.29,16.5 13.75,17.23 12,17.23M15.5,11C14.7,11 14,10.3 14,9.5C14,8.7 14.7,8 15.5,8C16.3,8 17,8.7 17,9.5C17,10.3 16.3,11 15.5,11Z" />
+                                    </svg>
+                                    <span>Community</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="sidebar-footer">
+                            <button class="settings-toggle" id="advanced-settings-toggle">
+                                <svg viewBox="0 0 24 24" width="16" height="16">
+                                    <path fill="currentColor" d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
+                                </svg>
+                                <span>Advanced Settings</span>
                             </button>
+                            <div class="copyright-info">© 2025 GooeyDesigner Team</div>
                         </div>
                     </div>
                     
-                    <div class="recent-projects-section">
-                        <h3 class="section-title">Recent Projects</h3>
-                        <div class="recent-list" id="recent-projects-list">
-                            <div class="recent-empty">No recent projects</div>
+                    <!-- Main Content Area -->
+                    <div class="app-main">
+                        <div class="splash-content">
+                            <div class="quick-actions-section">
+                                <h2 class="main-title">Welcome to GooeyDesigner</h2>
+                                <p class="subtitle">Start a new project or continue your work</p>
+                                
+                                <h3 class="section-title">Quick Start</h3>
+                                <div class="project-grid">
+                                    <button class="project-card" onclick="showEditor('c')">
+                                        <div class="project-icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                                <path fill="#2C3E50" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </div>
+                                        <div class="project-info">
+                                            <div class="project-name">C Project</div>
+                                            <div class="project-description">Create a new C project from scratch</div>
+                                        </div>
+                                        <div class="project-badge">GCC 12.2</div>
+                                    </button>
+                                    <button class="project-card" onclick="showEditor('python')">
+                                        <div class="project-icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                                <path fill="#2C3E50" d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                                            </svg>
+                                        </div>
+                                        <div class="project-info">
+                                            <div class="project-name">Python Project</div>
+                                            <div class="project-description">Create a new Python project</div>
+                                        </div>
+                                        <div class="project-badge">Python 3.11</div>
+                                    </button>
+                                    <button class="project-card" id="load-xml-button">
+                                        <div class="project-icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                                <path fill="#2C3E50" d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                                            </svg>
+                                        </div>
+                                        <div class="project-info">
+                                            <div class="project-name">Open Project</div>
+                                            <div class="project-description">Open existing project file</div>
+                                        </div>
+                                    </button>
+                                    <button class="project-card" id="import-project-button">
+                                        <div class="project-icon">
+                                            <svg viewBox="0 0 24 24" width="24" height="24">
+                                                <path fill="#2C3E50" d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M7,7V9H9V7H7M11,7V9H13V7H11M15,7V9H17V7H15M7,11V13H9V11H7M11,11V13H13V11H11M15,11V13H17V11H15M7,15V17H9V15H7M11,15V17H13V15H11M15,15V17H17V15H15Z" />
+                                            </svg>
+                                        </div>
+                                        <div class="project-info">
+                                            <div class="project-name">Import</div>
+                                            <div class="project-description">Import from Git or ZIP</div>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="recent-projects-section">
+                                <h3 class="section-title">Recent Projects</h3>
+                                <div class="recent-list" id="recent-projects-list">
+                                    <div class="recent-empty">No recent projects</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -117,7 +179,7 @@
                                     <option value="custom">Custom Path...</option>
                                 </select>
                             </div>
-
+        
                             <div class="setting-item">
                                 <label for="gooey-version">Gooey Framework version:</label>
                                 <select id="gooey-version">
@@ -156,19 +218,9 @@
                         </div>
                     </div>
                 </div>
-                
-                <div class="splash-footer">
-                    <div class="footer-links">
-                        <a href="#" class="footer-link">Documentation</a>
-                        <a href="#" class="footer-link">Plugins</a>
-                        <a href="#" class="footer-link">Community</a>
-                        <a href="#" class="footer-link" id="show-settings-link">Settings</a>
-                    </div>
-                    <div class="copyright-info">© 2025 GooeyDesigner Team - Build #20250512</div>
-                </div>
             </div>
         </div>
-      
+        
         <!-- Editor Screen -->
         <div class="editor-screen" id="editor-screen">
             <div class="container">
