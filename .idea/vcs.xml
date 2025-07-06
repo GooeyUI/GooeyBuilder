@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/third_party/pico_logger" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/third_party/webview" vcs="Git" />
   </component>
 </project>
