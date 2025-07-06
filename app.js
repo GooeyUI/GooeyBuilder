@@ -15,6 +15,12 @@ const state = {
   currentEditingWidget: null,
   isDropdownInit: false,
   isListInit: false,
+  selectedPlatform: null,
+  projectSettings: {
+    platform: null,
+    language: 'c', // default to C
+    frameworkVersion: '1.0.1'
+  }
 };
 
 document.addEventListener("contextmenu", (event) => event.preventDefault());
@@ -77,6 +83,7 @@ function showEditor() {
 }
 
 function showStartScreen() {
+  document.getElementById("platform-indicator").style.display = "none";
   document.getElementById("editor-screen").style.display = "none";
   document.getElementById("start-screen").style.display = "flex";
 }
@@ -1124,7 +1131,14 @@ function updateCallbackSelector(widgetId) {
 
 // Code generation
 async function generateC() {
-  let cCode = `#include <Gooey/gooey.h>\n\n`;
+  let cCode;
+  if (state.projectSettings.platform == "embedded") {
+      cCode = `#include <gooey.h>\n`;
+    cCode += `#include <Arduino.h>\n\n`;
+  } else {
+      cCode = `#include <Gooey/gooey.h>\n`;
+
+  }
 
   Object.entries(state.widgetCallbacks).forEach(([widgetId, callbacks]) => {
     if (callbacks.button && callbacks.button_code) {
@@ -1153,7 +1167,21 @@ async function generateC() {
     }
   });
 
-  cCode += `int main()\n{\n`;
+  switch (state.projectSettings.platform) {
+    case "embedded":
+
+      cCode += `void setup()\n{\n`;
+
+      break;
+    case "desktop":
+      cCode += `int main()\n{\n`;
+      break;
+    case "web":
+      break;
+    default:
+      break;
+  }
+
   cCode += `    Gooey_Init();\n`;
   cCode += `    GooeyWindow *win = GooeyWindow_Create("${document.getElementById("win-title").value}", ${document.getElementById("win-width").value}, ${document.getElementById("win-height").value}, true);\n\n`;
 
@@ -1202,7 +1230,7 @@ async function generateC() {
         }
         break;
       case "Input":
-        widgetCode = `${indent}GooeyTextbox *${widgetVar} = GooeyTextBox_Create(${x}, ${y}, ${width}, ${height}, "${text}", ${callbackName || "NULL"});\n`;
+        widgetCode = `${indent}GooeyTextbox *${widgetVar} = GooeyTextBox_Create(${x}, ${y}, ${width}, ${height}, "${text}", false, ${callbackName || "NULL"});\n`;
         if (callbackName) {
           state.widgetCallbacks[widgetId].input = callbackName;
         }
@@ -1314,8 +1342,16 @@ async function generateC() {
   });
 
   cCode += `\n    GooeyWindow_Run(1, win);\n`;
-  cCode += `    GooeyWindow_Cleanup(1, win);\n\n`;
-  cCode += `    return 0;\n}\n`;
+
+
+  if (state.projectSettings.platform == "embedded") {
+    cCode += `}\nvoid loop(){}`;
+  } else {
+    cCode += `    GooeyWindow_Cleanup(1, win);\n\n`;
+
+    cCode += `    return 0;\n}\n`;
+
+  }
 
   editor.setValue(cCode);
 
@@ -1684,6 +1720,75 @@ function loadProjectFromXML() {
   input.click();
 }
 
+function showPlatformSelection(language) {
+  state.projectSettings.language = language;
+  const modal = document.getElementById('platform-selection-modal');
+  modal.classList.add('active');
+
+  // Set up platform card selection
+  const platformCards = document.querySelectorAll('.platform-card');
+  platformCards.forEach(card => {
+    card.addEventListener('click', function () {
+      platformCards.forEach(c => c.classList.remove('selected'));
+      this.classList.add('selected');
+      state.selectedPlatform = this.dataset.platform;
+      state.projectSettings.platform = this.dataset.platform;
+      document.getElementById('confirm-platform-selection').disabled = false;
+    });
+  });
+
+  // Set up cancel button
+  document.getElementById('cancel-platform-selection').addEventListener('click', function () {
+    modal.classList.remove('active');
+    state.selectedPlatform = null;
+  });
+
+  // Set up confirm button
+  document.getElementById('confirm-platform-selection').addEventListener('click', function () {
+    modal.classList.remove('active');
+    createNewProject();
+  });
+}
+
+function createNewProject() {
+  console.log(`Creating new ${state.projectSettings.language} project for ${state.projectSettings.platform} platform`);
+
+  updateUIForPlatform();
+
+  showEditor();
+}
+
+function updateUIForPlatform() {
+
+  const platformIndicator = document.getElementById('platform-indicator');
+  platformIndicator.style.display = "block";
+
+  platformIndicator.textContent = `${state.projectSettings.platform.toUpperCase()} | ${state.projectSettings.language.toUpperCase()}`;
+}
+
+function showEditor(language) {
+  if (language) {
+    showPlatformSelection(language);
+  } else {
+    document.getElementById("start-screen").style.display = "none";
+    document.getElementById("editor-screen").style.display = "block";
+  }
+}
+
+document.querySelectorAll('.project-card').forEach(card => {
+  if (card.onclick) {
+    const originalOnClick = card.onclick;
+    card.onclick = null;
+    card.addEventListener('click', function () {
+      if (this.id === 'load-xml-button' || this.id === 'import-project-button') {
+        originalOnClick();
+      } else {
+        const language = this.querySelector('.project-name').textContent.toLowerCase().includes('python') ? 'python' : 'c';
+        showPlatformSelection(language);
+      }
+    });
+  }
+});
 document
   .getElementById("save-xml-button")
   .addEventListener("click", saveProjectToXML);
@@ -1691,26 +1796,26 @@ document
   .getElementById("load-xml-button")
   .addEventListener("click", loadProjectFromXML);
 
-  document.addEventListener('DOMContentLoaded', function() {
-    const settingsToggle = document.getElementById('advanced-settings-toggle');
-    const settingsPanel = document.getElementById('advanced-settings-panel');
-    const closeSettings = document.getElementById('close-settings-button');
-    const showSettingsLink = document.getElementById('show-settings-link');
-    
-    function toggleSettings() {
-        settingsPanel.classList.toggle('visible');
-    }
-    
-    settingsToggle.addEventListener('click', toggleSettings);
-    closeSettings.addEventListener('click', toggleSettings);
+document.addEventListener('DOMContentLoaded', function () {
+  const settingsToggle = document.getElementById('advanced-settings-toggle');
+  const settingsPanel = document.getElementById('advanced-settings-panel');
+  const closeSettings = document.getElementById('close-settings-button');
+  const showSettingsLink = document.getElementById('show-settings-link');
 
-    const recentProjects = [
-    ];
-    
-    const recentList = document.getElementById('recent-projects-list');
-    
-    if (recentProjects.length === 0) {
-        recentList.innerHTML = '<div class="recent-empty">No recent projects</div>';
-    } else {
-    }
+  function toggleSettings() {
+    settingsPanel.classList.toggle('visible');
+  }
+
+  settingsToggle.addEventListener('click', toggleSettings);
+  closeSettings.addEventListener('click', toggleSettings);
+
+  const recentProjects = [
+  ];
+
+  const recentList = document.getElementById('recent-projects-list');
+
+  if (recentProjects.length === 0) {
+    recentList.innerHTML = '<div class="recent-empty">No recent projects</div>';
+  } else {
+  }
 });

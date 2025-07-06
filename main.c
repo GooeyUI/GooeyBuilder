@@ -342,11 +342,11 @@ int main()
 
     GooeyTimer *timer = GooeyTimer_Create();
     GooeyTimer_SetCallback(3000, timer, destroy_splash, splash_win);
-    
-    
+
+
     GooeyWindow_RegisterWidget(splash_win, splash_bg);
     GooeyWindow_EnableDebugOverlay(splash_win, false);
-    
+
     GooeyWindow_Run(1, splash_win);
     GooeyTimer_Destroy(timer);
     exit(EXIT_SUCCESS);
