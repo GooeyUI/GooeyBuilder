@@ -1,9 +1,0 @@
-[submodule "third_party/webview"]
-	path = third_party/webview
-	url = https://github.com/webview/webview.git
-[submodule "third_party/mongoose"]
-	path = third_party/mongoose
-	url = https://github.com/cesanta/mongoose.git
-[submodule "third_party/pico_logger"]
-	path = third_party/pico_logger
-	url = git@github.com:YASSINE-AA/Pico-Logger.git

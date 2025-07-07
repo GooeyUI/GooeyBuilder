@@ -2,9 +2,17 @@
 
 An complete IDE for the Gooey GUI Toolkit.
 
-<img src="./designer.png">
+<img src="./web/designer.png">
 
-<img src="./code_editor.png">
+<img src="./web/code_editor.png">
+
+## Usage:
+- To run it locally install these dependencies first <br> 
+```bash 
+pip3 install eel
+```
+- run `python3 main.py`
+
 
 
 ## Features
