@@ -984,7 +984,7 @@ body {
 }
 
 .splash-content {
-    padding: 30px;
+    padding: 150px;
     overflow-y: auto;
     flex-grow: 1;
 }

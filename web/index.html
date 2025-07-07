@@ -7,6 +7,10 @@
         <link rel="stylesheet" href="styles.css" />
         <link rel="stylesheet" href="codemirror.min.css" />
         <link rel="stylesheet" href="dracula.min.css" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
     </head>
 
     <body>
@@ -92,19 +96,7 @@
                                         <path fill="currentColor" d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
                                     </svg>
                                     <span>Home</span>
-                                </button>
-                                <button class="sidebar-item">
-                                    <svg viewBox="0 0 24 24" width="18" height="18">
-                                        <path fill="currentColor" d="M15.5,12C18,12 20,14 20,16.5C20,17.38 19.75,18.21 19.31,18.9L22.39,22L21,23.39L17.88,20.32C17.19,20.75 16.37,21 15.5,21C13,21 11,19 11,16.5C11,14 13,12 15.5,12M15.5,14A2.5,2.5 0 0,0 13,16.5A2.5,2.5 0 0,0 15.5,19A2.5,2.5 0 0,0 18,16.5A2.5,2.5 0 0,0 15.5,14M10,4A4,4 0 0,1 14,8C14,8.91 13.69,9.75 13.18,10.43C12.32,10.75 11.55,11.26 10.91,11.9L10,12A4,4 0 0,1 6,8A4,4 0 0,1 10,4M2,20V18C2,15.88 5.31,14.14 9.5,14C9.18,14.78 9,15.62 9,16.5C9,17.79 9.38,19 10,20H2Z" />
-                                    </svg>
-                                    <span>Projects</span>
-                                </button>
-                                <button class="sidebar-item">
-                                    <svg viewBox="0 0 24 24" width="18" height="18">
-                                        <path fill="currentColor" d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
-                                    </svg>
-                                    <span>Settings</span>
-                                </button>
+                             
                             </div>
                             
                             <div class="sidebar-section">
@@ -174,26 +166,10 @@
                                             <div class="project-description">Open existing project file</div>
                                         </div>
                                     </button>
-                                    <button class="project-card" id="import-project-button">
-                                        <div class="project-icon">
-                                            <svg viewBox="0 0 24 24" width="24" height="24">
-                                                <path fill="#2C3E50" d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M7,7V9H9V7H7M11,7V9H13V7H11M15,7V9H17V7H15M7,11V13H9V11H7M11,11V13H13V11H11M15,11V13H17V11H15M7,15V17H9V15H7M11,15V17H13V15H11M15,15V17H17V15H15Z" />
-                                            </svg>
-                                        </div>
-                                        <div class="project-info">
-                                            <div class="project-name">Import</div>
-                                            <div class="project-description">Import from Git or ZIP</div>
-                                        </div>
-                                    </button>
+                                 
                                 </div>
                             </div>
-                            
-                            <div class="recent-projects-section">
-                                <h3 class="section-title">Recent Projects</h3>
-                                <div class="recent-list" id="recent-projects-list">
-                                    <div class="recent-empty">No recent projects</div>
-                                </div>
-                            </div>
+                          
                         </div>
                     </div>
                 </div>
@@ -352,45 +328,69 @@
 
                         <div class="toolbox-section">
                             <h4>Widgets</h4>
-                            <div class="toolbox-item" data-type="Button">
-                                Button
-                            </div>
-                            <div class="toolbox-item" data-type="Input">
-                                Input
+                           <div class="toolbox-item" data-type="Label">
+                                Label
                             </div>
                             <div class="toolbox-item" data-type="Slider">
                                 Slider
                             </div>
-                            <div class="toolbox-item" data-type="Checkbox">
-                                Checkbox
-                            </div>
-                            <div class="toolbox-item" data-type="Label">
-                                Label
-                            </div>
-                            <div class="toolbox-item" data-type="Dropdown">
-                                Dropdown
-                            </div>
-                            <div class="toolbox-item" data-type="Image">
-                                Image
-                            </div>
-                            <div class="toolbox-item" data-type="Tabs">
-                                Tabview
-                            </div>
-                            <div class="toolbox-item" data-type="List">
-                                List
-                            </div>
-                            <div class="toolbox-item" data-type="Plot">
-                                Plot
-                            </div>
-                            <div
+                              <div
                                 class="toolbox-item"
                                 data-type="RadioButtonGroup"
                             >
                                 RadioButtonGroup
                             </div>
+                              <div class="toolbox-item" data-type="Checkbox">
+                                Checkbox
+                            </div>
+                           
+                            <div class="toolbox-item" data-type="Button">
+                                Button
+                            </div>
+                                <div class="toolbox-item" data-type="Input">
+                                Textbox
+                            </div>
+                           
+                          
+                            <div class="toolbox-item" data-type="Dropdown">
+                                Dropdown
+                            </div>
+                              <div class="toolbox-item" data-type="Plot">
+                                Plot
+                            </div>
+                            
                             <div class="toolbox-item" data-type="DropSurface">
                                 File Drop Surface
                             </div>
+                            <div class="toolbox-item" data-type="Image">
+                                Image
+                            </div>
+                           <div class="toolbox-item" data-type="List">
+                                List
+                            </div>
+                             <div class="toolbox-item" data-type="Progressbar">
+                                Progress Bar
+                            </div>
+
+                           <div class="toolbox-item" data-type="Meter">
+                                Meter
+                            </div>
+                            
+                            
+                           <div class="toolbox-item" data-type="Container">
+                                Container
+                            </div>
+                            
+
+                           <div class="toolbox-item" data-type="GSwitch">
+                                Switch
+                            </div>
+
+                            <div class="toolbox-item" data-type="Tabs">
+                                Tabs
+                            </div>
+                           
+                         
                         </div>
 
                         <div class="toolbox-section">
