@@ -23,8 +23,12 @@ def run_code(cmd):
         return f"Execution failed: {str(e)}"
 
 def start_gui():
+    system = platform.system()
     try:
-        eel.start('splash.html', port=8000)
+        if system != "Windows":
+            eel.start('splash.html', port=8000)
+        else:
+            eel.start('splash.html', port=8000, mode='edge')
     except Exception:
         print("Failed to launch GUI.")
         traceback.print_exc()
