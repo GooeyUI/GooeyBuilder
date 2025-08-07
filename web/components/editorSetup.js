@@ -2,6 +2,13 @@ export function setupEditors() {
   const editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
     mode: "text/x-csrc",
     theme: "default",
+    innerHeight: "100%",
+    outerHeight: "100%",
+
+    lineNumbers: true,
+    lineWrapping: true,
+    matchBrackets: true,
+    autoCloseBrackets: true,
     extraKeys: {
       "Ctrl-Space": "autocomplete",
     },
@@ -12,11 +19,35 @@ export function setupEditors() {
     {
       mode: "text/x-csrc",
       theme: "default",
+      innerHeight: "100%",
+      outerHeight: "100%",
+
+      lineNumbers: true,
+      lineWrapping: true,
+      matchBrackets: true,
+      autoCloseBrackets: true,
       extraKeys: {
         "Ctrl-Space": "autocomplete",
       },
     }
   );
+  const uiXmlEditor = CodeMirror.fromTextArea(
+    document.getElementById("ui-xml-editor"),
+    {
+      mode: "text/x-csrc",
+      theme: "default",
+      innerHeight: "100%",
+      outerHeight: "100%",
+      lineNumbers: true,
+      lineWrapping: true,
+      matchBrackets: true,
+      autoCloseBrackets: true,
+      extraKeys: {
+        "Ctrl-Space": "autocomplete",
+      },
+    }
+  );
+
 
   CodeMirror.registerHelper("hint", "c", (cm) => {
     const cur = cm.getCursor();
@@ -45,5 +76,5 @@ export function setupEditors() {
     };
   });
 
-  return { editor, callbackEditor };
+  return { editor, callbackEditor, uiXmlEditor };
 }

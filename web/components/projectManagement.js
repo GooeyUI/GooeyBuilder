@@ -2,7 +2,8 @@ import state from './state.js';
 import { updateWidgetList } from './propertiesPanel.js';
 import { showEditor } from './uiHelpers.js';
 import { createWidget } from './widgetManagement.js';
-export function saveProjectToXML() {
+
+export function generateProjectXML() {
   const xmlDoc = document.implementation.createDocument(null, "project");
   const root = xmlDoc.documentElement;
 
@@ -80,7 +81,14 @@ export function saveProjectToXML() {
   });
 
   const serializer = new XMLSerializer();
-  const xmlString = serializer.serializeToString(xmlDoc);
+  return serializer.serializeToString(xmlDoc);
+}
+
+export function saveProjectToXML() {
+  const xmlString = generateProjectXML();
+
+  // Update UI.xml editor content
+  state.uiXmlEditor.setValue(xmlString);
 
   const blob = new Blob([xmlString], { type: "application/xml" });
   const url = URL.createObjectURL(blob);
@@ -192,10 +200,13 @@ export function loadProjectFromXML() {
           });
         }
 
+        // Update UI.xml editor content
+        state.uiXmlEditor.setValue(event.target.result);
+
         updateWidgetList();
-        document.getElementById("status-text").textContent = "Project loaded from XML";
         showEditor();
 
+        document.getElementById("status-text").textContent = "Project loaded from XML";
         setTimeout(() => {
           document.getElementById("status-text").textContent = "Ready";
         }, 2000);
@@ -212,3 +223,116 @@ export function loadProjectFromXML() {
 
   input.click();
 }
+
+export function setupEditors() {
+  const editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+    mode: "text/x-csrc",
+    theme: "default",
+    extraKeys: {
+      "Ctrl-Space": "autocomplete",
+    },
+  });
+
+  const callbackEditor = CodeMirror.fromTextArea(
+    document.getElementById("callback-editor"),
+    {
+      mode: "text/x-csrc",
+      theme: "default",
+      extraKeys: {
+        "Ctrl-Space": "autocomplete",
+      },
+    }
+  );
+
+  const uiXmlEditor = CodeMirror.fromTextArea(
+    document.getElementById("ui-xml-editor"),
+    {
+      mode: "xml",
+      theme: "default",
+      extraKeys: {
+        "Ctrl-Space": "autocomplete",
+      },
+    }
+  );
+
+  CodeMirror.registerHelper("hint", "c", (cm) => {
+    const cur = cm.getCursor();
+    const token = cm.getTokenAt(cur);
+    const keywords = [
+      "int",
+      "float",
+      "char",
+      "if",
+      "else",
+      "while",
+      "for",
+      "return",
+      "printf",
+      "scanf",
+      "#include",
+      "#define",
+      "struct",
+      "typedef",
+    ];
+    const list = keywords.filter((word) => word.startsWith(token.string));
+    return {
+      list: list.length ? list : keywords,
+      from: CodeMirror.Pos(cur.line, token.start),
+      to: CodeMirror.Pos(cur.line, token.end),
+    };
+  });
+
+  CodeMirror.registerHelper("hint", "xml", (cm) => {
+    const cur = cm.getCursor();
+    const token = cm.getTokenAt(cur);
+    const tags = [
+      "gooey",
+      "window",
+      "widgets",
+      "widget",
+      "callback",
+      "children",
+    ];
+    const attributes = [
+      "title",
+      "width",
+      "height",
+      "x",
+      "y",
+      "type",
+      "id",
+      "minValue",
+      "maxValue",
+      "showHints",
+      "relativePath",
+      "dropsurfaceMessage",
+      "dropdownOptions",
+      "listOptions",
+      "text",
+      "name",
+    ];
+    const list = token.type === "tag" ? tags : attributes;
+    const filtered = list.filter((item) => item.startsWith(token.string));
+    return {
+      list: filtered.length ? filtered : list,
+      from: CodeMirror.Pos(cur.line, token.start),
+      to: CodeMirror.Pos(cur.line, token.end),
+    };
+  });
+
+  state.editor = editor;
+  state.callbackEditor = callbackEditor;
+  state.uiXmlEditor = uiXmlEditor;
+
+
+  return { editor, callbackEditor, uiXmlEditor };
+}
+
+document.querySelectorAll(".document-tab").forEach((tab) => {
+  tab.addEventListener("click", () => {
+    document.querySelectorAll(".document-tab").forEach((t) => t.classList.remove("active"));
+    document.querySelectorAll(".tab-content").forEach((c) => c.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById(`${tab.dataset.tab}-tab`).classList.add("active");
+  });
+});

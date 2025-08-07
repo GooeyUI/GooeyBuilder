@@ -1,6 +1,8 @@
 const state = {
     editor: null,
     callbackEditor:null,
+    uiXmlEditor: null,
+    projectXml : null,
     previewContent: null,
     previewWindow: null,
     previewTitleBar: null,
@@ -19,6 +21,7 @@ const state = {
     isListInit: false,
     selectedPlatform: null,
     projectSettings: {
+        name: null,
         platform: null,
         language: 'c', // default to C
         frameworkVersion: '1.0.1'

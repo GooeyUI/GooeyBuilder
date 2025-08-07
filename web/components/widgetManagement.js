@@ -2,6 +2,8 @@ import state from './state.js';
 import { updatePropertiesPanel, selectWidget } from './propertiesPanel.js';
 import { setupEditorDrag, setupWidgetDrag } from './dragHandlers.js';
 import { updateWidgetList } from './propertiesPanel.js';
+import { generateProjectXML } from './projectManagement.js';
+
 export function createWidget(type, x, y, parent = null) {
   let newWidget = document.createElement("div");
   newWidget.className = "widget";
@@ -9,6 +11,10 @@ export function createWidget(type, x, y, parent = null) {
   newWidget.dataset.id = "widget_" + Date.now();
 
   switch (type) {
+    case "RadioButtonGroup":
+      newWidget.className += " widget-radiobuttongrp";
+      newWidget.textContent = "RadioButton";
+      break;
     case "Menu":
       newWidget.className += " widget-menu";
       newWidget.textContent = "Menu";
@@ -78,6 +84,40 @@ export function createWidget(type, x, y, parent = null) {
       newWidget.style.height = "200px";
       newWidget.textContent = "List";
       break;
+    case "Progressbar":
+      newWidget.className += " widget-progressbar";
+      newWidget.style.width = "150px";
+      newWidget.style.height = "10px";
+      newWidget.innerHTML = '<div class="progress-fill" style="width: 50%;"></div>';
+      break;
+    case "Meter":
+      newWidget.className += " widget-meter";
+      newWidget.style.width = "100px";
+      newWidget.style.height = "100px";
+      newWidget.textContent = "Meter";
+      break;
+    case "GSwitch":
+      newWidget.className += " widget-gswitch";
+      newWidget.style.width = "40px";
+      newWidget.style.height = "20px";
+      newWidget.innerHTML = '<div class="switch-toggle"></div>';
+      newWidget.addEventListener("click", function (e) {
+        e.stopPropagation();
+        this.classList.toggle("checked");
+      });
+      break;
+    case "Tabs":
+      newWidget.className += " widget-tabs";
+      newWidget.style.width = "200px";
+      newWidget.style.height = "150px";
+      newWidget.innerHTML = `
+        <div class="tab-header">
+          <div class="tab-item active">Tab 1</div>
+          <div class="tab-item">Tab 2</div>
+        </div>
+        <div class="tab-content">Tab 1 Content</div>
+      `;
+      break;
     case "VerticalLayout":
       newWidget.className += " layout vertical";
       newWidget.style.width = "200px";
@@ -96,6 +136,27 @@ export function createWidget(type, x, y, parent = null) {
       placeholderH.textContent = "Drop widgets here";
       newWidget.appendChild(placeholderH);
       break;
+    case "Container":
+      newWidget.className += " layout container";
+      newWidget.style.width = "200px";
+      newWidget.style.height = "200px";
+      const placeholderC = document.createElement("div");
+      placeholderC.className = "layout-placeholder";
+      placeholderC.textContent = "Drop widgets here";
+      newWidget.appendChild(placeholderC);
+      break;
+    case "Overlay":
+      newWidget.className += " widget-overlay";
+      newWidget.textContent = "Overlay";
+      newWidget.style.width = "200px";
+      newWidget.style.height = "150px";
+      break;
+    case "Plot":
+      newWidget.className += " widget-plot";
+      newWidget.textContent = "Plot";
+      newWidget.style.width = "200px";
+      newWidget.style.height = "150px";
+      break;
   }
 
   newWidget.style.left = x + "px";
@@ -111,7 +172,7 @@ export function createWidget(type, x, y, parent = null) {
     state.previewContent.appendChild(newWidget);
   }
 
-  if (type === "VerticalLayout" || type === "HorizontalLayout") {
+  if (type === "VerticalLayout" || type === "HorizontalLayout" || type === "Container") {
     const resizeHandle = document.createElement("div");
     resizeHandle.className = "resize-handle";
     newWidget.appendChild(resizeHandle);
@@ -190,27 +251,41 @@ export function createWidget(type, x, y, parent = null) {
     dropdown: "",
     dropsurface: "",
     list: "",
+    progressbar: "",
+    meter: "",
+    gswitch: "",
+    tabs: "",
+    container: "",
+    overlay: "",
+    plot: "",
   };
 
   updateWidgetList();
-
+  state.projectXml = generateProjectXML();
+  const unformattedXMLCode = state.projectXml;
+  try {
+    const formattedXMLCode = prettier.format(unformattedXMLCode, { parser: 'babel', plugins: prettierPlugins });
+    state.uiXmlEditor.setValue(formattedXMLCode);
+  } catch (e) {
+    console.error("Prettier formatting failed:", e);
+  }
   return newWidget;
 }
 
 function generateListItemForListOptions(id, item) {
-  return `<li style="width: 90%; display: flex; flex-direction:row; gap:10px; align-items: center; margin-bottom: 10px;" id="list-option-${id}">
-    <div style="display: flex; flex-direction: column;">
-      <span style="font-weight: bold;">${item.name}</span>
-      <span style="font-size: 0.8em; color: #666;">${item.description}</span>
+  return `<li class="option-item" id="list-option-${id}">
+    <div class="option-content">
+      <span class="option-name">${item.name}</span>
+      <span class="option-desc">${item.description}</span>
     </div>
-    <button style="margin-left: auto;" class="button" onclick="deleteListOption(${id})">delete</button>
+    <button class="button" onclick="deleteListOption(${id})">delete</button>
   </li>`;
 }
 
 function generateListItemForDropdownOptions(id, item) {
-  return `<li style="width: 90%; display: flex; flex-direction:row; gap:10px; align-items: center; margin-bottom: 10px;" id="dropdown-option-${id}">
-    <span style="margin-right: auto;">${item}</span>
-    <button style="margin-left: auto;" class="button" onclick="deleteDropdownOption(${id})">delete</button>
+  return `<li class="option-item" id="dropdown-option-${id}">
+    <span class="option-name">${item}</span>
+    <button class="button" onclick="deleteDropdownOption(${id})">delete</button>
   </li>`;
 }
 
@@ -291,3 +366,72 @@ export function setupWidgetSelection(element) {
     selectWidget(element);
   });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize theme based on system preference or default to dark
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const initialTheme = prefersDark ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', initialTheme);
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    themeToggle.querySelector('.material-icons').textContent = initialTheme === 'dark' ? 'light_mode' : 'dark_mode';
+  }
+
+  // Theme toggle button
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      themeToggle.querySelector('.material-icons').textContent = newTheme === 'dark' ? 'light_mode' : 'dark_mode';
+    });
+  } else {
+    console.warn('Theme toggle button not found');
+  }
+
+  // Platform selection modal
+  const platformModal = document.getElementById('platform-selection-modal');
+  const showPlatformSelection = () => {
+    if (platformModal) {
+      platformModal.classList.add('active');
+    }
+  };
+  window.showPlatformSelection = showPlatformSelection; // Expose for HTML onclick
+  const cancelButton = document.getElementById('cancel-platform-selection');
+  if (cancelButton) {
+    cancelButton.addEventListener('click', () => {
+      if (platformModal) {
+        platformModal.classList.remove('active');
+      }
+    });
+  }
+
+  // Advanced settings panel
+  const settingsToggle = document.getElementById('advanced-settings-toggle');
+  const settingsToggleEditor = document.getElementById('advanced-settings-toggle-editor');
+  const settingsPanel = document.getElementById('advanced-settings-panel');
+  const closeSettingsButton = document.getElementById('close-settings-button');
+  if (settingsToggle && settingsPanel) {
+    settingsToggle.addEventListener('click', () => {
+      settingsPanel.classList.add('visible');
+    });
+  }
+  if (settingsToggleEditor && settingsPanel) {
+    settingsToggleEditor.addEventListener('click', () => {
+      settingsPanel.classList.add('visible');
+    });
+  }
+  if (closeSettingsButton && settingsPanel) {
+    closeSettingsButton.addEventListener('click', () => {
+      settingsPanel.classList.remove('visible');
+    });
+  }
+
+  // Mock function for documentation link
+  window.openDocs = () => {
+    window.open('https://gooeyui.github.io/GooeyGUI/quickstart.html', '_blank');
+  };
+
+  // Initialize preview content
+  state.previewContent = document.getElementById('preview-content');
+});

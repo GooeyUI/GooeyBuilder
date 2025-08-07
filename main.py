@@ -26,13 +26,13 @@ def start_gui():
     system = platform.system()
     try:
         if system != "Windows":
-            eel.start('splash.html', port=8000)
+            eel.start('index.html', port=8000, size=(800, 600))
         else:
-            eel.start('splash.html', port=8000, mode='edge')
+            eel.start('index.html', port=8000, mode='edge')
     except Exception:
         print("Failed to launch GUI.")
         traceback.print_exc()
-        eel.start('index.html', mode='none', port=8000)
+        eel.start('index.html', mode='none', port=8000, size=(800, 600))
 
 if __name__ == "__main__":
     try:

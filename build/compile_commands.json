@@ -1,0 +1,56 @@
+[
+{
+  "directory": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/build",
+  "command": "/usr/bin/g++ -I/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/test_driver/include -g -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpedantic -o test_driver/CMakeFiles/webview_test_driver.dir/src/test_driver.cc.o -c /home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/test_driver/src/test_driver.cc",
+  "file": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/test_driver/src/test_driver.cc",
+  "output": "test_driver/CMakeFiles/webview_test_driver.dir/src/test_driver.cc.o"
+},
+{
+  "directory": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/build",
+  "command": "/usr/bin/g++ -DWEBVIEW_BUILD_SHARED -Dwebview_core_shared_EXPORTS -I/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/include -isystem /usr/include/webkitgtk-6.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/gtk-4.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/harfbuzz -isystem /usr/local/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/graphene-1.0 -isystem /usr/lib/x86_64-linux-gnu/graphene-1.0/include -isystem /usr/include/libsoup-3.0 -isystem /usr/include/sysprof-6 -g -std=c++11 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpedantic -mfpmath=sse -msse -msse2 -pthread -o core/CMakeFiles/webview_core_shared.dir/src/webview.cc.o -c /home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/src/webview.cc",
+  "file": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/src/webview.cc",
+  "output": "core/CMakeFiles/webview_core_shared.dir/src/webview.cc.o"
+},
+{
+  "directory": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/build",
+  "command": "/usr/bin/g++ -DWEBVIEW_STATIC -I/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/include -isystem /usr/include/webkitgtk-6.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/gtk-4.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/harfbuzz -isystem /usr/local/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/graphene-1.0 -isystem /usr/lib/x86_64-linux-gnu/graphene-1.0/include -isystem /usr/include/libsoup-3.0 -isystem /usr/include/sysprof-6 -g -std=c++11 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpedantic -mfpmath=sse -msse -msse2 -pthread -o core/CMakeFiles/webview_core_static.dir/src/webview.cc.o -c /home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/src/webview.cc",
+  "file": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/src/webview.cc",
+  "output": "core/CMakeFiles/webview_core_static.dir/src/webview.cc.o"
+},
+{
+  "directory": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/build",
+  "command": "/usr/bin/g++ -I/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/include -I/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/test_driver/include -isystem /usr/include/webkitgtk-6.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/gtk-4.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/harfbuzz -isystem /usr/local/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/graphene-1.0 -isystem /usr/lib/x86_64-linux-gnu/graphene-1.0/include -isystem /usr/include/libsoup-3.0 -isystem /usr/include/sysprof-6 -g -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpedantic -mfpmath=sse -msse -msse2 -pthread -o core/tests/CMakeFiles/webview_core_functional_tests.dir/src/functional_tests.cc.o -c /home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/tests/src/functional_tests.cc",
+  "file": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/tests/src/functional_tests.cc",
+  "output": "core/tests/CMakeFiles/webview_core_functional_tests.dir/src/functional_tests.cc.o"
+},
+{
+  "directory": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/build",
+  "command": "/usr/bin/g++ -I/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/include -I/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/test_driver/include -isystem /usr/include/webkitgtk-6.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/gtk-4.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/harfbuzz -isystem /usr/local/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/graphene-1.0 -isystem /usr/lib/x86_64-linux-gnu/graphene-1.0/include -isystem /usr/include/libsoup-3.0 -isystem /usr/include/sysprof-6 -g -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpedantic -mfpmath=sse -msse -msse2 -pthread -o core/tests/CMakeFiles/webview_core_unit_tests.dir/src/unit_tests.cc.o -c /home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/tests/src/unit_tests.cc",
+  "file": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/tests/src/unit_tests.cc",
+  "output": "core/tests/CMakeFiles/webview_core_unit_tests.dir/src/unit_tests.cc.o"
+},
+{
+  "directory": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/build",
+  "command": "/usr/bin/gcc -DWEBVIEW_STATIC -I/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/include -isystem /usr/include/webkitgtk-6.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/gtk-4.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/harfbuzz -isystem /usr/local/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/graphene-1.0 -isystem /usr/lib/x86_64-linux-gnu/graphene-1.0/include -isystem /usr/include/libsoup-3.0 -isystem /usr/include/sysprof-6 -g -std=c99 -Wall -Wextra -Wpedantic -mfpmath=sse -msse -msse2 -pthread -o examples/CMakeFiles/webview_example_basic_c.dir/basic.c.o -c /home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/examples/basic.c",
+  "file": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/examples/basic.c",
+  "output": "examples/CMakeFiles/webview_example_basic_c.dir/basic.c.o"
+},
+{
+  "directory": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/build",
+  "command": "/usr/bin/g++ -I/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/include -isystem /usr/include/webkitgtk-6.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/gtk-4.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/harfbuzz -isystem /usr/local/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/graphene-1.0 -isystem /usr/lib/x86_64-linux-gnu/graphene-1.0/include -isystem /usr/include/libsoup-3.0 -isystem /usr/include/sysprof-6 -g -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpedantic -mfpmath=sse -msse -msse2 -pthread -o examples/CMakeFiles/webview_example_basic_cc.dir/basic.cc.o -c /home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/examples/basic.cc",
+  "file": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/examples/basic.cc",
+  "output": "examples/CMakeFiles/webview_example_basic_cc.dir/basic.cc.o"
+},
+{
+  "directory": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/build",
+  "command": "/usr/bin/gcc -DWEBVIEW_STATIC -I/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/include -isystem /usr/include/webkitgtk-6.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/gtk-4.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/harfbuzz -isystem /usr/local/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/graphene-1.0 -isystem /usr/lib/x86_64-linux-gnu/graphene-1.0/include -isystem /usr/include/libsoup-3.0 -isystem /usr/include/sysprof-6 -g -std=c99 -Wall -Wextra -Wpedantic -mfpmath=sse -msse -msse2 -pthread -o examples/CMakeFiles/webview_example_bind_c.dir/bind.c.o -c /home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/examples/bind.c",
+  "file": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/examples/bind.c",
+  "output": "examples/CMakeFiles/webview_example_bind_c.dir/bind.c.o"
+},
+{
+  "directory": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/build",
+  "command": "/usr/bin/g++ -I/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/core/include -isystem /usr/include/webkitgtk-6.0 -isystem /usr/include/glib-2.0 -isystem /usr/lib/x86_64-linux-gnu/glib-2.0/include -isystem /usr/include/gtk-4.0 -isystem /usr/include/pango-1.0 -isystem /usr/include/harfbuzz -isystem /usr/local/include/freetype2 -isystem /usr/include/libpng16 -isystem /usr/include/libmount -isystem /usr/include/blkid -isystem /usr/include/fribidi -isystem /usr/include/cairo -isystem /usr/include/pixman-1 -isystem /usr/include/gdk-pixbuf-2.0 -isystem /usr/include/webp -isystem /usr/include/graphene-1.0 -isystem /usr/lib/x86_64-linux-gnu/graphene-1.0/include -isystem /usr/include/libsoup-3.0 -isystem /usr/include/sysprof-6 -g -std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpedantic -mfpmath=sse -msse -msse2 -pthread -o examples/CMakeFiles/webview_example_bind_cc.dir/bind.cc.o -c /home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/examples/bind.cc",
+  "file": "/home/yassine-ahmed-ali/Documents/GooeyBuilder/third_party/webview/examples/bind.cc",
+  "output": "examples/CMakeFiles/webview_example_bind_cc.dir/bind.cc.o"
+}
+]

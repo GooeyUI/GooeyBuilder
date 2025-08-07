@@ -1,0 +1,162 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install",
+			"webview_install_targets"
+		],
+		"files" : 
+		[
+			"cmake/internal.cmake",
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 33,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 239,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 244,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 275,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 285,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 306,
+				"parent" : 1
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 2,
+			"component" : "webview_headers",
+			"destination" : "include",
+			"paths" : 
+			[
+				"cmake/../core/include/webview"
+			],
+			"type" : "directory"
+		},
+		{
+			"backtrace" : 3,
+			"component" : "webview_cmake",
+			"destination" : "lib/cmake/webview",
+			"paths" : 
+			[
+				"cmake/modules"
+			],
+			"type" : "directory"
+		},
+		{
+			"backtrace" : 4,
+			"component" : "webview_libraries",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"core/libwebviewd.so.0.12.0",
+				"core/libwebviewd.so.0.12"
+			],
+			"targetId" : "webview_core_shared::@57760688d1f824db5d9c",
+			"targetIndex" : 30,
+			"targetInstallNamelink" : "skip",
+			"type" : "target"
+		},
+		{
+			"backtrace" : 4,
+			"component" : "webview_libraries",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"core/libwebviewd.so"
+			],
+			"targetId" : "webview_core_shared::@57760688d1f824db5d9c",
+			"targetIndex" : 30,
+			"targetInstallNamelink" : "only",
+			"type" : "target"
+		},
+		{
+			"backtrace" : 4,
+			"component" : "webview_libraries",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"core/libwebviewd.a"
+			],
+			"targetId" : "webview_core_static::@57760688d1f824db5d9c",
+			"targetIndex" : 31,
+			"type" : "target"
+		},
+		{
+			"backtrace" : 5,
+			"component" : "webview_cmake",
+			"destination" : "lib/cmake/webview",
+			"exportName" : "webview_targets",
+			"exportTargets" : 
+			[
+				{
+					"id" : "webview_core_headers::@57760688d1f824db5d9c",
+					"index" : 0
+				},
+				{
+					"id" : "webview_core_shared::@57760688d1f824db5d9c",
+					"index" : 30
+				},
+				{
+					"id" : "webview_core_static::@57760688d1f824db5d9c",
+					"index" : 31
+				}
+			],
+			"paths" : 
+			[
+				"CMakeFiles/Export/430eb9249be4b5c56328442c1cae0bc7/webview-targets.cmake"
+			],
+			"type" : "export"
+		},
+		{
+			"backtrace" : 6,
+			"component" : "webview_cmake",
+			"destination" : "lib/cmake/webview",
+			"paths" : 
+			[
+				"cmake/webview.cmake",
+				"/home/yassine-ahmed-ali/Documents/GooeyBuilder/build/webview-config.cmake",
+				"/home/yassine-ahmed-ali/Documents/GooeyBuilder/build/webview-config-version.cmake"
+			],
+			"type" : "file"
+		}
+	],
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	}
+}
