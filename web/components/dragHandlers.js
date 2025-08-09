@@ -1,20 +1,10 @@
 import state from "./state.js";
 import { selectWidget, updatePropertiesPanel } from "./propertiesPanel.js";
 export function setupEditorDrag(codeEditor) {
-  const codeEditorHeader = codeEditor.querySelector(".code-editor-header");
   let isDraggingEditor = false;
   let editorDragOffsetX = 0;
   let editorDragOffsetY = 0;
 
-  codeEditorHeader.addEventListener("mousedown", (e) => {
-    if (e.target === codeEditorHeader.querySelector("div:last-child")) return;
-
-    isDraggingEditor = true;
-    editorDragOffsetX = e.clientX - codeEditor.getBoundingClientRect().left;
-    editorDragOffsetY = e.clientY - codeEditor.getBoundingClientRect().top;
-    document.addEventListener("mousemove", onEditorDragMove);
-    document.addEventListener("mouseup", onEditorDragEnd);
-  });
 
   function onEditorDragMove(e) {
     if (!isDraggingEditor) return;

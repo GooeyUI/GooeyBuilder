@@ -1,1202 +1,832 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>GooeyDesigner</title>
-        <link rel="stylesheet" href="styles.css" />
-        <link rel="stylesheet" href="codemirror.min.css" />
-        <link rel="stylesheet" href="dracula.min.css" />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/icon?family=Material+Icons"
-        />
-        <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        />
-        <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="/apple-touch-icon.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/favicon-32x32.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
-    </head>
-    <body data-theme="light">
-        <div class="platform-selection-modal" id="platform-selection-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Create New Project</h2>
-                    <p>
-                        Configure your project settings and select a target
-                        platform
-                    </p>
-                </div>
-                <!-- Backend Services Section -->
-                <div class="modal-section">
-                    <h3 class="section-toggle" data-section="backend">
-                        Backend Services
-                        <span class="material-icons">expand_more</span>
-                    </h3>
-                    <div class="section-content" id="backend-settings">
-                        <div class="platform-grid">
-                            <div
-                                class="platform-card"
-                                data-service="firebase-auth"
-                            >
-                                <div class="platform-icon">
-                                    <span class="material-icons">security</span>
-                                </div>
-                                <div class="platform-info">
-                                    <h3>Firebase Authentication</h3>
-                                    <p>
-                                        User authentication with email, Google,
-                                        and more
-                                    </p>
-                                </div>
-                                <div class="platform-badge">Firebase</div>
-                                <button
-                                    class="btn-secondary backend-config-btn"
-                                    id="firebase-auth-config"
-                                    disabled
-                                >
-                                    Configure
-                                </button>
-                            </div>
-                            <div
-                                class="platform-card"
-                                data-service="firebase-firestore"
-                            >
-                                <div class="platform-icon">
-                                    <span class="material-icons">cloud</span>
-                                </div>
-                                <div class="platform-info">
-                                    <h3>Firebase Firestore</h3>
-                                    <p>Real-time NoSQL database for your app</p>
-                                </div>
-                                <div class="platform-badge">Firestore</div>
-                                <button
-                                    class="btn-secondary backend-config-btn"
-                                    id="firebase-firestore-config"
-                                    disabled
-                                >
-                                    Configure
-                                </button>
-                            </div>
-                            <div class="platform-card" data-service="sqlite">
-                                <div class="platform-icon">
-                                    <span class="material-icons">storage</span>
-                                </div>
-                                <div class="platform-info">
-                                    <h3>SQLite</h3>
-                                    <p>Local database for offline storage</p>
-                                </div>
-                                <div class="platform-badge">Local</div>
-                                <button
-                                    class="btn-secondary backend-config-btn"
-                                    id="sqlite-config"
-                                    disabled
-                                >
-                                    Configure
-                                </button>
-                            </div>
-                            <div class="platform-card" data-service="rest-api">
-                                <div class="platform-icon">
-                                    <span class="material-icons">api</span>
-                                </div>
-                                <div class="platform-info">
-                                    <h3>REST API</h3>
-                                    <p>Connect to custom RESTful APIs</p>
-                                </div>
-                                <div class="platform-badge">Custom</div>
-                                <button
-                                    class="btn-secondary backend-config-btn"
-                                    id="rest-api-config"
-                                    disabled
-                                >
-                                    Configure
-                                </button>
-                            </div>
-                        </div>
-                        <div class="setting-item">
-                            <span class="help-text"
-                                >Select one or more backend services to
-                                configure for your project.</span
-                            >
-                        </div>
-                    </div>
-                </div>
-                <!-- General Settings -->
-                <div class="modal-section">
-                    <h3 class="section-toggle" data-section="general">
-                        General Settings
-                        <span class="material-icons">expand_more</span>
-                    </h3>
-                    <div class="section-content" id="general-settings">
-                        <div class="setting-item">
-                            <label for="project-name">Project Name:</label>
-                            <input
-                                type="text"
-                                id="project-name"
-                                placeholder="MyProject"
-                                aria-describedby="project-name-desc"
-                                required
-                            />
-                            <span id="project-name-desc" class="help-text"
-                                >Enter a unique name for your project
-                                (alphanumeric, no spaces).</span
-                            >
-                        </div>
-                    </div>
-                </div>
-                <!-- Target Platform -->
-                <div class="modal-section">
-                    <h3 class="section-toggle" data-section="platform">
-                        Target Platform
-                        <span class="material-icons">expand_more</span>
-                    </h3>
-                    <div class="section-content" id="platform-settings">
-                        <div class="platform-grid">
-                            <div class="platform-card" data-platform="desktop">
-                                <div class="platform-icon">
-                                    <span class="material-icons"
-                                        >desktop_windows</span
-                                    >
-                                </div>
-                                <div class="platform-info">
-                                    <h3>Desktop</h3>
-                                    <p>Windows, macOS, Linux applications</p>
-                                </div>
-                                <div class="platform-badge">Native</div>
-                            </div>
-                            <div class="platform-card" data-platform="web">
-                                <div class="platform-icon">
-                                    <span class="material-icons">web</span>
-                                </div>
-                                <div class="platform-info">
-                                    <h3>Web</h3>
-                                    <p>WebAssembly and HTML5 applications</p>
-                                </div>
-                                <div class="platform-badge">WASM</div>
-                            </div>
-                            <div class="platform-card" data-platform="embedded">
-                                <div class="platform-icon">
-                                    <span class="material-icons">memory</span>
-                                </div>
-                                <div class="platform-info">
-                                    <h3>Embedded</h3>
-                                    <p>Microcontrollers and IoT devices</p>
-                                </div>
-                                <div class="platform-badge">ARM</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Toolchain Configuration -->
-                <div class="modal-section">
-                    <h3 class="section-toggle" data-section="toolchain">
-                        Toolchain Configuration
-                        <span class="material-icons">expand_more</span>
-                    </h3>
-                    <div class="section-content" id="toolchain-settings">
-                        <div class="setting-item">
-                            <label for="toolkit-version"
-                                >Toolkit Version:</label
-                            >
-                            <select id="toolkit-version">
-                                <option value="gcc-12.2">
-                                    GCC 12.2 (Default)
-                                </option>
-                                <option value="gcc-11.4">GCC 11.4</option>
-                                <option value="clang-15">Clang 15</option>
-                                <option value="custom">Custom Path...</option>
-                            </select>
-                        </div>
-                        <div class="setting-item">
-                            <label for="python-interpreter"
-                                >Python Interpreter (for Python
-                                projects):</label
-                            >
-                            <select id="python-interpreter">
-                                <option value="none">
-                                    None (C/C++ Project)
-                                </option>
-                                <option value="python3.11">Python 3.11</option>
-                                <option value="python3.10">Python 3.10</option>
-                                <option value="python3.9">Python 3.9</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project Template -->
-                <div class="modal-section">
-                    <h3 class="section-toggle" data-section="template">
-                        Project Template
-                        <span class="material-icons">expand_more</span>
-                    </h3>
-                    <div class="section-content" id="template-settings">
-                        <div class="setting-item">
-                            <label for="project-template">Template:</label>
-                            <select id="project-template">
-                                <option value="empty">Empty Project</option>
-                                <option value="basic-gui">
-                                    Basic GUI Application
-                                </option>
-                                <option value="data-viz">
-                                    Data Visualization
-                                </option>
-                                <option value="iot">
-                                    IoT Device (Embedded)
-                                </option>
-                            </select>
-                            <span class="help-text"
-                                >Select a template to pre-configure your project
-                                structure.</span
-                            >
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal Footer -->
-                <div class="modal-footer">
-                    <button
-                        class="btn-secondary"
-                        id="cancel-platform-selection"
-                    >
-                        Cancel
-                    </button>
-                    <button class="btn-primary" id="validate-project-settings">
-                        Validate
-                    </button>
-                    <button
-                        class="btn-primary"
-                        id="confirm-platform-selection"
-                        disabled
-                    >
-                        Create Project
-                    </button>
-                </div>
-            </div>
-        </div>
 
-        <!-- Firebase Authentication Config Modal -->
-        <div class="config-modal" id="firebase-auth-config-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Configure Firebase Authentication</h2>
-                    <p>Set up Firebase Authentication for your project</p>
-                </div>
-                <div class="modal-section">
-                    <div class="setting-item">
-                        <label for="firebase-auth-api-key">API Key:</label>
-                        <input
-                            type="text"
-                            id="firebase-auth-api-key"
-                            placeholder="Enter Firebase API Key"
-                            required
-                        />
-                        <span class="help-text"
-                            >Your Firebase project's API key from the Firebase
-                            Console.</span
-                        >
-                    </div>
-                    <div class="setting-item">
-                        <label for="firebase-auth-project-id"
-                            >Project ID:</label
-                        >
-                        <input
-                            type="text"
-                            id="firebase-auth-project-id"
-                            placeholder="Enter Firebase Project ID"
-                            required
-                        />
-                        <span class="help-text"
-                            >The unique identifier for your Firebase
-                            project.</span
-                        >
-                    </div>
-                    <div class="setting-item">
-                        <label>Authentication Providers:</label>
-                        <div class="checkbox-group">
-                            <label
-                                ><input
-                                    type="checkbox"
-                                    name="firebase-auth-providers"
-                                    value="email"
-                                />
-                                Email/Password</label
-                            >
-                            <label
-                                ><input
-                                    type="checkbox"
-                                    name="firebase-auth-providers"
-                                    value="google"
-                                />
-                                Google</label
-                            >
-                            <label
-                                ><input
-                                    type="checkbox"
-                                    name="firebase-auth-providers"
-                                    value="anonymous"
-                                />
-                                Anonymous</label
-                            >
-                        </div>
-                        <span class="help-text"
-                            >Select at least one authentication provider.</span
-                        >
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button
-                        class="btn-secondary"
-                        data-config-cancel="firebase-auth"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        class="btn-primary"
-                        data-config-save="firebase-auth"
-                        disabled
-                    >
-                        Save
-                    </button>
-                </div>
-            </div>
-        </div>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GooeyDesigner</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="codemirror.min.css" />
+    <link rel="stylesheet" href="dracula.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+</head>
 
-        <!-- Firebase Firestore Config Modal -->
-        <div class="config-modal" id="firebase-firestore-config-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Configure Firebase Firestore</h2>
-                    <p>Set up Firestore for real-time data storage</p>
-                </div>
-                <div class="modal-section">
-                    <div class="setting-item">
-                        <label for="firebase-firestore-api-key">API Key:</label>
-                        <input
-                            type="text"
-                            id="firebase-firestore-api-key"
-                            placeholder="Enter Firebase API Key"
-                            required
-                        />
-                        <span class="help-text"
-                            >Your Firebase project's API key from the Firebase
-                            Console.</span
-                        >
-                    </div>
-                    <div class="setting-item">
-                        <label for="firebase-firestore-project-id"
-                            >Project ID:</label
-                        >
-                        <input
-                            type="text"
-                            id="firebase-firestore-project-id"
-                            placeholder="Enter Firebase Project ID"
-                            required
-                        />
-                        <span class="help-text"
-                            >The unique identifier for your Firebase
-                            project.</span
-                        >
-                    </div>
-                    <div class="setting-item">
-                        <label for="firebase-firestore-collection"
-                            >Default Collection:</label
-                        >
-                        <input
-                            type="text"
-                            id="firebase-firestore-collection"
-                            placeholder="Enter default collection name"
-                            required
-                        />
-                        <span class="help-text"
-                            >The default collection for your Firestore
-                            database.</span
-                        >
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button
-                        class="btn-secondary"
-                        data-config-cancel="firebase-firestore"
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        class="btn-primary"
-                        data-config-save="firebase-firestore"
-                        disabled
-                    >
-                        Save
-                    </button>
-                </div>
+<body data-theme="light">
+    <div class="platform-selection-modal" id="platform-selection-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Project</h2>
+                <p>
+                    Configure your project settings and select a target
+                    platform
+                </p>
             </div>
-        </div>
-
-        <!-- SQLite Config Modal -->
-        <div class="config-modal" id="sqlite-config-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Configure SQLite</h2>
-                    <p>Set up SQLite for local database storage</p>
-                </div>
-                <div class="modal-section">
-                    <div class="setting-item">
-                        <label for="sqlite-db-path">Database Path:</label>
-                        <input
-                            type="text"
-                            id="sqlite-db-path"
-                            placeholder="Enter database file path"
-                            required
-                        />
-                        <span class="help-text"
-                            >Relative path for the SQLite database file (e.g.,
-                            ./data/app.db).</span
-                        >
-                    </div>
-                    <div class="setting-item">
-                        <label for="sqlite-schema"
-                            >Schema File (Optional):</label
-                        >
-                        <input
-                            type="text"
-                            id="sqlite-schema"
-                            placeholder="Enter schema file path"
-                        />
-                        <span class="help-text"
-                            >Optional path to a SQL schema file for
-                            initialization.</span
-                        >
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn-secondary" data-config-cancel="sqlite">
-                        Cancel
-                    </button>
-                    <button
-                        class="btn-primary"
-                        data-config-save="sqlite"
-                        disabled
-                    >
-                        Save
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- REST API Config Modal -->
-        <div class="config-modal" id="rest-api-config-modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2>Configure REST API</h2>
-                    <p>Connect to a custom RESTful API</p>
-                </div>
-                <div class="modal-section">
-                    <div class="setting-item">
-                        <label for="rest-api-base-url">Base URL:</label>
-                        <input
-                            type="text"
-                            id="rest-api-base-url"
-                            placeholder="Enter API base URL"
-                            required
-                        />
-                        <span class="help-text"
-                            >The base URL for your REST API (e.g.,
-                            https://api.example.com).</span
-                        >
-                    </div>
-                    <div class="setting-item">
-                        <label for="rest-api-auth-key"
-                            >API Key (Optional):</label
-                        >
-                        <input
-                            type="text"
-                            id="rest-api-auth-key"
-                            placeholder="Enter API key"
-                        />
-                        <span class="help-text"
-                            >Optional API key for authentication.</span
-                        >
-                    </div>
-                    <div class="setting-item">
-                        <label for="rest-api-auth-type"
-                            >Authentication Type:</label
-                        >
-                        <select id="rest-api-auth-type" required>
-                            <option value="none">None</option>
-                            <option value="bearer">Bearer Token</option>
-                            <option value="basic">Basic Auth</option>
-                        </select>
-                        <span class="help-text"
-                            >Select the authentication type for the API.</span
-                        >
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn-secondary" data-config-cancel="rest-api">
-                        Cancel
-                    </button>
-                    <button
-                        class="btn-primary"
-                        data-config-save="rest-api"
-                        disabled
-                    >
-                        Save
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div class="start-screen" id="start-screen">
-            <div class="ide-splash-container">
-                <div class="hero-section">
-                    <div class="hero-content">
-                        <h1 class="hero-title">GooeyDesigner Aqua</h1>
-                        <p class="hero-subtitle">
-                            Build stunning applications with ease. Create,
-                            design, and deploy across platforms.
-                        </p>
-                        <div class="hero-actions">
-                            <button
-                                class="btn-primary hero-btn"
-                                onclick="showPlatformSelection()"
-                            >
-                                <span class="material-icons">add_circle</span>
-                                New Project
+            <!-- Backend Services Section -->
+            <div class="modal-section">
+                <h3 class="section-toggle" data-section="backend">
+                    Backend Services
+                    <span class="material-icons">expand_more</span>
+                </h3>
+                <div class="section-content" id="backend-settings">
+                    <div class="platform-grid">
+                        <div class="platform-card" data-service="firebase-auth">
+                            <div class="platform-icon">
+                                <span class="material-icons">security</span>
+                            </div>
+                            <div class="platform-info">
+                                <h3>Firebase Authentication</h3>
+                                <p>
+                                    User authentication with email, Google,
+                                    and more
+                                </p>
+                            </div>
+                            <div class="platform-badge">Firebase</div>
+                            <button class="btn-secondary backend-config-btn" id="firebase-auth-config" disabled>
+                                Configure
                             </button>
-                            <button
-                                class="btn-secondary hero-btn"
-                                id="load-xml-button"
-                            >
-                                <span class="material-icons">folder_open</span>
-                                Open Project
+                        </div>
+                        <div class="platform-card" data-service="firebase-firestore">
+                            <div class="platform-icon">
+                                <span class="material-icons">cloud</span>
+                            </div>
+                            <div class="platform-info">
+                                <h3>Firebase Firestore</h3>
+                                <p>Real-time NoSQL database for your app</p>
+                            </div>
+                            <div class="platform-badge">Firestore</div>
+                            <button class="btn-secondary backend-config-btn" id="firebase-firestore-config" disabled>
+                                Configure
+                            </button>
+                        </div>
+                        <div class="platform-card" data-service="sqlite">
+                            <div class="platform-icon">
+                                <span class="material-icons">storage</span>
+                            </div>
+                            <div class="platform-info">
+                                <h3>SQLite</h3>
+                                <p>Local database for offline storage</p>
+                            </div>
+                            <div class="platform-badge">Local</div>
+                            <button class="btn-secondary backend-config-btn" id="sqlite-config" disabled>
+                                Configure
+                            </button>
+                        </div>
+                        <div class="platform-card" data-service="rest-api">
+                            <div class="platform-icon">
+                                <span class="material-icons">api</span>
+                            </div>
+                            <div class="platform-info">
+                                <h3>REST API</h3>
+                                <p>Connect to custom RESTful APIs</p>
+                            </div>
+                            <div class="platform-badge">Custom</div>
+                            <button class="btn-secondary backend-config-btn" id="rest-api-config" disabled>
+                                Configure
                             </button>
                         </div>
                     </div>
-                    <div class="hero-visual">
-                        <div class="hero-graphic"></div>
+                    <div class="setting-item">
+                        <span class="help-text">Select one or more backend services to
+                            configure for your project.</span>
                     </div>
                 </div>
-                <div class="templates-section">
-                    <div class="templates-header">
-                        <h2 class="section-title">Quickstart</h2>
-                        <p class="section-subtitle">
-                            Choose a project template to get started quickly
+            </div>
+            <!-- General Settings -->
+            <div class="modal-section">
+                <h3 class="section-toggle" data-section="general">
+                    General Settings
+                    <span class="material-icons">expand_more</span>
+                </h3>
+                <div class="section-content" id="general-settings">
+                    <div class="setting-item">
+                        <label for="project-name">Project Name:</label>
+                        <input type="text" id="project-name" placeholder="MyProject"
+                            aria-describedby="project-name-desc" required />
+                        <span id="project-name-desc" class="help-text">Enter a unique name for your project
+                            (alphanumeric, no spaces).</span>
                     </div>
-                    <div class="project-grid">
-                        <button
-                            class="project-card"
-                            onclick="showPlatformSelection('c')"
-                            data-template="c-project"
-                        >
-                            <div class="project-icon">
-                                <span class="material-icons">code</span>
+                </div>
+            </div>
+            <!-- Target Platform -->
+            <div class="modal-section">
+                <h3 class="section-toggle" data-section="platform">
+                    Target Platform
+                    <span class="material-icons">expand_more</span>
+                </h3>
+                <div class="section-content" id="platform-settings">
+                    <div class="platform-grid">
+                        <div class="platform-card" data-platform="desktop">
+                            <div class="platform-icon">
+                                <span class="material-icons">desktop_windows</span>
                             </div>
-                            <div class="project-info">
-                                <div class="project-name">C Project</div>
-                                <div class="project-description">
-                                    Start a new C project with a minimal setup
-                                    for desktop or embedded systems.
-                                </div>
+                            <div class="platform-info">
+                                <h3>Desktop</h3>
+                                <p>Windows, macOS, Linux applications</p>
                             </div>
-                            <div class="project-badge">GCC</div>
-                        </button>
-                        <button
-                            class="project-card"
-                            onclick="showPlatformSelection('python')"
-                            data-template="python-project"
-                        >
-                            <div class="project-icon">
-                                <span class="material-icons">code</span>
-                            </div>
-                            <div class="project-info">
-                                <div class="project-name">Python Project</div>
-                                <div class="project-description">
-                                    Start a new Python project with a minimal setup
-                                    for desktop environments.
-                                </div>
-                            </div>
-                            <div class="project-badge">Python</div>
-                        </button>
-                        <button
-                            class="project-card"
-                            onclick="showPlatformSelection()"
-                            data-template="gui-app"
-                        >
-                            <div class="project-icon">
-                                <span class="material-icons"
-                                    >desktop_windows</span
-                                >
-                            </div>
-                            <div class="project-info">
-                                <div class="project-name">GUI Application</div>
-                                <div class="project-description">
-                                    Build a cross-platform GUI app with
-                                    pre-configured widgets.
-                                </div>
-                            </div>
-                            <div class="project-badge">Native</div>
-                        </button>
-                        <button
-                            class="project-card"
-                            onclick="showPlatformSelection()"
-                            data-template="web-app"
-                        >
-                            <div class="project-icon">
+                            <div class="platform-badge">Native</div>
+                        </div>
+                        <div class="platform-card" data-platform="web">
+                            <div class="platform-icon">
                                 <span class="material-icons">web</span>
                             </div>
-                            <div class="project-info">
-                                <div class="project-name">Web Application</div>
-                                <div class="project-description">
-                                    Develop a web-based app using WebAssembly
-                                    and HTML5.
-                                </div>
+                            <div class="platform-info">
+                                <h3>Web</h3>
+                                <p>WebAssembly and HTML5 applications</p>
                             </div>
-                            <div class="project-badge">WASM</div>
-                        </button>
-                        <button
-                            class="project-card"
-                            onclick="showPlatformSelection()"
-                            data-template="iot-device"
-                        >
-                            <div class="project-icon">
+                            <div class="platform-badge">WASM</div>
+                        </div>
+                        <div class="platform-card" data-platform="embedded">
+                            <div class="platform-icon">
                                 <span class="material-icons">memory</span>
                             </div>
-                            <div class="project-info">
-                                <div class="project-name">IoT Device</div>
-                                <div class="project-description">
-                                    Create an embedded project for
-                                    microcontrollers and IoT devices.
-                                </div>
+                            <div class="platform-info">
+                                <h3>Embedded</h3>
+                                <p>Microcontrollers and IoT devices</p>
                             </div>
-                            <div class="project-badge">ARM</div>
-                        </button>
+                            <div class="platform-badge">ARM</div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- Toolchain Configuration -->
+            <div class="modal-section">
+                <h3 class="section-toggle" data-section="toolchain">
+                    Toolchain Configuration
+                    <span class="material-icons">expand_more</span>
+                </h3>
+                <div class="section-content" id="toolchain-settings">
+                    <div class="setting-item">
+                        <label for="toolkit-version">Toolkit Version:</label>
+                        <select id="toolkit-version">
+                            <option value="gcc-12.2">
+                                GCC 12.2 (Default)
+                            </option>
+                            <option value="gcc-11.4">GCC 11.4</option>
+                            <option value="clang-15">Clang 15</option>
+                            <option value="custom">Custom Path...</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label for="python-interpreter">Python Interpreter (for Python
+                            projects):</label>
+                        <select id="python-interpreter">
+                            <option value="none">
+                                None (C/C++ Project)
+                            </option>
+                            <option value="python3.11">Python 3.11</option>
+                            <option value="python3.10">Python 3.10</option>
+                            <option value="python3.9">Python 3.9</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- Project Template -->
+            <div class="modal-section">
+                <h3 class="section-toggle" data-section="template">
+                    Project Template
+                    <span class="material-icons">expand_more</span>
+                </h3>
+                <div class="section-content" id="template-settings">
+                    <div class="setting-item">
+                        <label for="project-template">Template:</label>
+                        <select id="project-template">
+                            <option value="empty">Empty Project</option>
+                            <option value="basic-gui">
+                                Basic GUI Application
+                            </option>
+                            <option value="data-viz">
+                                Data Visualization
+                            </option>
+                            <option value="iot">
+                                IoT Device (Embedded)
+                            </option>
+                        </select>
+                        <span class="help-text">Select a template to pre-configure your project
+                            structure.</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancel-platform-selection">
+                    Cancel
+                </button>
+                <button class="btn-primary" id="validate-project-settings">
+                    Validate
+                </button>
+                <button class="btn-primary" id="confirm-platform-selection" disabled>
+                    Create Project
+                </button>
+            </div>
         </div>
+    </div>
 
-        <div class="editor-screen" id="editor-screen">
-            <div class="container">
-                <div class="toolbar">
-                    <div id="platform-indicator"></div>
-                    <button
-                        class="toolbar-button"
-                        id="save-xml-button"
-                        title="Save Project"
-                    >
-                        <span class="material-icons">save</span>
+    <!-- Firebase Authentication Config Modal -->
+    <div class="config-modal" id="firebase-auth-config-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Configure Firebase Authentication</h2>
+                <p>Set up Firebase Authentication for your project</p>
+            </div>
+            <div class="modal-section">
+                <div class="setting-item">
+                    <label for="firebase-auth-api-key">API Key:</label>
+                    <input type="text" id="firebase-auth-api-key" placeholder="Enter Firebase API Key" required />
+                    <span class="help-text">Your Firebase project's API key from the Firebase
+                        Console.</span>
+                </div>
+                <div class="setting-item">
+                    <label for="firebase-auth-project-id">Project ID:</label>
+                    <input type="text" id="firebase-auth-project-id" placeholder="Enter Firebase Project ID" required />
+                    <span class="help-text">The unique identifier for your Firebase
+                        project.</span>
+                </div>
+                <div class="setting-item">
+                    <label>Authentication Providers:</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="firebase-auth-providers" value="email" />
+                            Email/Password</label>
+                        <label><input type="checkbox" name="firebase-auth-providers" value="google" />
+                            Google</label>
+                        <label><input type="checkbox" name="firebase-auth-providers" value="anonymous" />
+                            Anonymous</label>
+                    </div>
+                    <span class="help-text">Select at least one authentication provider.</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" data-config-cancel="firebase-auth">
+                    Cancel
+                </button>
+                <button class="btn-primary" data-config-save="firebase-auth" disabled>
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase Firestore Config Modal -->
+    <div class="config-modal" id="firebase-firestore-config-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Configure Firebase Firestore</h2>
+                <p>Set up Firestore for real-time data storage</p>
+            </div>
+            <div class="modal-section">
+                <div class="setting-item">
+                    <label for="firebase-firestore-api-key">API Key:</label>
+                    <input type="text" id="firebase-firestore-api-key" placeholder="Enter Firebase API Key" required />
+                    <span class="help-text">Your Firebase project's API key from the Firebase
+                        Console.</span>
+                </div>
+                <div class="setting-item">
+                    <label for="firebase-firestore-project-id">Project ID:</label>
+                    <input type="text" id="firebase-firestore-project-id" placeholder="Enter Firebase Project ID"
+                        required />
+                    <span class="help-text">The unique identifier for your Firebase
+                        project.</span>
+                </div>
+                <div class="setting-item">
+                    <label for="firebase-firestore-collection">Default Collection:</label>
+                    <input type="text" id="firebase-firestore-collection" placeholder="Enter default collection name"
+                        required />
+                    <span class="help-text">The default collection for your Firestore
+                        database.</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" data-config-cancel="firebase-firestore">
+                    Cancel
+                </button>
+                <button class="btn-primary" data-config-save="firebase-firestore" disabled>
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SQLite Config Modal -->
+    <div class="config-modal" id="sqlite-config-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Configure SQLite</h2>
+                <p>Set up SQLite for local database storage</p>
+            </div>
+            <div class="modal-section">
+                <div class="setting-item">
+                    <label for="sqlite-db-path">Database Path:</label>
+                    <input type="text" id="sqlite-db-path" placeholder="Enter database file path" required />
+                    <span class="help-text">Relative path for the SQLite database file (e.g.,
+                        ./data/app.db).</span>
+                </div>
+                <div class="setting-item">
+                    <label for="sqlite-schema">Schema File (Optional):</label>
+                    <input type="text" id="sqlite-schema" placeholder="Enter schema file path" />
+                    <span class="help-text">Optional path to a SQL schema file for
+                        initialization.</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" data-config-cancel="sqlite">
+                    Cancel
+                </button>
+                <button class="btn-primary" data-config-save="sqlite" disabled>
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- REST API Config Modal -->
+    <div class="config-modal" id="rest-api-config-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Configure REST API</h2>
+                <p>Connect to a custom RESTful API</p>
+            </div>
+            <div class="modal-section">
+                <div class="setting-item">
+                    <label for="rest-api-base-url">Base URL:</label>
+                    <input type="text" id="rest-api-base-url" placeholder="Enter API base URL" required />
+                    <span class="help-text">The base URL for your REST API (e.g.,
+                        https://api.example.com).</span>
+                </div>
+                <div class="setting-item">
+                    <label for="rest-api-auth-key">API Key (Optional):</label>
+                    <input type="text" id="rest-api-auth-key" placeholder="Enter API key" />
+                    <span class="help-text">Optional API key for authentication.</span>
+                </div>
+                <div class="setting-item">
+                    <label for="rest-api-auth-type">Authentication Type:</label>
+                    <select id="rest-api-auth-type" required>
+                        <option value="none">None</option>
+                        <option value="bearer">Bearer Token</option>
+                        <option value="basic">Basic Auth</option>
+                    </select>
+                    <span class="help-text">Select the authentication type for the API.</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" data-config-cancel="rest-api">
+                    Cancel
+                </button>
+                <button class="btn-primary" data-config-save="rest-api" disabled>
+                    Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="start-screen" id="start-screen">
+        <div class="ide-splash-container">
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">GooeyDesigner Aqua</h1>
+                    <p class="hero-subtitle">
+                        Build stunning applications with ease. Create,
+                        design, and deploy across platforms.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn-primary hero-btn" onclick="showPlatformSelection()">
+                            <span class="material-icons">add_circle</span>
+                            New Project
+                        </button>
+                        <button class="btn-secondary hero-btn" id="load-xml-button">
+                            <span class="material-icons">folder_open</span>
+                            Open Project
+                        </button>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-graphic"></div>
+                </div>
+            </div>
+            <div class="templates-section">
+                <div class="templates-header">
+                    <h2 class="section-title">Useful resources</h2>
+                    <p class="section-subtitle">
+                        Need help? We got you covered with these resources.
+                </div>
+                <div class="project-grid">
+                    <button class="project-card">
+                        <div class="project-icon">
+                            <span class="material-icons">book</span>
+                        </div>
+                        <div class="project-info">
+                            <div class="project-name">Quickstart Guide</div>
+                            <div class="project-description">
+                                A step-by-step guide to help you start building your first project in GooeyDesigner.
+                                Learn how to create a new project, add widgets, configure properties, and export your
+                                application for desktop, web, or embedded platforms.
+                            </div>
+                        </div>
+                        <div class="project-badge">External Page</div>
                     </button>
-                    <button
-                        class="toolbar-button"
-                        id="export-button"
-                        title="Compile & Run"
-                    >
-                        <span class="material-icons">play_arrow</span>
+                    <button class="project-card">
+                        <div class="project-icon">
+                            <span class="material-icons">api</span>
+                        </div>
+                        <div class="project-info">
+                            <div class="project-name">API References</div>
+                            <div class="project-description">
+                                Browse the complete API documentation for GooeyDesigner, including widget properties,
+                                callbacks, and platform integration guides.
+                            </div>
+                        </div>
+                        <div class="project-badge">External Page</div>
                     </button>
-                    <button
-                        class="toolbar-button"
-                        id="run-button"
-                        title="Preview Code"
-                    >
-                        <span class="material-icons">visibility</span>
+                    <button class="project-card">
+                        <div class="project-icon">
+                            <span class="material-icons">error</span>
+                        </div>
+                        <div class="project-info">
+                            <div class="project-name">Report Issue</div>
+                            <div class="project-description">
+                                Found a bug or want to request a feature? Visit our GitHub repository to open an issue
+                                or contribute. Your feedback helps us improve GooeyDesigner!
+                            </div>
+                        </div>
+                        <div class="project-badge">Github Repo</div>
                     </button>
-                    <button
-                        class="toolbar-button"
-                        id="start-screen-btn"
-                        title="Back to Start"
-                    >
-                        <span class="material-icons">home</span>
-                    </button>
-                    <button
-                        class="toolbar-button"
-                        onclick="openDocs()"
-                        title="Help"
-                    >
-                        <span class="material-icons">help_outline</span>
-                    </button>
-                    <button
-                        class="toolbar-button"
-                        id="theme-toggle"
-                        title="Toggle Theme"
-                    >
-                        <span class="material-icons">dark_mode</span>
+
+                    <button class="project-card" onclick="showPlatformSelection()" data-template="iot-device">
+                        <div class="project-icon">
+                            <span class="material-icons">memory</span>
+                        </div>
+                        <div class="project-info">
+                            <div class="project-name">Compatibility List</div>
+                            <div class="project-description">
+                                Create an embedded project for microcontrollers and IoT devices. See full compatibility
+                                details in the documentation.
+                            </div>
+                        </div>
+                        <div class="project-badge">External Page</div>
                     </button>
                 </div>
-                <div class="main-content">
-                    <div class="toolbox">
-                        <div class="toolbox-section">
-                            <h4>Window</h4>
-                            <div class="toolbox-item" data-type="Menu">
-                                <span class="material-icons">menu</span>
-                                Menu
-                            </div>
-                        </div>
-                        <div class="toolbox-section">
-                            <h4>Widgets</h4>
-                            <div class="toolbox-item" data-type="Label">
-                                <span class="material-icons">label</span>
-                                Label
-                            </div>
-                            <div class="toolbox-item" data-type="Slider">
-                                <span class="material-icons">tune</span>
-                                Slider
-                            </div>
-                            <div
-                                class="toolbox-item"
-                                data-type="RadioButtonGroup"
-                            >
-                                <span class="material-icons"
-                                    >radio_button_checked</span
-                                >
-                                RadioButtonGroup
-                            </div>
-                            <div class="toolbox-item" data-type="Checkbox">
-                                <span class="material-icons">check_box</span>
-                                Checkbox
-                            </div>
-                            <div class="toolbox-item" data-type="Button">
-                                <span class="material-icons">smart_button</span>
-                                Button
-                            </div>
-                            <div class="toolbox-item" data-type="Input">
-                                <span class="material-icons">input</span>
-                                Textbox
-                            </div>
-                            <div class="toolbox-item" data-type="Dropdown">
-                                <span class="material-icons"
-                                    >arrow_drop_down_circle</span
-                                >
-                                Dropdown
-                            </div>
-                            <div class="toolbox-item" data-type="Plot">
-                                <span class="material-icons">bar_chart</span>
-                                Plot
-                            </div>
-                            <div class="toolbox-item" data-type="DropSurface">
-                                <span class="material-icons">cloud_upload</span>
-                                File Drop Surface
-                            </div>
-                            <div class="toolbox-item" data-type="Image">
-                                <span class="material-icons">image</span>
-                                Image
-                            </div>
-                            <div class="toolbox-item" data-type="List">
-                                <span class="material-icons">list</span>
-                                List
-                            </div>
-                            <div class="toolbox-item" data-type="Progressbar">
-                                <span class="material-icons">linear_scale</span>
-                                Progress Bar
-                            </div>
-                            <div class="toolbox-item" data-type="Meter">
-                                <span class="material-icons">speed</span>
-                                Meter
-                            </div>
-                            <div class="toolbox-item" data-type="Container">
-                                <span class="material-icons">view_compact</span>
-                                Container
-                            </div>
-                            <div class="toolbox-item" data-type="GSwitch">
-                                <span class="material-icons">toggle_on</span>
-                                Switch
-                            </div>
-                            <div class="toolbox-item" data-type="Tabs">
-                                <span class="material-icons">tab</span>
-                                Tabs
-                            </div>
-                        </div>
-                        <div class="toolbox-section">
-                            <h4>Debug & Dev</h4>
-                            <div class="toolbox-item" data-type="Overlay">
-                                <span class="material-icons">bug_report</span>
-                                Overlay
-                            </div>
-                        </div>
-                        <div class="toolbox-section">
-                            <h4>Primitive Drawing</h4>
-                            <div class="toolbox-item" data-type="Canvas">
-                                <span class="material-icons">draw</span>
-                                Canvas
-                            </div>
-                        </div>
-                        <div class="toolbox-section">
-                            <h4>Layouts</h4>
-                            <div
-                                class="toolbox-item"
-                                data-type="VerticalLayout"
-                            >
-                                <span class="material-icons"
-                                    >vertical_distribute</span
-                                >
-                                Vertical Layout
-                            </div>
-                            <div
-                                class="toolbox-item"
-                                data-type="HorizontalLayout"
-                            >
-                                <span class="material-icons"
-                                    >horizontal_distribute</span
-                                >
-                                Horizontal Layout
-                            </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="editor-screen" id="editor-screen">
+        <div class="container">
+            <div class="toolbar">
+                <div id="platform-indicator"></div>
+                <button class="toolbar-button" id="save-xml-button" title="Save Project">
+                    <span class="material-icons">save</span>
+                </button>
+                <button class="toolbar-button" id="export-button" title="Compile & Run">
+                    <span class="material-icons">play_arrow</span>
+                </button>
+                <button class="toolbar-button" id="run-button" title="Preview Code">
+                    <span class="material-icons">visibility</span>
+                </button>
+                <button class="toolbar-button" id="start-screen-btn" title="Back to Start">
+                    <span class="material-icons">home</span>
+                </button>
+                <button class="toolbar-button" onclick="openDocs()" title="Help">
+                    <span class="material-icons">help_outline</span>
+                </button>
+                <button class="toolbar-button" id="theme-toggle" title="Toggle Theme">
+                    <span class="material-icons">dark_mode</span>
+                </button>
+            </div>
+            <div class="main-content">
+                <div class="toolbox">
+                    <div class="toolbox-section">
+                        <h4>Window</h4>
+                        <div class="toolbox-item" data-type="Menu">
+                            <span class="material-icons">menu</span>
+                            Menu
                         </div>
                     </div>
-                    <div class="workspace-container">
-                        <div class="document-tabs">
-                            <div
-                                class="document-tab active"
-                                data-tab="designer"
-                            >
-                                <span class="material-icons"
-                                    >design_services</span
-                                >
-                                Designer
-                            </div>
-                            <div class="document-tab" data-tab="code">
-                                <span class="material-icons">code</span>
-                                Code
-                            </div>
-                            <div class="document-tab" data-tab="ui-xml">
-                                <span class="material-icons">description</span>
-                                UI.xml
-                            </div>
+                    <div class="toolbox-section">
+                        <h4>Widgets</h4>
+                        <div class="toolbox-item" data-type="Label">
+                            <span class="material-icons">label</span>
+                            Label
                         </div>
-                        <div class="workspace" id="workspace">
-                            <div
-                                class="tab-content active"
-                                id="designer-tab"
-                            ></div>
-                            <div class="tab-content" id="code-tab">
-                                <div class="code-tab-container">
-                                    <div
-                                        class="widget-list"
-                                        id="widget-list"
-                                    ></div>
-                                    <div class="code-editor-container">
-                                        <div class="callback-selector">
-                                            <select id="callback-selector">
-                                                <option value="">
-                                                    Select a callback to edit
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="code-editor-content">
-                                            <textarea
-                                                id="callback-editor"
-                                            ></textarea>
-                                        </div>
-                                        <div class="callback-actions">
-                                            <button
-                                                class="button"
-                                                id="cancel-callback"
-                                            >
-                                                <span class="material-icons"
-                                                    >cancel</span
-                                                >
-                                                Cancel
-                                            </button>
-                                            <button
-                                                class="button primary"
-                                                id="save-callback"
-                                            >
-                                                <span class="material-icons"
-                                                    >save</span
-                                                >
-                                                Save
-                                            </button>
-                                        </div>
+                        <div class="toolbox-item" data-type="Slider">
+                            <span class="material-icons">tune</span>
+                            Slider
+                        </div>
+                        <div class="toolbox-item" data-type="RadioButtonGroup">
+                            <span class="material-icons">radio_button_checked</span>
+                            RadioButtonGroup
+                        </div>
+                        <div class="toolbox-item" data-type="Checkbox">
+                            <span class="material-icons">check_box</span>
+                            Checkbox
+                        </div>
+                        <div class="toolbox-item" data-type="Button">
+                            <span class="material-icons">smart_button</span>
+                            Button
+                        </div>
+                        <div class="toolbox-item" data-type="Input">
+                            <span class="material-icons">input</span>
+                            Textbox
+                        </div>
+                        <div class="toolbox-item" data-type="Dropdown">
+                            <span class="material-icons">arrow_drop_down_circle</span>
+                            Dropdown
+                        </div>
+                        <div class="toolbox-item" data-type="Plot">
+                            <span class="material-icons">bar_chart</span>
+                            Plot
+                        </div>
+                        <div class="toolbox-item" data-type="DropSurface">
+                            <span class="material-icons">cloud_upload</span>
+                            File Drop Surface
+                        </div>
+                        <div class="toolbox-item" data-type="Image">
+                            <span class="material-icons">image</span>
+                            Image
+                        </div>
+                        <div class="toolbox-item" data-type="List">
+                            <span class="material-icons">list</span>
+                            List
+                        </div>
+                        <div class="toolbox-item" data-type="Progressbar">
+                            <span class="material-icons">linear_scale</span>
+                            Progress Bar
+                        </div>
+                        <div class="toolbox-item" data-type="Meter">
+                            <span class="material-icons">speed</span>
+                            Meter
+                        </div>
+                        <div class="toolbox-item" data-type="Container">
+                            <span class="material-icons">view_compact</span>
+                            Container
+                        </div>
+                        <div class="toolbox-item" data-type="GSwitch">
+                            <span class="material-icons">toggle_on</span>
+                            Switch
+                        </div>
+                        <div class="toolbox-item" data-type="Tabs">
+                            <span class="material-icons">tab</span>
+                            Tabs
+                        </div>
+                    </div>
+                    <div class="toolbox-section">
+                        <h4>Debug & Dev</h4>
+                        <div class="toolbox-item" data-type="Overlay">
+                            <span class="material-icons">bug_report</span>
+                            Overlay
+                        </div>
+                    </div>
+                    <div class="toolbox-section">
+                        <h4>Primitive Drawing</h4>
+                        <div class="toolbox-item" data-type="Canvas">
+                            <span class="material-icons">draw</span>
+                            Canvas
+                        </div>
+                    </div>
+                    <div class="toolbox-section">
+                        <h4>Layouts</h4>
+                        <div class="toolbox-item" data-type="VerticalLayout">
+                            <span class="material-icons">vertical_distribute</span>
+                            Vertical Layout
+                        </div>
+                        <div class="toolbox-item" data-type="HorizontalLayout">
+                            <span class="material-icons">horizontal_distribute</span>
+                            Horizontal Layout
+                        </div>
+                    </div>
+                </div>
+                <div class="workspace-container">
+                    <div class="document-tabs">
+                        <div class="document-tab active" data-tab="designer">
+                            <span class="material-icons">design_services</span>
+                            Designer
+                        </div>
+                        <div class="document-tab" data-tab="code">
+                            <span class="material-icons">code</span>
+                            Code
+                        </div>
+                        <div class="document-tab" data-tab="ui-xml">
+                            <span class="material-icons">description</span>
+                            UI.xml
+                        </div>
+                    </div>
+                    <div class="workspace" id="workspace">
+                        <div class="tab-content active" id="designer-tab"></div>
+                        <div class="tab-content" id="code-tab">
+                            <div class="code-tab-container">
+                                <div class="widget-list" id="widget-list"></div>
+                                <div class="code-editor-container">
+                                    <div class="callback-selector">
+                                        <select id="callback-selector">
+                                            <option value="">
+                                                Select a callback to edit
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="code-editor-content">
+                                        <textarea id="callback-editor"></textarea>
+                                    </div>
+                                    <div class="callback-actions">
+                                        <button class="button" id="cancel-callback">
+                                            <span class="material-icons">cancel</span>
+                                            Cancel
+                                        </button>
+                                        <button class="button primary" id="save-callback">
+                                            <span class="material-icons">save</span>
+                                            Save
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-content" style="height: 100vh !important;" id="ui-xml-tab">
-                                <div class="code-editor-content">
-                                    <textarea id="ui-xml-editor" data-codemirror="xml">
+                        </div>
+                        <div class="tab-content" style="height: 100vh !important;" id="ui-xml-tab">
+                            <div class="code-editor-content">
+                                <textarea id="ui-xml-editor" data-codemirror="xml">
                                     </textarea>
-                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="properties-panel" id="right-panel">
-                        <div class="properties-section" id="window-properties">
-                            <h4>Window Properties</h4>
+                </div>
+                <div class="properties-panel" id="right-panel">
+                    <div class="properties-section" id="window-properties">
+                        <h4>Window Properties</h4>
+                        <div class="property-item">
+                            <label>Title:</label>
+                            <input id="win-title" value="My Window" />
+                        </div>
+                        <div class="property-item">
+                            <label>Width:</label>
+                            <input type="number" id="win-width" value="800" />
+                        </div>
+                        <div class="property-item">
+                            <label>Height:</label>
+                            <input type="number" id="win-height" value="600" />
+                        </div>
+                        <h4>Window Hints</h4>
+                        <div class="property-item">
+                            <label>enableOverlay
+                                <input class="debug-item" id="window-debug-enable-overlay" type="checkbox" />
+                            </label>
+                        </div>
+                        <div class="property-item">
+                            <label>enableContRedraw (inefficient)
+                                <input class="debug-item" id="window-debug-enable-cont-redraw" type="checkbox" />
+                            </label>
+                        </div>
+                        <div class="property-item">
+                            <label>isVisible
+                                <input class="debug-item" id="window-debug-is-visible" type="checkbox" checked />
+                            </label>
+                        </div>
+                        <div class="property-item">
+                            <label>isResizable
+                                <input class="debug-item" id="window-debug-is-resizable" type="checkbox" checked />
+                            </label>
+                        </div>
+                        <button class="button primary" id="apply-window-settings">
+                            <span class="material-icons">check</span>
+                            Apply
+                        </button>
+                    </div>
+                    <div class="properties-section" id="widget-properties" style="display: none">
+                        <h4>Widget Properties</h4>
+                        <div class="property-item">
+                            <label>Type:</label>
+                            <input type="text" id="prop-type" disabled />
+                        </div>
+                        <div class="property-item">
+                            <label>X:</label>
+                            <input type="number" id="prop-x" />
+                        </div>
+                        <div class="property-item">
+                            <label>Y:</label>
+                            <input type="number" id="prop-y" />
+                        </div>
+                        <div class="property-item">
+                            <label>Width:</label>
+                            <input type="number" id="prop-width" />
+                        </div>
+                        <div class="property-item">
+                            <label>Height:</label>
+                            <input type="number" id="prop-height" />
+                        </div>
+                        <div class="property-item">
+                            <label>Text:</label>
+                            <input type="text" id="prop-text" />
+                        </div>
+                        <div class="property-item">
+                            <label>Callback Name:</label>
+                            <input type="text" id="prop-callback" placeholder="my_callback" />
+                        </div>
+                        <div class="property-item">
+                            <label>Action:</label>
+                            <select id="prop-action">
+                                <option value="">None</option>
+                            </select>
+                            <span class="help-text">Select an action to associate with this
+                                widget.</span>
+                        </div>
+                        <div id="menu-properties" style="display: none">
+                            <h4>Menu Properties</h4>
+                        </div>
+                        <div id="slider-properties" style="display: none">
+                            <h4>Slider Properties</h4>
                             <div class="property-item">
-                                <label>Title:</label>
-                                <input id="win-title" value="My Window" />
+                                <label>Min Value:</label>
+                                <input type="number" id="slider-min-value" value="0" />
                             </div>
                             <div class="property-item">
-                                <label>Width:</label>
-                                <input
-                                    type="number"
-                                    id="win-width"
-                                    value="800"
-                                />
+                                <label>Max Value:</label>
+                                <input type="number" id="slider-max-value" value="100" />
                             </div>
                             <div class="property-item">
-                                <label>Height:</label>
-                                <input
-                                    type="number"
-                                    id="win-height"
-                                    value="600"
-                                />
+                                <label>Show Hints:</label>
+                                <select id="slider-show-hints">
+                                    <option value="true">Enabled</option>
+                                    <option value="false">Disabled</option>
+                                </select>
                             </div>
-                            <h4>Window Hints</h4>
+                        </div>
+                        <div id="image-properties" style="display: none">
+                            <h4>Image Properties</h4>
                             <div class="property-item">
-                                <label
-                                    >enableOverlay
-                                    <input
-                                        class="debug-item"
-                                        id="window-debug-enable-overlay"
-                                        type="checkbox"
-                                    />
-                                </label>
+                                <label>Image Path:</label>
+                                <input type="text" id="image-relative-path" placeholder="./assets/example.png" />
                             </div>
+                        </div>
+                        <div id="dropsurface-properties" style="display: none">
+                            <h4>DropSurface Properties</h4>
                             <div class="property-item">
-                                <label
-                                    >enableContRedraw (inefficient)
-                                    <input
-                                        class="debug-item"
-                                        id="window-debug-enable-cont-redraw"
-                                        type="checkbox"
-                                    />
-                                </label>
+                                <label>Message:</label>
+                                <input type="text" id="dropsurface-message" placeholder="Drop files here.." />
+                            </div>
+                        </div>
+                        <div id="dropdown-properties" style="display: none">
+                            <h4>Dropdown Properties</h4>
+                            <div id="dropdown-options">
+                                <ul></ul>
                             </div>
                             <div class="property-item">
-                                <label
-                                    >isVisible
-                                    <input
-                                        class="debug-item"
-                                        id="window-debug-is-visible"
-                                        type="checkbox"
-                                        checked
-                                    />
-                                </label>
+                                <label>Add more options:</label>
+                                <div class="property-input-group">
+                                    <input type="text" id="dropdown-option-input" placeholder="Ex: apple.." />
+                                    <button id="dropdown-option-add-button" class="button">
+                                        <span class="material-icons">add</span>
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="list-properties" style="display: none">
+                            <h4>List Properties</h4>
+                            <div id="list-options">
+                                <ul></ul>
                             </div>
                             <div class="property-item">
-                                <label
-                                    >isResizable
-                                    <input
-                                        class="debug-item"
-                                        id="window-debug-is-resizable"
-                                        type="checkbox"
-                                        checked
-                                    />
-                                </label>
+                                <label>Add more options:</label>
+                                <div class="property-input-group">
+                                    <input type="text" id="list-option-input" placeholder="Ex: apple.." />
+                                    <input type="text" id="list-option-input-desc"
+                                        placeholder="Ex: apples are fruit..." />
+                                    <button id="list-option-add-button" class="button">
+                                        <span class="material-icons">add</span>
+                                        Add
+                                    </button>
+                                </div>
                             </div>
-                            <button
-                                class="button primary"
-                                id="apply-window-settings"
-                            >
+                        </div>
+                        <div class="property-actions">
+                            <button class="button primary" id="apply-widget-properties">
                                 <span class="material-icons">check</span>
                                 Apply
                             </button>
-                        </div>
-                        <div
-                            class="properties-section"
-                            id="widget-properties"
-                            style="display: none"
-                        >
-                            <h4>Widget Properties</h4>
-                            <div class="property-item">
-                                <label>Type:</label>
-                                <input type="text" id="prop-type" disabled />
-                            </div>
-                            <div class="property-item">
-                                <label>X:</label>
-                                <input type="number" id="prop-x" />
-                            </div>
-                            <div class="property-item">
-                                <label>Y:</label>
-                                <input type="number" id="prop-y" />
-                            </div>
-                            <div class="property-item">
-                                <label>Width:</label>
-                                <input type="number" id="prop-width" />
-                            </div>
-                            <div class="property-item">
-                                <label>Height:</label>
-                                <input type="number" id="prop-height" />
-                            </div>
-                            <div class="property-item">
-                                <label>Text:</label>
-                                <input type="text" id="prop-text" />
-                            </div>
-                            <div class="property-item">
-                                <label>Callback Name:</label>
-                                <input
-                                    type="text"
-                                    id="prop-callback"
-                                    placeholder="my_callback"
-                                />
-                            </div>
-                            <div class="property-item">
-                                <label>Action:</label>
-                                <select id="prop-action">
-                                    <option value="">None</option>
-                                </select>
-                                <span class="help-text"
-                                    >Select an action to associate with this
-                                    widget.</span
-                                >
-                            </div>
-                            <div id="menu-properties" style="display: none">
-                                <h4>Menu Properties</h4>
-                            </div>
-                            <div id="slider-properties" style="display: none">
-                                <h4>Slider Properties</h4>
-                                <div class="property-item">
-                                    <label>Min Value:</label>
-                                    <input
-                                        type="number"
-                                        id="slider-min-value"
-                                        value="0"
-                                    />
-                                </div>
-                                <div class="property-item">
-                                    <label>Max Value:</label>
-                                    <input
-                                        type="number"
-                                        id="slider-max-value"
-                                        value="100"
-                                    />
-                                </div>
-                                <div class="property-item">
-                                    <label>Show Hints:</label>
-                                    <select id="slider-show-hints">
-                                        <option value="true">Enabled</option>
-                                        <option value="false">Disabled</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="image-properties" style="display: none">
-                                <h4>Image Properties</h4>
-                                <div class="property-item">
-                                    <label>Image Path:</label>
-                                    <input
-                                        type="text"
-                                        id="image-relative-path"
-                                        placeholder="./assets/example.png"
-                                    />
-                                </div>
-                            </div>
-                            <div
-                                id="dropsurface-properties"
-                                style="display: none"
-                            >
-                                <h4>DropSurface Properties</h4>
-                                <div class="property-item">
-                                    <label>Message:</label>
-                                    <input
-                                        type="text"
-                                        id="dropsurface-message"
-                                        placeholder="Drop files here.."
-                                    />
-                                </div>
-                            </div>
-                            <div id="dropdown-properties" style="display: none">
-                                <h4>Dropdown Properties</h4>
-                                <div id="dropdown-options">
-                                    <ul></ul>
-                                </div>
-                                <div class="property-item">
-                                    <label>Add more options:</label>
-                                    <div class="property-input-group">
-                                        <input
-                                            type="text"
-                                            id="dropdown-option-input"
-                                            placeholder="Ex: apple.."
-                                        />
-                                        <button
-                                            id="dropdown-option-add-button"
-                                            class="button"
-                                        >
-                                            <span class="material-icons"
-                                                >add</span
-                                            >
-                                            Add
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="list-properties" style="display: none">
-                                <h4>List Properties</h4>
-                                <div id="list-options">
-                                    <ul></ul>
-                                </div>
-                                <div class="property-item">
-                                    <label>Add more options:</label>
-                                    <div class="property-input-group">
-                                        <input
-                                            type="text"
-                                            id="list-option-input"
-                                            placeholder="Ex: apple.."
-                                        />
-                                        <input
-                                            type="text"
-                                            id="list-option-input-desc"
-                                            placeholder="Ex: apples are fruit..."
-                                        />
-                                        <button
-                                            id="list-option-add-button"
-                                            class="button"
-                                        >
-                                            <span class="material-icons"
-                                                >add</span
-                                            >
-                                            Add
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="property-actions">
-                                <button
-                                    class="button primary"
-                                    id="apply-widget-properties"
-                                >
-                                    <span class="material-icons">check</span>
-                                    Apply
-                                </button>
-                                <button
-                                    class="button danger"
-                                    id="delete-widget"
-                                >
-                                    <span class="material-icons">delete</span>
-                                    Delete
-                                </button>
-                            </div>
+                            <button class="button danger" id="delete-widget">
+                                <span class="material-icons">delete</span>
+                                Delete
+                            </button>
                         </div>
                     </div>
-                </div>
-                <div class="status-bar">
-                    <span id="status-text">Ready</span>
                 </div>
             </div>
-            <div class="code-editor" id="code-editor">
-                <div class="code-editor-header">
-                    <div>
-                        <span class="material-icons">code</span>
-                        Code Editor
-                    </div>
-                    <button id="close-code-editor">
-                        <span class="material-icons">close</span>
-                    </button>
+            <div class="status-bar">
+                <span id="status-text">Ready</span>
+            </div>
+        </div>
+        <div class="code-editor" id="code-editor">
+            <div class="code-editor-header">
+                <div>
+                    <span class="material-icons">code</span>
+                    Code Editor
                 </div>
-                <div class="code-editor-content">
-                    <textarea id="editor">
+                <button id="close-code-editor">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+            <div class="code-editor-content">
+                <textarea id="editor">
 #include <Gooey/gooey.h>
 
 int main() {
@@ -1206,18 +836,18 @@ int main() {
     GooeyWindow_Run(1, win);
     GooeyWindow_Cleanup(1, win);
     return 0;
-}</textarea
-                    >
-                </div>
+}</textarea>
             </div>
         </div>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.0.3/standalone.js"></script>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.0.3/standalone.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prettier/2.0.3/parser-babel.js"></script>
-        <script src="codemirror.min.js"></script>
-        <script src="clike.min.js"></script>
-        <script src="xml.min.js"></script>
-        <script src="show-hint.min.js"></script>
-        <link rel="stylesheet" href="show-hint.min.css" />
-        <script type="module" src="app.js"></script>
-    </body>
+    <script src="codemirror.min.js"></script>
+    <script src="clike.min.js"></script>
+    <script src="xml.min.js"></script>
+    <script src="show-hint.min.js"></script>
+    <link rel="stylesheet" href="show-hint.min.css" />
+    <script type="module" src="app.js"></script>
+</body>
+
 </html>
