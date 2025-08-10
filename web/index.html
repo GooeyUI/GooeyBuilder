@@ -27,92 +27,7 @@
                     platform
                 </p>
             </div>
-            <!-- Backend Services Section -->
-            <div class="modal-section">
-                <h3 class="section-toggle" data-section="backend">
-                    Backend Services
-                    <span class="material-icons">expand_more</span>
-                </h3>
-                <div class="section-content" id="backend-settings">
-                    <div class="platform-grid">
-                        <div class="platform-card" data-service="firebase-auth">
-                            <div class="platform-icon">
-                                <span class="material-icons">security</span>
-                            </div>
-                            <div class="platform-info">
-                                <h3>Firebase Authentication</h3>
-                                <p>
-                                    User authentication with email, Google,
-                                    and more
-                                </p>
-                            </div>
-                            <div class="platform-badge">Firebase</div>
-                            <button class="btn-secondary backend-config-btn" id="firebase-auth-config" disabled>
-                                Configure
-                            </button>
-                        </div>
-                        <div class="platform-card" data-service="firebase-firestore">
-                            <div class="platform-icon">
-                                <span class="material-icons">cloud</span>
-                            </div>
-                            <div class="platform-info">
-                                <h3>Firebase Firestore</h3>
-                                <p>Real-time NoSQL database for your app</p>
-                            </div>
-                            <div class="platform-badge">Firestore</div>
-                            <button class="btn-secondary backend-config-btn" id="firebase-firestore-config" disabled>
-                                Configure
-                            </button>
-                        </div>
-                        <div class="platform-card" data-service="sqlite">
-                            <div class="platform-icon">
-                                <span class="material-icons">storage</span>
-                            </div>
-                            <div class="platform-info">
-                                <h3>SQLite</h3>
-                                <p>Local database for offline storage</p>
-                            </div>
-                            <div class="platform-badge">Local</div>
-                            <button class="btn-secondary backend-config-btn" id="sqlite-config" disabled>
-                                Configure
-                            </button>
-                        </div>
-                        <div class="platform-card" data-service="rest-api">
-                            <div class="platform-icon">
-                                <span class="material-icons">api</span>
-                            </div>
-                            <div class="platform-info">
-                                <h3>REST API</h3>
-                                <p>Connect to custom RESTful APIs</p>
-                            </div>
-                            <div class="platform-badge">Custom</div>
-                            <button class="btn-secondary backend-config-btn" id="rest-api-config" disabled>
-                                Configure
-                            </button>
-                        </div>
-                    </div>
-                    <div class="setting-item">
-                        <span class="help-text">Select one or more backend services to
-                            configure for your project.</span>
-                    </div>
-                </div>
-            </div>
-            <!-- General Settings -->
-            <div class="modal-section">
-                <h3 class="section-toggle" data-section="general">
-                    General Settings
-                    <span class="material-icons">expand_more</span>
-                </h3>
-                <div class="section-content" id="general-settings">
-                    <div class="setting-item">
-                        <label for="project-name">Project Name:</label>
-                        <input type="text" id="project-name" placeholder="MyProject"
-                            aria-describedby="project-name-desc" required />
-                        <span id="project-name-desc" class="help-text">Enter a unique name for your project
-                            (alphanumeric, no spaces).</span>
-                    </div>
-                </div>
-            </div>
+           
             <!-- Target Platform -->
             <div class="modal-section">
                 <h3 class="section-toggle" data-section="platform">
@@ -131,16 +46,7 @@
                             </div>
                             <div class="platform-badge">Native</div>
                         </div>
-                        <div class="platform-card" data-platform="web">
-                            <div class="platform-icon">
-                                <span class="material-icons">web</span>
-                            </div>
-                            <div class="platform-info">
-                                <h3>Web</h3>
-                                <p>WebAssembly and HTML5 applications</p>
-                            </div>
-                            <div class="platform-badge">WASM</div>
-                        </div>
+                      
                         <div class="platform-card" data-platform="embedded">
                             <div class="platform-icon">
                                 <span class="material-icons">memory</span>
@@ -227,161 +133,7 @@
         </div>
     </div>
 
-    <!-- Firebase Authentication Config Modal -->
-    <div class="config-modal" id="firebase-auth-config-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Configure Firebase Authentication</h2>
-                <p>Set up Firebase Authentication for your project</p>
-            </div>
-            <div class="modal-section">
-                <div class="setting-item">
-                    <label for="firebase-auth-api-key">API Key:</label>
-                    <input type="text" id="firebase-auth-api-key" placeholder="Enter Firebase API Key" required />
-                    <span class="help-text">Your Firebase project's API key from the Firebase
-                        Console.</span>
-                </div>
-                <div class="setting-item">
-                    <label for="firebase-auth-project-id">Project ID:</label>
-                    <input type="text" id="firebase-auth-project-id" placeholder="Enter Firebase Project ID" required />
-                    <span class="help-text">The unique identifier for your Firebase
-                        project.</span>
-                </div>
-                <div class="setting-item">
-                    <label>Authentication Providers:</label>
-                    <div class="checkbox-group">
-                        <label><input type="checkbox" name="firebase-auth-providers" value="email" />
-                            Email/Password</label>
-                        <label><input type="checkbox" name="firebase-auth-providers" value="google" />
-                            Google</label>
-                        <label><input type="checkbox" name="firebase-auth-providers" value="anonymous" />
-                            Anonymous</label>
-                    </div>
-                    <span class="help-text">Select at least one authentication provider.</span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" data-config-cancel="firebase-auth">
-                    Cancel
-                </button>
-                <button class="btn-primary" data-config-save="firebase-auth" disabled>
-                    Save
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Firebase Firestore Config Modal -->
-    <div class="config-modal" id="firebase-firestore-config-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Configure Firebase Firestore</h2>
-                <p>Set up Firestore for real-time data storage</p>
-            </div>
-            <div class="modal-section">
-                <div class="setting-item">
-                    <label for="firebase-firestore-api-key">API Key:</label>
-                    <input type="text" id="firebase-firestore-api-key" placeholder="Enter Firebase API Key" required />
-                    <span class="help-text">Your Firebase project's API key from the Firebase
-                        Console.</span>
-                </div>
-                <div class="setting-item">
-                    <label for="firebase-firestore-project-id">Project ID:</label>
-                    <input type="text" id="firebase-firestore-project-id" placeholder="Enter Firebase Project ID"
-                        required />
-                    <span class="help-text">The unique identifier for your Firebase
-                        project.</span>
-                </div>
-                <div class="setting-item">
-                    <label for="firebase-firestore-collection">Default Collection:</label>
-                    <input type="text" id="firebase-firestore-collection" placeholder="Enter default collection name"
-                        required />
-                    <span class="help-text">The default collection for your Firestore
-                        database.</span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" data-config-cancel="firebase-firestore">
-                    Cancel
-                </button>
-                <button class="btn-primary" data-config-save="firebase-firestore" disabled>
-                    Save
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- SQLite Config Modal -->
-    <div class="config-modal" id="sqlite-config-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Configure SQLite</h2>
-                <p>Set up SQLite for local database storage</p>
-            </div>
-            <div class="modal-section">
-                <div class="setting-item">
-                    <label for="sqlite-db-path">Database Path:</label>
-                    <input type="text" id="sqlite-db-path" placeholder="Enter database file path" required />
-                    <span class="help-text">Relative path for the SQLite database file (e.g.,
-                        ./data/app.db).</span>
-                </div>
-                <div class="setting-item">
-                    <label for="sqlite-schema">Schema File (Optional):</label>
-                    <input type="text" id="sqlite-schema" placeholder="Enter schema file path" />
-                    <span class="help-text">Optional path to a SQL schema file for
-                        initialization.</span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" data-config-cancel="sqlite">
-                    Cancel
-                </button>
-                <button class="btn-primary" data-config-save="sqlite" disabled>
-                    Save
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- REST API Config Modal -->
-    <div class="config-modal" id="rest-api-config-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Configure REST API</h2>
-                <p>Connect to a custom RESTful API</p>
-            </div>
-            <div class="modal-section">
-                <div class="setting-item">
-                    <label for="rest-api-base-url">Base URL:</label>
-                    <input type="text" id="rest-api-base-url" placeholder="Enter API base URL" required />
-                    <span class="help-text">The base URL for your REST API (e.g.,
-                        https://api.example.com).</span>
-                </div>
-                <div class="setting-item">
-                    <label for="rest-api-auth-key">API Key (Optional):</label>
-                    <input type="text" id="rest-api-auth-key" placeholder="Enter API key" />
-                    <span class="help-text">Optional API key for authentication.</span>
-                </div>
-                <div class="setting-item">
-                    <label for="rest-api-auth-type">Authentication Type:</label>
-                    <select id="rest-api-auth-type" required>
-                        <option value="none">None</option>
-                        <option value="bearer">Bearer Token</option>
-                        <option value="basic">Basic Auth</option>
-                    </select>
-                    <span class="help-text">Select the authentication type for the API.</span>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-secondary" data-config-cancel="rest-api">
-                    Cancel
-                </button>
-                <button class="btn-primary" data-config-save="rest-api" disabled>
-                    Save
-                </button>
-            </div>
-        </div>
-    </div>
+   
 
     <div class="start-screen" id="start-screen">
         <div class="ide-splash-container">
@@ -414,7 +166,8 @@
                         Need help? We got you covered with these resources.
                 </div>
                 <div class="project-grid">
-                    <button class="project-card">
+                    <a href="https://gooeyui.github.io/GooeyGUI/quickstart.html">
+  <button class="project-card">
                         <div class="project-icon">
                             <span class="material-icons">book</span>
                         </div>
@@ -422,13 +175,14 @@
                             <div class="project-name">Quickstart Guide</div>
                             <div class="project-description">
                                 A step-by-step guide to help you start building your first project in GooeyDesigner.
-                                Learn how to create a new project, add widgets, configure properties, and export your
-                                application for desktop, web, or embedded platforms.
+                                Learn how to create a new project.
                             </div>
                         </div>
                         <div class="project-badge">External Page</div>
                     </button>
-                    <button class="project-card">
+                    </a>
+                  <a href="https://gooeyui.github.io/GooeyGUI/docs/files.html">
+      <button class="project-card">
                         <div class="project-icon">
                             <span class="material-icons">api</span>
                         </div>
@@ -441,7 +195,10 @@
                         </div>
                         <div class="project-badge">External Page</div>
                     </button>
-                    <button class="project-card">
+
+                  </a>
+                  <a href="https://github.com/GooeyUI/GooeyBuilder/issues">
+ <button class="project-card">
                         <div class="project-icon">
                             <span class="material-icons">error</span>
                         </div>
@@ -454,6 +211,8 @@
                         </div>
                         <div class="project-badge">Github Repo</div>
                     </button>
+                  </a>
+                   
 
                     <button class="project-card" onclick="showPlatformSelection()" data-template="iot-device">
                         <div class="project-icon">

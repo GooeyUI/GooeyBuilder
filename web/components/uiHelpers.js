@@ -74,6 +74,7 @@ document.querySelectorAll(".section-toggle").forEach((toggle) => {
     const isCollapsed = content.classList.contains("collapsed");
     content.classList.toggle("collapsed", !isCollapsed);
     toggle.classList.toggle("collapsed", !isCollapsed);
+    
   });
 });
 

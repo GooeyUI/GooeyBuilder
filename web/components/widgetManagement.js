@@ -122,29 +122,36 @@ export function createWidget(type, x, y, parent = null) {
       newWidget.className += " layout vertical";
       newWidget.style.width = "200px";
       newWidget.style.height = "200px";
+      newWidget.style.display = "flex";
+      newWidget.style.flexDirection = "column";
+      newWidget.style.alignItems = "stretch";
       const placeholderV = document.createElement("div");
       placeholderV.className = "layout-placeholder";
       placeholderV.textContent = "Drop widgets here";
       newWidget.appendChild(placeholderV);
-      break;
+    break;
     case "HorizontalLayout":
       newWidget.className += " layout horizontal";
       newWidget.style.width = "300px";
       newWidget.style.height = "100px";
+      newWidget.style.display = "flex";
+      newWidget.style.flexDirection = "row";
+      newWidget.style.alignItems = "stretch";
       const placeholderH = document.createElement("div");
       placeholderH.className = "layout-placeholder";
       placeholderH.textContent = "Drop widgets here";
       newWidget.appendChild(placeholderH);
-      break;
+    break;
     case "Container":
       newWidget.className += " layout container";
       newWidget.style.width = "200px";
       newWidget.style.height = "200px";
+      newWidget.style.position = "relative"; // Important for child positioning
       const placeholderC = document.createElement("div");
       placeholderC.className = "layout-placeholder";
       placeholderC.textContent = "Drop widgets here";
       newWidget.appendChild(placeholderC);
-      break;
+    break;
     case "Overlay":
       newWidget.className += " widget-overlay";
       newWidget.textContent = "Overlay";
